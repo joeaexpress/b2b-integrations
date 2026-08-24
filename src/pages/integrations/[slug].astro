@@ -31,14 +31,20 @@ const relatedIntegrations = allIntegrations
   )
   .slice(0, 3);
 
-// Affiliate referral URL helper
+// Affiliate referral URL helper (supports .env and platform environment variables)
 const getAffiliateUrl = (middleware: string) => {
   const normalized = middleware.toLowerCase();
   if (normalized.includes('make')) {
-    return 'https://www.make.com/en/register?pc=b2bsaasdirectory';
+    return (
+      import.meta.env.PUBLIC_MAKE_AFFILIATE_URL ||
+      'https://www.make.com/en/register?pc=b2bsaasdirectory'
+    );
   }
   if (normalized.includes('zapier')) {
-    return 'https://zapier.com/apps/integrations?ref=b2bsaasdirectory';
+    return (
+      import.meta.env.PUBLIC_ZAPIER_AFFILIATE_URL ||
+      'https://zapier.com/apps/integrations?ref=b2bsaasdirectory'
+    );
   }
   return '#guide';
 };

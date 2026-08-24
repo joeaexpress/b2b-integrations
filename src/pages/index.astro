@@ -34,7 +34,7 @@ const schemaData = {
     "@type": "HowTo",
     "name": item.metaTitle,
     "description": item.metaDescription,
-    "url": `https://b2bintegrations.dev/integrations/${item.slug}`
+    "url": new URL(`/integrations/${item.slug}`, Astro.site || 'https://b2b-integrations.vercel.app').href
   }))
 };
 ---
