@@ -1,17 +1,850 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import integrationsData from '../data/integrations.json';
+import type { IntegrationRecord } from '../types/integration';
 
+const integrations = integrationsData as IntegrationRecord[];
+
+// Calculate directory statistics
+const totalCount = integrations.length;
+const nativeCount = integrations.filter((i) => i.nativeIntegration).length;
+const middlewareCount = totalCount - nativeCount;
+const avgSetupTime = Math.round(
+  integrations.reduce((acc, curr) => acc + curr.setupTimeMinutes, 0) / totalCount
+);
+
+// Unique categories
+const allCategories = Array.from(
+  new Set([
+    ...integrations.map((i) => i.toolACategory),
+    ...integrations.map((i) => i.toolBCategory),
+  ])
+).sort();
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "DataCatalog",
+  "name": "B2B SaaS Integrations & Automation Directory",
+  "description": "Comprehensive static directory of verified B2B SaaS integrations, native connectors, Make and Zapier setup guides.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "SaaSConnect"
+  },
+  "dataset": integrations.map((item) => ({
+    "@type": "HowTo",
+    "name": item.metaTitle,
+    "description": item.metaDescription,
+    "url": `https://b2bintegrations.dev/integrations/${item.slug}`
+  }))
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="B2B SaaS Integrations Directory | Verified Automation & Native Sync Guides"
+  description="Explore 100% verified B2B SaaS integration blueprints. Connect CRMs, databases, CMSs, and support tools natively or via Make and Zapier."
+  schema={schemaData}
+>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-container">
+      <div class="hero-badge">
+        <span class="badge-pulse"></span>
+        <span>Programmatic B2B Integration Directory</span>
+      </div>
+
+      <h1 class="hero-headline">
+        Connect Your SaaS Stack <br />
+        <span class="hero-gradient">Without Engineering Bottlenecks</span>
+      </h1>
+
+      <p class="hero-subheadline">
+        Curated, step-by-step integration blueprints for modern B2B teams. Discover native connectors, verified middleware recipes, common pitfalls, and zero-code automations.
+      </p>
+
+      <!-- Stat Counters Bar -->
+      <div class="hero-stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">{totalCount}</div>
+          <div class="stat-label">Production Blueprints</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{nativeCount}</div>
+          <div class="stat-label">Native Direct Connectors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{middlewareCount}</div>
+          <div class="stat-label">Middleware Workflows</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">~{avgSetupTime}m</div>
+          <div class="stat-label">Avg. Setup Time</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Directory Explorer Section -->
+  <section class="directory-section" id="explore-integrations">
+    <div class="directory-container">
+      <!-- Search & Filters Toolbar -->
+      <div class="filter-toolbar">
+        <div class="search-box">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            id="integration-search"
+            placeholder="Search by tool (e.g. Airtable, Slack, Salesforce, Linear)..."
+            aria-label="Search integrations"
+          />
+          <button id="clear-search" class="clear-search-btn" style="display: none;" aria-label="Clear search">✕</button>
+        </div>
+
+        <!-- Filter Pill Tabs -->
+        <div class="filter-tabs">
+          <button class="filter-btn active" data-filter="all">All ({totalCount})</button>
+          <button class="filter-btn" data-filter="native">⚡ Native Sync ({nativeCount})</button>
+          <button class="filter-btn" data-filter="make">Make Recipes</button>
+          <button class="filter-btn" data-filter="zapier">Zapier Zaps</button>
+          <button class="filter-btn" data-filter="easy">Easy (&lt; 20m)</button>
+        </div>
+      </div>
+
+      <!-- Results Count Status -->
+      <div class="results-meta">
+        <span id="results-count-text">Showing all {totalCount} integrations</span>
+      </div>
+
+      <!-- Integrations Cards Grid -->
+      <div class="integrations-grid" id="integrations-grid">
+        {integrations.map((item) => (
+          <article
+            class="integration-card"
+            data-slug={item.slug}
+            data-tools={`${item.toolA} ${item.toolB}`.toLowerCase()}
+            data-categories={`${item.toolACategory} ${item.toolBCategory}`.toLowerCase()}
+            data-native={item.nativeIntegration ? "true" : "false"}
+            data-middleware={item.recommendedMiddleware.toLowerCase()}
+            data-difficulty={item.difficulty.toLowerCase()}
+          >
+            <div class="card-header">
+              <div class="tool-pair">
+                <span class="tool-pill source">{item.toolA}</span>
+                <div class="sync-arrow">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+                <span class="tool-pill target">{item.toolB}</span>
+              </div>
+
+              <span class={`type-badge ${item.nativeIntegration ? 'native' : 'middleware'}`}>
+                {item.nativeIntegration ? '⚡ Native' : `🔄 ${item.recommendedMiddleware}`}
+              </span>
+            </div>
+
+            <h2 class="card-title">
+              <a href={`/integrations/${item.slug}`} class="card-title-link">
+                {item.toolA} to {item.toolB} Integration
+              </a>
+            </h2>
+
+            <p class="card-desc">
+              {item.metaDescription}
+            </p>
+
+            <!-- Metadata Chips Row -->
+            <div class="card-meta-row">
+              <span class="card-chip">
+                <span class="chip-label">Est:</span> {item.setupTimeMinutes} min
+              </span>
+              <span class={`card-chip diff-${item.difficulty.toLowerCase()}`}>
+                {item.difficulty}
+              </span>
+              <span class="card-chip category-chip">
+                {item.toolBCategory.split('&')[0].trim()}
+              </span>
+            </div>
+
+            <!-- Use Cases Snippet -->
+            <div class="card-usecases">
+              <span class="usecases-heading">Primary Use Case:</span>
+              <p class="usecase-preview">{item.topUseCases[0]}</p>
+            </div>
+
+            <div class="card-footer">
+              <a href={`/integrations/${item.slug}`} class="card-cta-btn" id={`link-${item.slug}`}>
+                <span>View Setup Blueprint</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Empty Search Fallback -->
+      <div id="no-results-state" class="empty-state" style="display: none;">
+        <div class="empty-icon">🔍</div>
+        <h3>No integrations match your search</h3>
+        <p>Try searching for a different SaaS tool (e.g., Airtable, Slack, Salesforce, HubSpot, Stripe) or reset your filter.</p>
+        <button id="reset-filter-btn" class="filter-btn active">Reset Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Value Props / Methodology Section -->
+  <section class="methodology-section" id="methodology">
+    <div class="directory-container">
+      <div class="methodology-card">
+        <div class="methodology-header">
+          <span class="section-tag">Architecture</span>
+          <h2 class="methodology-title">How We Standardize B2B Integration Blueprints</h2>
+          <p class="methodology-subtitle">Every guide in this directory is structured to eliminate operational friction and setup ambiguity.</p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-box">
+            <div class="pillar-icon">⚡</div>
+            <h3>Native vs. Middleware Decisioning</h3>
+            <p>We evaluate whether official native connectors suffice or if high-volume middleware like Make or Zapier is required for complex field mapping.</p>
+          </div>
+          <div class="pillar-box">
+            <div class="pillar-icon">⏱️</div>
+            <h3>Verified Setup Timelines</h3>
+            <p>Real-world benchmark times for authentication, field mapping, webhook testing, and error-handling configuration.</p>
+          </div>
+          <div class="pillar-box">
+            <div class="pillar-icon">🛡️</div>
+            <h3>Rate Limit & Failure Prevention</h3>
+            <p>Every blueprint highlights known API rate limits, pagination traps, and payload mismatch pitfalls before deployment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Client-side instant filtering & search logic (Zero external dependencies)
+  const searchInput = document.getElementById('integration-search') as HTMLInputElement | null;
+  const clearBtn = document.getElementById('clear-search') as HTMLButtonElement | null;
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.integration-card');
+  const resultsCountText = document.getElementById('results-count-text');
+  const emptyState = document.getElementById('no-results-state');
+  const resetBtn = document.getElementById('reset-filter-btn');
+
+  let currentFilter = 'all';
+  let searchQuery = '';
+
+  function applyFilters() {
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const tools = card.dataset.tools || '';
+      const categories = card.dataset.categories || '';
+      const isNative = card.dataset.native === 'true';
+      const middleware = card.dataset.middleware || '';
+      const difficulty = card.dataset.difficulty || '';
+
+      const matchesSearch =
+        searchQuery === '' ||
+        tools.includes(searchQuery) ||
+        categories.includes(searchQuery) ||
+        middleware.includes(searchQuery);
+
+      let matchesFilter = true;
+      if (currentFilter === 'native') matchesFilter = isNative;
+      else if (currentFilter === 'make') matchesFilter = middleware.includes('make');
+      else if (currentFilter === 'zapier') matchesFilter = middleware.includes('zapier');
+      else if (currentFilter === 'easy') matchesFilter = difficulty === 'easy';
+
+      if (matchesSearch && matchesFilter) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (resultsCountText) {
+      resultsCountText.textContent = `Showing ${visibleCount} of ${cards.length} integrations`;
+    }
+
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? 'flex' : 'none';
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+      if (clearBtn) clearBtn.style.display = searchQuery ? 'block' : 'none';
+      applyFilters();
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (searchInput) {
+        searchInput.value = '';
+        searchQuery = '';
+        clearBtn.style.display = 'none';
+        applyFilters();
+      }
+    });
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter || 'all';
+      applyFilters();
+    });
+  });
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      searchQuery = '';
+      if (clearBtn) clearBtn.style.display = 'none';
+      filterBtns.forEach((b) => {
+        if (b.dataset.filter === 'all') b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      currentFilter = 'all';
+      applyFilters();
+    });
+  }
+</script>
+
+<style>
+  /* Hero Section */
+  .hero-section {
+    padding: 4.5rem 1.5rem 3rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-full);
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #c7d2fe;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .badge-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #38bdf8;
+    box-shadow: 0 0 10px #38bdf8;
+  }
+
+  .hero-headline {
+    font-size: 3.4rem;
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    color: var(--text-primary);
+  }
+
+  .hero-gradient {
+    background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-subheadline {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    max-width: 720px;
+  }
+
+  /* Stats Counters Bar */
+  .hero-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1rem;
+    text-align: center;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .stat-card:hover {
+    border-color: var(--border-highlight);
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    font-family: var(--font-heading);
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #f8fafc;
+    background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 0.25rem;
+  }
+
+  /* Directory Section */
+  .directory-section {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .directory-container {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* Toolbar */
+  .filter-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 1.5rem;
+  }
+
+  .search-box {
+    position: relative;
+    width: 100%;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 0.95rem 3rem 0.95rem 3.2rem;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .search-box input:focus {
+    border-color: var(--color-sky);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+  }
+
+  .clear-search-btn {
+    position: absolute;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  .clear-search-btn:hover {
+    color: var(--text-primary);
+  }
+
+  .filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .filter-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .filter-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+  }
+
+  .filter-btn.active {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
+  }
+
+  .results-meta {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  /* Integrations Grid */
+  .integrations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .integration-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .integration-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-highlight);
+    box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(99, 102, 241, 0.2);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .tool-pair {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .tool-pill {
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .tool-pill.source {
+    background: rgba(6, 182, 212, 0.15);
+    color: #67e8f9;
+    border: 1px solid rgba(6, 182, 212, 0.3);
+  }
+
+  .tool-pill.target {
+    background: rgba(139, 92, 246, 0.15);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+
+  .sync-arrow {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+  }
+
+  .type-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+
+  .type-badge.native {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .type-badge.middleware {
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .card-title-link {
+    color: var(--text-primary);
+    transition: color 0.15s ease;
+  }
+
+  .card-title-link:hover {
+    color: var(--color-sky);
+  }
+
+  .card-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .card-chip {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+  }
+
+  .chip-label {
+    color: var(--text-muted);
+  }
+
+  .card-chip.diff-easy { color: #6ee7b7; }
+  .card-chip.diff-intermediate { color: #fcd34d; }
+  .card-chip.diff-advanced { color: #fda4af; }
+
+  .category-chip {
+    color: #cbd5e1;
+  }
+
+  .card-usecases {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 0.9rem;
+    margin-top: auto;
+  }
+
+  .usecases-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .usecase-preview {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  .card-footer {
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .card-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    padding: 0.65rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+  }
+
+  .card-cta-btn:hover {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  }
+
+  /* Empty State */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 1.5rem;
+    background: var(--bg-surface);
+    border: 1px dashed var(--border-subtle);
+    border-radius: var(--radius-xl);
+    gap: 1rem;
+  }
+
+  .empty-icon {
+    font-size: 2.5rem;
+  }
+
+  .empty-state h3 {
+    font-size: 1.4rem;
+  }
+
+  .empty-state p {
+    color: var(--text-secondary);
+    max-width: 480px;
+    font-size: 0.95rem;
+  }
+
+  /* Methodology Section */
+  .methodology-section {
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .methodology-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.6) 100%);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    box-shadow: var(--shadow-card);
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-cyan);
+    margin-bottom: 0.5rem;
+  }
+
+  .methodology-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+  }
+
+  .methodology-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    margin-top: 0.35rem;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .pillar-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pillar-icon {
+    font-size: 1.8rem;
+  }
+
+  .pillar-box h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .pillar-box p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1100px) {
+    .integrations-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 800px) {
+    .hero-headline {
+      font-size: 2.4rem;
+    }
+    .hero-stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .pillars-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .integrations-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-stats-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .hero-headline {
+      font-size: 2rem;
+    }
+  }
+</style>

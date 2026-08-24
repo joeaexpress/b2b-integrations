@@ -1,0 +1,1241 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import integrationsData from '../../data/integrations.json';
+import type { IntegrationRecord } from '../../types/integration';
+
+export async function getStaticPaths() {
+  const records = integrationsData as IntegrationRecord[];
+  return records.map((integration) => ({
+    params: { slug: integration.slug },
+    props: { integration, allIntegrations: records },
+  }));
+}
+
+interface Props {
+  integration: IntegrationRecord;
+  allIntegrations: IntegrationRecord[];
+}
+
+const { integration, allIntegrations } = Astro.props;
+
+// Related integrations (by tool, category, or difficulty) excluding current one
+const relatedIntegrations = allIntegrations
+  .filter((item) => item.slug !== integration.slug)
+  .filter(
+    (item) =>
+      item.toolA === integration.toolA ||
+      item.toolB === integration.toolB ||
+      item.toolACategory === integration.toolACategory ||
+      item.toolBCategory === integration.toolBCategory ||
+      item.recommendedMiddleware === integration.recommendedMiddleware
+  )
+  .slice(0, 3);
+
+// Affiliate referral URL helper
+const getAffiliateUrl = (middleware: string) => {
+  const normalized = middleware.toLowerCase();
+  if (normalized.includes('make')) {
+    return 'https://www.make.com/en/register?pc=b2bsaasdirectory';
+  }
+  if (normalized.includes('zapier')) {
+    return 'https://zapier.com/apps/integrations?ref=b2bsaasdirectory';
+  }
+  return '#guide';
+};
+
+const middlewareUrl = getAffiliateUrl(integration.recommendedMiddleware);
+
+// JSON-LD HowTo / TechArticle schema for rich snippet SEO
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": `How to Connect ${integration.toolA} to ${integration.toolB}`,
+  "description": integration.metaDescription,
+  "totalTime": `PT${integration.setupTimeMinutes}M`,
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0"
+  },
+  "tool": [
+    { "@type": "HowToTool", "name": integration.toolA },
+    { "@type": "HowToTool", "name": integration.toolB },
+    ...(integration.nativeIntegration ? [] : [{ "@type": "HowToTool", "name": integration.recommendedMiddleware }])
+  ],
+  "step": integration.stepByStepGuide.map((stepText, idx) => ({
+    "@type": "HowToStep",
+    "position": idx + 1,
+    "name": `Step ${idx + 1}: ${stepText.split('.')[0]}`,
+    "text": stepText
+  }))
+};
+---
+
+<Layout
+  title={integration.metaTitle}
+  description={integration.metaDescription}
+  schema={schemaData}
+>
+  <div class="integration-detail-page">
+    <!-- Breadcrumbs Navigation -->
+    <nav class="breadcrumb-container" aria-label="Breadcrumb">
+      <div class="page-container">
+        <ol class="breadcrumb-list">
+          <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Home</a>
+          </li>
+          <li class="breadcrumb-separator">/</li>
+          <li class="breadcrumb-item">
+            <a href="/#explore-integrations" class="breadcrumb-link">Integrations</a>
+          </li>
+          <li class="breadcrumb-separator">/</li>
+          <li class="breadcrumb-item active" aria-current="page">
+            {integration.toolA} to {integration.toolB}
+          </li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <div class="page-container">
+      <div class="detail-layout">
+        <!-- Main Column -->
+        <article class="detail-main">
+          <!-- Hero Header -->
+          <header class="detail-hero">
+            <!-- Badges Row -->
+            <div class="hero-tags">
+              <span class={`badge-status ${integration.nativeIntegration ? 'native' : 'middleware'}`}>
+                {integration.nativeIntegration ? (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                    Native Direct Sync
+                  </>
+                ) : (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                    </svg>
+                    Middleware Required ({integration.recommendedMiddleware})
+                  </>
+                )}
+              </span>
+
+              <span class={`badge-difficulty ${integration.difficulty.toLowerCase()}`}>
+                Difficulty: {integration.difficulty}
+              </span>
+
+              <span class="badge-time">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                ~{integration.setupTimeMinutes} Min Setup
+              </span>
+            </div>
+
+            <!-- Page Title -->
+            <h1 class="hero-title">
+              Connect <span class="tool-highlight tool-a">{integration.toolA}</span> to <span class="tool-highlight tool-b">{integration.toolB}</span>
+            </h1>
+
+            <p class="hero-description">
+              {integration.metaDescription}
+            </p>
+
+            <!-- Metadata Chips Bar -->
+            <div class="metadata-chips-card">
+              <div class="meta-chip">
+                <span class="meta-chip-label">Source Tool</span>
+                <div class="meta-chip-value">
+                  <strong>{integration.toolA}</strong>
+                  <span class="meta-chip-sub">{integration.toolACategory}</span>
+                </div>
+              </div>
+
+              <div class="meta-chip-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+
+              <div class="meta-chip">
+                <span class="meta-chip-label">Target Tool</span>
+                <div class="meta-chip-value">
+                  <strong>{integration.toolB}</strong>
+                  <span class="meta-chip-sub">{integration.toolBCategory}</span>
+                </div>
+              </div>
+
+              <div class="meta-chip-divider"></div>
+
+              <div class="meta-chip">
+                <span class="meta-chip-label">Integration Mode</span>
+                <div class="meta-chip-value">
+                  <strong>{integration.nativeIntegration ? 'Built-in Connector' : `${integration.recommendedMiddleware} Automation`}</strong>
+                  <span class="meta-chip-sub">{integration.nativeIntegration ? 'Zero 3rd-party dependencies' : 'Visual API Pipeline'}</span>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <!-- Dynamic Affiliate / Native CTA Block -->
+          <section class="cta-banner-section">
+            {integration.nativeIntegration ? (
+              <div class="native-cta-banner">
+                <div class="cta-banner-content">
+                  <div class="cta-badge">⚡ Official Direct Connector</div>
+                  <h2 class="cta-title">No Middleware Needed: Fast Native Setup</h2>
+                  <p class="cta-desc">
+                    {integration.toolA} includes a native, pre-built integration with {integration.toolB}. You can activate this connector in under {integration.setupTimeMinutes} minutes using your standard administrative privileges.
+                  </p>
+                </div>
+                <div class="cta-action">
+                  <a href="#step-by-step-guide" class="btn-primary" id="jump-to-guide">
+                    Jump to Setup Steps ↓
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div class="affiliate-cta-banner">
+                <div class="cta-banner-content">
+                  <div class="cta-badge highlight">⭐ Recommended Automation Tool</div>
+                  <h2 class="cta-title">Build this {integration.toolA} → {integration.toolB} workflow with {integration.recommendedMiddleware}</h2>
+                  <p class="cta-desc">
+                    Since {integration.toolA} and {integration.toolB} require custom data mapping, <strong>{integration.recommendedMiddleware}</strong> offers the most reliable, visual no-code connection with built-in error handling and zero server maintenance.
+                  </p>
+                </div>
+                <div class="cta-action">
+                  <a
+                    href={middlewareUrl}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    class="btn-affiliate"
+                    id="affiliate-cta-button"
+                  >
+                    <span>Launch on {integration.recommendedMiddleware} Free</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </a>
+                  <span class="affiliate-disclaimer">⚡ Free tier available • No credit card required</span>
+                </div>
+              </div>
+            )}
+          </section>
+
+          <!-- Top Use Cases Section -->
+          <section class="content-section" id="use-cases">
+            <div class="section-header">
+              <div class="section-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div>
+                <h2 class="section-title">Top Business Use Cases</h2>
+                <p class="section-subtitle">Why leading operations, growth, and engineering teams deploy this connection:</p>
+              </div>
+            </div>
+
+            <div class="use-cases-grid">
+              {integration.topUseCases.map((useCase, index) => (
+                <div class="use-case-card">
+                  <div class="use-case-number">0{index + 1}</div>
+                  <div class="use-case-content">
+                    <p>{useCase}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <!-- Step-by-Step Setup Guide -->
+          <section class="content-section" id="step-by-step-guide">
+            <div class="section-header">
+              <div class="section-icon setup-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+              </div>
+              <div>
+                <h2 class="section-title">Step-by-Step Setup Guide</h2>
+                <p class="section-subtitle">Follow these sequential instructions to establish a reliable, automated pipeline:</p>
+              </div>
+            </div>
+
+            <div class="timeline-container">
+              {integration.stepByStepGuide.map((step, idx) => (
+                <div class="timeline-item">
+                  <div class="timeline-marker">
+                    <span>{idx + 1}</span>
+                  </div>
+                  <div class="timeline-card">
+                    <div class="timeline-header">
+                      <span class="timeline-step-label">Step {idx + 1}</span>
+                    </div>
+                    <p class="timeline-text">{step}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <!-- Common Pitfalls Alert Box -->
+          <section class="content-section" id="common-pitfalls">
+            <div class="pitfall-alert-box">
+              <div class="alert-header">
+                <div class="alert-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="alert-title">Common Pitfalls & Architectural Gotchas</h3>
+                  <p class="alert-subtitle">Avoid these frequent configuration mistakes before pushing to production:</p>
+                </div>
+              </div>
+
+              <div class="pitfalls-list">
+                {integration.commonPitfalls.map((pitfall) => (
+                  <div class="pitfall-item">
+                    <div class="pitfall-bullet">⚠️</div>
+                    <div class="pitfall-text">
+                      <p>{pitfall}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <!-- Related Integrations -->
+          {relatedIntegrations.length > 0 && (
+            <section class="content-section related-section">
+              <div class="section-header">
+                <div>
+                  <h3 class="section-title">Explore Related Integrations</h3>
+                  <p class="section-subtitle">Discover complementary connectors for your tech stack:</p>
+                </div>
+              </div>
+
+              <div class="related-grid">
+                {relatedIntegrations.map((item) => (
+                  <a href={`/integrations/${item.slug}`} class="related-card">
+                    <div class="related-top">
+                      <span class={`related-badge ${item.nativeIntegration ? 'native' : 'middleware'}`}>
+                        {item.nativeIntegration ? '⚡ Native' : `🔄 ${item.recommendedMiddleware}`}
+                      </span>
+                      <span class="related-time">{item.setupTimeMinutes}m setup</span>
+                    </div>
+                    <h4 class="related-title">{item.toolA} → {item.toolB}</h4>
+                    <p class="related-desc">{item.metaTitle}</p>
+                    <span class="related-link-arrow">View Guide →</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+        </article>
+
+        <!-- Sidebar / Sticky Summary Card -->
+        <aside class="detail-sidebar">
+          <div class="sticky-sidebar-card">
+            <div class="sidebar-header">
+              <h3 class="sidebar-title">Integration Blueprint</h3>
+              <span class="sidebar-status-dot"></span>
+            </div>
+
+            <div class="sidebar-meta-list">
+              <div class="sidebar-meta-item">
+                <span class="sidebar-label">Source</span>
+                <span class="sidebar-val">{integration.toolA} ({integration.toolACategory})</span>
+              </div>
+              <div class="sidebar-meta-item">
+                <span class="sidebar-label">Destination</span>
+                <span class="sidebar-val">{integration.toolB} ({integration.toolBCategory})</span>
+              </div>
+              <div class="sidebar-meta-item">
+                <span class="sidebar-label">Integration Type</span>
+                <span class="sidebar-val">{integration.nativeIntegration ? 'Native Direct Connector' : 'Middleware Automation'}</span>
+              </div>
+              {integration.recommendedMiddleware !== 'None' && (
+                <div class="sidebar-meta-item">
+                  <span class="sidebar-label">Recommended Engine</span>
+                  <span class="sidebar-val highlight">{integration.recommendedMiddleware}</span>
+                </div>
+              )}
+              <div class="sidebar-meta-item">
+                <span class="sidebar-label">Est. Setup Time</span>
+                <span class="sidebar-val">{integration.setupTimeMinutes} Minutes</span>
+              </div>
+              <div class="sidebar-meta-item">
+                <span class="sidebar-label">Difficulty Rating</span>
+                <span class={`sidebar-val diff-${integration.difficulty.toLowerCase()}`}>{integration.difficulty}</span>
+              </div>
+            </div>
+
+            <div class="sidebar-cta-wrap">
+              {integration.nativeIntegration ? (
+                <a href="#step-by-step-guide" class="sidebar-btn-primary">
+                  Start Configuration
+                </a>
+              ) : (
+                <a
+                  href={middlewareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  class="sidebar-btn-affiliate"
+                >
+                  Configure on {integration.recommendedMiddleware} →
+                </a>
+              )}
+            </div>
+
+            <div class="sidebar-nav-quick">
+              <span class="quick-nav-title">Page Outline</span>
+              <a href="#use-cases" class="quick-nav-link">• Top Use Cases</a>
+              <a href="#step-by-step-guide" class="quick-nav-link">• Setup Timeline (Steps 1-{integration.stepByStepGuide.length})</a>
+              <a href="#common-pitfalls" class="quick-nav-link">• Common Pitfalls</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .integration-detail-page {
+    padding-bottom: 3rem;
+  }
+
+  .page-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumb-container {
+    background: rgba(15, 23, 42, 0.4);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0.85rem 0;
+    margin-bottom: 2.5rem;
+  }
+
+  .breadcrumb-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.88rem;
+  }
+
+  .breadcrumb-link {
+    color: var(--text-secondary);
+    transition: color 0.15s ease;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-sky);
+  }
+
+  .breadcrumb-separator {
+    color: var(--text-dim);
+  }
+
+  .breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* Main Layout */
+  .detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .detail-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  /* Hero Section */
+  .detail-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.02em;
+  }
+
+  .badge-status.native {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+  }
+
+  .badge-status.middleware {
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.35);
+  }
+
+  .badge-difficulty {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .badge-difficulty.easy {
+    background: rgba(16, 185, 129, 0.1);
+    color: #6ee7b7;
+    border-color: rgba(16, 185, 129, 0.25);
+  }
+
+  .badge-difficulty.intermediate {
+    background: rgba(245, 158, 11, 0.1);
+    color: #fcd34d;
+    border-color: rgba(245, 158, 11, 0.25);
+  }
+
+  .badge-difficulty.advanced {
+    background: rgba(244, 63, 94, 0.1);
+    color: #fda4af;
+    border-color: rgba(244, 63, 94, 0.25);
+  }
+
+  .badge-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .hero-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.18;
+    color: var(--text-primary);
+  }
+
+  .tool-highlight {
+    position: relative;
+    display: inline-block;
+    padding: 0 0.15em;
+  }
+
+  .tool-highlight.tool-a {
+    color: #67e8f9;
+  }
+
+  .tool-highlight.tool-b {
+    color: #a5b4fc;
+  }
+
+  .hero-description {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 800px;
+  }
+
+  /* Metadata Chips Card */
+  .metadata-chips-card {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .meta-chip {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .meta-chip-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .meta-chip-value strong {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: block;
+  }
+
+  .meta-chip-sub {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .meta-chip-arrow {
+    color: var(--color-sky);
+    display: flex;
+    align-items: center;
+  }
+
+  .meta-chip-divider {
+    width: 1px;
+    height: 38px;
+    background: var(--border-subtle);
+  }
+
+  /* CTA Banners */
+  .cta-banner-section {
+    margin-top: 0.5rem;
+  }
+
+  .affiliate-cta-banner {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(6, 182, 212, 0.12) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: var(--shadow-glow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .affiliate-cta-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .native-cta-banner {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 182, 212, 0.08) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .cta-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-badge.highlight {
+    background: rgba(99, 102, 241, 0.25);
+    color: #c7d2fe;
+    border: 1px solid rgba(99, 102, 241, 0.4);
+  }
+
+  .cta-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .cta-action {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding-top: 0.5rem;
+  }
+
+  .btn-affiliate {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 18px rgba(99, 102, 241, 0.45);
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .btn-affiliate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.6);
+  }
+
+  .affiliate-disclaimer {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(16, 185, 129, 0.2);
+    color: #a7f3d0;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    background: rgba(16, 185, 129, 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* Content Sections */
+  .content-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .section-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #818cf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-icon.setup-icon {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: rgba(6, 182, 212, 0.3);
+    color: #38bdf8;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+  }
+
+  /* Top Use Cases Grid */
+  .use-cases-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .use-case-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.35rem 1.5rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .use-case-card:hover {
+    border-color: var(--border-highlight);
+    transform: translateX(4px);
+  }
+
+  .use-case-number {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-cyan);
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .use-case-content p {
+    font-size: 0.98rem;
+    color: var(--text-primary);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Timeline / Step by Step Guide */
+  .timeline-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline-container::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 18px;
+    width: 2px;
+    background: linear-gradient(to bottom, #6366f1, #06b6d4, #10b981);
+    opacity: 0.4;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: -2rem;
+    top: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-surface-elevated);
+    border: 2px solid #6366f1;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+    z-index: 2;
+  }
+
+  .timeline-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-left: 1rem;
+    transition: border-color 0.2s ease;
+  }
+
+  .timeline-card:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+
+  .timeline-header {
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-step-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-sky);
+  }
+
+  .timeline-text {
+    font-size: 0.98rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  /* Pitfalls Alert Box */
+  .pitfall-alert-box {
+    background: rgba(244, 63, 94, 0.06);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .alert-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .alert-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    background: rgba(244, 63, 94, 0.15);
+    color: #fb7185;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .alert-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fecdd3;
+  }
+
+  .alert-subtitle {
+    font-size: 0.9rem;
+    color: #fda4af;
+    margin-top: 0.15rem;
+  }
+
+  .pitfalls-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  .pitfall-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+  }
+
+  .pitfall-bullet {
+    font-size: 1rem;
+  }
+
+  .pitfall-text p {
+    font-size: 0.93rem;
+    color: #f1f5f9;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Related Section */
+  .related-section {
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .related-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.75rem;
+    transition: all 0.2s ease;
+  }
+
+  .related-card:hover {
+    border-color: var(--border-highlight);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card);
+  }
+
+  .related-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .related-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-full);
+  }
+
+  .related-badge.native {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+  }
+
+  .related-badge.middleware {
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+  }
+
+  .related-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .related-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .related-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .related-link-arrow {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-sky);
+    margin-top: 0.25rem;
+  }
+
+  /* Sticky Sidebar */
+  .detail-sidebar {
+    position: sticky;
+    top: 5rem;
+  }
+
+  .sticky-sidebar-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 1.75rem;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .sidebar-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .sidebar-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+  }
+
+  .sidebar-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sidebar-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .sidebar-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .sidebar-val {
+    font-size: 0.92rem;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .sidebar-val.highlight {
+    color: var(--color-sky);
+    font-weight: 700;
+  }
+
+  .sidebar-val.diff-easy { color: #6ee7b7; font-weight: 600; }
+  .sidebar-val.diff-intermediate { color: #fcd34d; font-weight: 600; }
+  .sidebar-val.diff-advanced { color: #fda4af; font-weight: 600; }
+
+  .sidebar-cta-wrap {
+    padding-top: 0.5rem;
+  }
+
+  .sidebar-btn-primary {
+    display: block;
+    text-align: center;
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+  }
+
+  .sidebar-btn-primary:hover {
+    background: rgba(16, 185, 129, 0.35);
+  }
+
+  .sidebar-btn-affiliate {
+    display: block;
+    text-align: center;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    transition: all 0.2s ease;
+  }
+
+  .sidebar-btn-affiliate:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+  }
+
+  .sidebar-nav-quick {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .quick-nav-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .quick-nav-link {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: color 0.15s ease;
+  }
+
+  .quick-nav-link:hover {
+    color: var(--color-sky);
+  }
+
+  @media (max-width: 1024px) {
+    .detail-layout {
+      grid-template-columns: 1fr;
+    }
+    .detail-sidebar {
+      position: static;
+      order: 2;
+    }
+    .related-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+    .metadata-chips-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .meta-chip-divider {
+      display: none;
+    }
+    .meta-chip-arrow {
+      transform: rotate(90deg);
+    }
+  }
+</style>

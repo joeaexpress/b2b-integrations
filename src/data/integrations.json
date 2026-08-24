@@ -1,0 +1,287 @@
+[
+  {
+    "slug": "airtable-to-webflow-integration",
+    "metaTitle": "Airtable to Webflow Integration Guide | B2B Sync",
+    "metaDescription": "Learn how to seamlessly sync Airtable records to Webflow CMS collections with automated triggers, zero code, and Make middleware.",
+    "toolA": "Airtable",
+    "toolACategory": "Database & Spreadsheet",
+    "toolB": "Webflow",
+    "toolBCategory": "CMS & Website Builder",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 35,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Auto-publish programmatic SEO landing pages from curated Airtable tables.",
+      "Sync multi-author blog drafts and asset attachments into Webflow CMS items.",
+      "Update product inventory and pricing on live marketing pages without designer intervention."
+    ],
+    "stepByStepGuide": [
+      "Generate an Airtable Personal Access Token (PAT) with data.records:read scopes.",
+      "Create an API Token in Webflow Site Settings under the Integrations tab.",
+      "In Make (formerly Integromat), create a scenario starting with the 'Airtable - Watch Records' trigger module.",
+      "Add the 'Webflow - Create/Update Item' action module and map table fields to CMS collection schema.",
+      "Enable instant Webhook triggers in Airtable and turn on the Make scenario schedule."
+    ],
+    "commonPitfalls": [
+      "Hitting Webflow's rate limit of 60 requests/minute during bulk imports from Airtable without a pacing delay.",
+      "Field type mismatches (e.g. multi-reference IDs vs plain text slugs) causing silent CMS item creation failures."
+    ]
+  },
+  {
+    "slug": "hubspot-to-slack-integration",
+    "metaTitle": "HubSpot to Slack Integration Guide (Native Sync)",
+    "metaDescription": "Connect HubSpot to Slack to receive real-time deal alerts, lead notifications, and trigger slash commands directly inside Slack channels.",
+    "toolA": "HubSpot",
+    "toolACategory": "CRM & Sales",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Post real-time notifications to #sales-wins when high-value deals enter 'Closed Won'.",
+      "Assign inbound leads immediately by alerting reps in designated rep channels.",
+      "Search CRM contacts and log meeting notes directly from Slack using /hubspot commands."
+    ],
+    "stepByStepGuide": [
+      "Navigate to HubSpot App Marketplace and search for the official Slack integration.",
+      "Click 'Install app' and authorize permissions for your target Slack workspace.",
+      "Under HubSpot Settings > Integrations > Connected Apps, configure default channel notifications.",
+      "Create a HubSpot Workflow to trigger conditional Slack channel messages based on Deal Stage updates."
+    ],
+    "commonPitfalls": [
+      "Over-notifying general channels with low-priority lead changes, creating notification fatigue.",
+      "Failing to map individual HubSpot user accounts to Slack users, preventing direct @mentions in alerts."
+    ]
+  },
+  {
+    "slug": "stripe-to-quickbooks-integration",
+    "metaTitle": "Stripe to QuickBooks Online Integration Guide",
+    "metaDescription": "Automate invoice reconciliation, subscription payments, and customer records between Stripe and QuickBooks Online via Zapier.",
+    "toolA": "Stripe",
+    "toolACategory": "Payment & Billing",
+    "toolB": "QuickBooks",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Zapier",
+    "setupTimeMinutes": 45,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Auto-generate Sales Receipts in QuickBooks whenever a successful Stripe charge occurs.",
+      "Deduct Stripe processing fees automatically into a designated COGS expense account.",
+      "Sync customer billing addresses and tax identification numbers for global compliance."
+    ],
+    "stepByStepGuide": [
+      "Connect your Stripe account with restricted API read keys for charge and customer events.",
+      "Authenticate QuickBooks Online in Zapier using company admin credentials.",
+      "Create a Zap triggered by 'New Successful Charge in Stripe'.",
+      "Add a 'Find or Create Customer in QuickBooks Online' search step to avoid duplicate contacts.",
+      "Configure 'Create Sales Receipt' action with split lines for gross revenue and Stripe merchant processing fees."
+    ],
+    "commonPitfalls": [
+      "Omitting Stripe fee line items, leading to discrepancies between bank deposits and book revenue totals.",
+      "Failing to account for refund events, resulting in overstated gross revenue numbers in QuickBooks."
+    ]
+  },
+  {
+    "slug": "salesforce-to-notion-integration",
+    "metaTitle": "Salesforce to Notion Integration Tutorial",
+    "metaDescription": "Sync Salesforce accounts, opportunities, and key pipeline metrics into Notion databases for team-wide cross-functional visibility.",
+    "toolA": "Salesforce",
+    "toolACategory": "CRM & Enterprise Sales",
+    "toolB": "Notion",
+    "toolBCategory": "Knowledge & Documentation",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 40,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Maintain a real-time account directory in Notion for non-Salesforce licensed product and CS teams.",
+      "Embed live quarterly pipeline rollups inside company all-hands workspace documents.",
+      "Trigger kickoff project workspaces in Notion when an Enterprise deal closes in Salesforce."
+    ],
+    "stepByStepGuide": [
+      "Create a Connected App in Salesforce with OAuth 2.0 Client Credentials.",
+      "Build an internal integration token in Notion and share target database pages with the integration.",
+      "Set up a Make webhook listener receiving Salesforce Outbound Messages or CDC (Change Data Capture) events.",
+      "Map Salesforce Opportunity fields (Amount, Stage, Close Date, Owner) to Notion database properties.",
+      "Add error handling paths for custom field validation and rate-limit retries."
+    ],
+    "commonPitfalls": [
+      "Syncing too many granular SFDC fields into Notion, hitting database block limits and slowing Notion search.",
+      "Not accounting for Salesforce sandboxes vs production instance URLs during OAuth configuration."
+    ]
+  },
+  {
+    "slug": "linear-to-slack-integration",
+    "metaTitle": "Linear to Slack Integration Guide (Native)",
+    "metaDescription": "Streamline engineering notifications by syncing Linear issue updates, PR links, and project roadmaps directly to your team Slack channels.",
+    "toolA": "Linear",
+    "toolACategory": "Issue Tracking & Agile",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Broadcast urgent P0/Triage issues into engineering on-call channels immediately.",
+      "Allow team members to create Linear issues directly from Slack messages with one click.",
+      "Sync personal issue assignees with Slack personal DMs for review reminders."
+    ],
+    "stepByStepGuide": [
+      "Open Linear Settings and navigate to 'Integrations' > 'Slack'.",
+      "Click 'Connect to Slack' and authorize the Linear bot in your workspace.",
+      "Configure project-level and team-level channel notification rules.",
+      "Enable the Slack shortcut 'Create Linear Issue' for seamless task filing from chat threads."
+    ],
+    "commonPitfalls": [
+      "Subscribing high-activity team backlogs to high-traffic channels without filtering by priority or label.",
+      "Forgetting to link individual Linear accounts to Slack users for personalized direct notification routing."
+    ]
+  },
+  {
+    "slug": "shopify-to-klaviyo-integration",
+    "metaTitle": "Shopify to Klaviyo Sync & Setup Guide",
+    "metaDescription": "Integrate Shopify with Klaviyo to automate abandoned cart emails, customer segment tracking, and purchase revenue analytics in real-time.",
+    "toolA": "Shopify",
+    "toolACategory": "E-Commerce",
+    "toolB": "Klaviyo",
+    "toolBCategory": "Email Marketing & Retention",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Trigger personalized abandoned checkout and abandoned browse email sequences.",
+      "Segment VIP customers dynamically based on historical Lifetime Value (LTV) and order frequencies.",
+      "Sync onsite SMS opt-in phone numbers with checkout compliance timestamps."
+    ],
+    "stepByStepGuide": [
+      "Install the official Klaviyo app from the Shopify App Store.",
+      "Check 'Automatically add Klaviyo onsite JavaScript' and select sync historical data options.",
+      "Configure SMS marketing compliance disclosures in Shopify Checkout settings.",
+      "Verify tracking by triggering a test 'Started Checkout' event in an incognito browser window."
+    ],
+    "commonPitfalls": [
+      "Neglecting GDPR/TCPA compliance checkboxes, resulting in un-subscribed contacts receiving promotional SMS.",
+      "Not waiting for historical order data sync to complete before launching automated segment-based flows."
+    ]
+  },
+  {
+    "slug": "zendesk-to-jira-integration",
+    "metaTitle": "Zendesk to Jira Service Management Sync",
+    "metaDescription": "Connect Zendesk customer tickets to Jira development issues to streamline cross-team bug resolution and status updates automatically.",
+    "toolA": "Zendesk",
+    "toolACategory": "Customer Support",
+    "toolB": "Jira",
+    "toolBCategory": "Issue Tracking & Agile",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Escalate customer bug reports from Zendesk tickets into Jira engineering backlog issues.",
+      "Sync Jira issue status transitions back to Zendesk tickets as internal agent notes.",
+      "Allow support agents to track engineering progress without requiring full Jira seat licenses."
+    ],
+    "stepByStepGuide": [
+      "Install the Zendesk Support app for Jira from Atlassian Marketplace.",
+      "Install the Jira Cloud app in the Zendesk Support Admin Center.",
+      "Authorize bi-directional permissions between your Atlassian and Zendesk instances.",
+      "Map Jira issue types (Bug, Task, Story) and priority levels to Zendesk ticket types.",
+      "Enable automated two-way comment synchronization and status change notifications."
+    ],
+    "commonPitfalls": [
+      "Accidentally syncing private engineering Jira comments back to end-users as public Zendesk replies.",
+      "Missing custom field definitions in Jira, causing issue creation errors when triggered from Zendesk."
+    ]
+  },
+  {
+    "slug": "intercom-to-salesforce-integration",
+    "metaTitle": "Intercom to Salesforce Integration Guide",
+    "metaDescription": "Sync Intercom conversational leads, conversation transcripts, and visitor data directly to Salesforce CRM leads and contacts natively.",
+    "toolA": "Intercom",
+    "toolACategory": "Customer Support & Messaging",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Enterprise Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Automatically create or update Salesforce Leads when qualification bots capture visitor contact info.",
+      "Log completed Intercom conversation transcripts as Salesforce Task activities on Contact records.",
+      "Route VIP Salesforce Accounts directly to dedicated account reps when they initiate live chat."
+    ],
+    "stepByStepGuide": [
+      "In Intercom App Store, select the Salesforce app and authenticate with a Salesforce System Administrator user.",
+      "Map Intercom visitor data fields (Email, Company, Industry) to standard and custom Salesforce Lead fields.",
+      "Define duplicate management rules to update existing records rather than creating duplicate Leads.",
+      "Enable real-time activity logging for chat transcripts, qualification events, and meeting bookings."
+    ],
+    "commonPitfalls": [
+      "Failing to respect Salesforce required validation rules on Lead creation, causing silent sync rejections.",
+      "Assigning the integration user insufficient Field-Level Security (FLS) permissions in Salesforce."
+    ]
+  },
+  {
+    "slug": "github-to-linear-integration",
+    "metaTitle": "GitHub to Linear Integration & PR Sync",
+    "metaDescription": "Connect GitHub pull requests, commits, and branch workflows directly to Linear issues for automated sprint tracking and issue resolution.",
+    "toolA": "GitHub",
+    "toolACategory": "DevOps & Source Control",
+    "toolB": "Linear",
+    "toolBCategory": "Issue Tracking & Agile",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Automatically move Linear issues to 'In Progress' when a git branch with the issue identifier is pushed.",
+      "Attach GitHub Pull Request status, review approvals, and CI check status directly on Linear cards.",
+      "Close Linear issues automatically when corresponding pull requests are merged into the default branch."
+    ],
+    "stepByStepGuide": [
+      "Open Linear Settings > Integrations > GitHub.",
+      "Click 'Install GitHub App' and select the specific repositories or entire GitHub organization to connect.",
+      "Configure automation rules for branch creation, draft pull requests, and PR merge behaviors.",
+      "Copy branch names from Linear issues with git branch prefixes for seamless linking."
+    ],
+    "commonPitfalls": [
+      "Omitting the Linear issue key (e.g. ENG-123) in branch names or PR titles, breaking the automatic association.",
+      "Connecting an entire enterprise GitHub org without repository filtering, syncing unintended internal repos."
+    ]
+  },
+  {
+    "slug": "postgres-to-google-sheets-integration",
+    "metaTitle": "PostgreSQL to Google Sheets Data Pipeline",
+    "metaDescription": "Automate scheduled exports and query syncs from PostgreSQL databases into Google Sheets for executive reporting without SQL scripts.",
+    "toolA": "PostgreSQL",
+    "toolACategory": "Database & Infrastructure",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Zapier",
+    "setupTimeMinutes": 35,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Push daily transactional metrics and MRR summaries to leadership spreadsheets automatically.",
+      "Sync customer cohort segments into Google Sheets for marketing team ad-hoc analysis.",
+      "Trigger alert rows whenever abnormal error counts or spikes are detected in production tables."
+    ],
+    "stepByStepGuide": [
+      "Create a read-only database user in PostgreSQL with SELECT-only grants on target tables or views.",
+      "Whitelist Zapier / middleware IP addresses in your database firewall or cloud security group.",
+      "Set up a Zapier trigger using 'New or Updated Row in PostgreSQL' or a scheduled query interval.",
+      "Select the target Google Spreadsheet and Sheet tab.",
+      "Map returned SQL columns to corresponding Google Sheet column headers with append or upsert logic."
+    ],
+    "commonPitfalls": [
+      "Granting write or administrative permissions to the integration user instead of strict read-only access.",
+      "Querying unindexed, massive tables on short polling schedules, creating high CPU load on the production database."
+    ]
+  }
+]
