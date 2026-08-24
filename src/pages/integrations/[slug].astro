@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import integrationsData from '../../data/integrations.json';
 import type { IntegrationRecord } from '../../types/integration';
-import { buildAffiliateUrl } from '../../utils/affiliate';
+import { buildAffiliateUrl, getToolAffiliateInfo } from '../../utils/affiliate';
 import { slugify } from '../../utils/slugs';
 
 export async function getStaticPaths() {
@@ -53,6 +53,12 @@ const sidebarAffiliateUrl = buildAffiliateUrl(
     position: 'sidebar_cta',
   }
 );
+
+// Direct SaaS Software Partner Information & Referral Links
+const toolAPartner = getToolAffiliateInfo(integration.toolA, integration.slug, 'prereq_box_a');
+const toolBPartner = getToolAffiliateInfo(integration.toolB, integration.slug, 'prereq_box_b');
+const toolASidebar = getToolAffiliateInfo(integration.toolA, integration.slug, 'sidebar_tool_a');
+const toolBSidebar = getToolAffiliateInfo(integration.toolB, integration.slug, 'sidebar_tool_b');
 
 // JSON-LD HowTo / TechArticle schema for rich snippet SEO
 const schemaData = {
@@ -368,6 +374,82 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
             </div>
           </section>
 
+          <!-- Prerequisites & Tool Account Access -->
+          <section class="content-section" id="prerequisites">
+            <div class="section-header">
+              <div class="section-icon prereq-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <div>
+                <h2 class="section-title">Prerequisites & Software Access</h2>
+                <p class="section-subtitle">Active accounts and API permissions needed before establishing this connection:</p>
+              </div>
+            </div>
+
+            <div class="prereqs-grid">
+              <!-- Source Tool Account Card -->
+              <div class="prereq-tool-card">
+                <div class="prereq-card-top">
+                  <div class="prereq-role-badge source">Source Application</div>
+                  <span class="prereq-offer-tag">{toolAPartner.offerText}</span>
+                </div>
+                <h3 class="prereq-tool-title">{integration.toolA}</h3>
+                <p class="prereq-tool-desc">
+                  Requires standard or admin credentials to generate API tokens, authorize OAuth2 scopes, or configure webhook triggers.
+                </p>
+                <div class="prereq-card-bottom">
+                  <a
+                    href={toolAPartner.affiliateUrl}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    class="btn-prereq-tool"
+                    data-analytics-event="outbound_affiliate_click"
+                    data-partner={integration.toolA}
+                    data-tool-a={integration.toolA}
+                    data-tool-b={integration.toolB}
+                    data-slug={integration.slug}
+                    data-position="prereq_box_a"
+                  >
+                    <span>{toolAPartner.ctaText} ↗</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Destination Tool Account Card -->
+              <div class="prereq-tool-card">
+                <div class="prereq-card-top">
+                  <div class="prereq-role-badge destination">Target Application</div>
+                  <span class="prereq-offer-tag">{toolBPartner.offerText}</span>
+                </div>
+                <h3 class="prereq-tool-title">{integration.toolB}</h3>
+                <p class="prereq-tool-desc">
+                  Requires workspace access with write permissions to receive incoming payload objects, update records, and map fields.
+                </p>
+                <div class="prereq-card-bottom">
+                  <a
+                    href={toolBPartner.affiliateUrl}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    class="btn-prereq-tool"
+                    data-analytics-event="outbound_affiliate_click"
+                    data-partner={integration.toolB}
+                    data-tool-a={integration.toolA}
+                    data-tool-b={integration.toolB}
+                    data-slug={integration.slug}
+                    data-position="prereq_box_b"
+                  >
+                    <span>{toolBPartner.ctaText} ↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <!-- Step-by-Step Setup Guide -->
           <section class="content-section" id="step-by-step-guide">
             <div class="section-header">
@@ -616,6 +698,7 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
               <span class="quick-nav-title">Page Outline</span>
               <a href="#use-cases" class="quick-nav-link">• Top Use Cases</a>
               <a href="#pipeline-architecture" class="quick-nav-link highlight">• Pipeline Topology</a>
+              <a href="#prerequisites" class="quick-nav-link">• Prerequisites & Access</a>
               <a href="#step-by-step-guide" class="quick-nav-link">• Setup Timeline (Steps 1-{integration.stepByStepGuide.length})</a>
               <a href="#download-blueprint" class="quick-nav-link highlight-blue">• Download Blueprint (.JSON)</a>
               <a href="#common-pitfalls" class="quick-nav-link">• Common Pitfalls</a>
@@ -657,6 +740,51 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
               >
                 <span>Launch Free on Make →</span>
               </a>
+            </div>
+
+            <!-- Sidebar Direct Tool Accounts Box -->
+            <div class="sidebar-tools-box">
+              <div class="sidebar-tools-badge">🔑 Required Accounts</div>
+              <h4 class="sidebar-tools-heading">Software Access</h4>
+              <div class="sidebar-tool-rows">
+                <a
+                  href={toolASidebar.affiliateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  class="sidebar-app-item"
+                  data-analytics-event="outbound_affiliate_click"
+                  data-partner={integration.toolA}
+                  data-tool-a={integration.toolA}
+                  data-tool-b={integration.toolB}
+                  data-slug={integration.slug}
+                  data-position="sidebar_tool_a"
+                >
+                  <div class="sidebar-app-left">
+                    <span class="app-dot"></span>
+                    <span class="app-name">{integration.toolA}</span>
+                  </div>
+                  <span class="app-tag">{toolASidebar.hasSpecialOffer ? 'Trial ↗' : 'Setup ↗'}</span>
+                </a>
+
+                <a
+                  href={toolBSidebar.affiliateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  class="sidebar-app-item"
+                  data-analytics-event="outbound_affiliate_click"
+                  data-partner={integration.toolB}
+                  data-tool-a={integration.toolA}
+                  data-tool-b={integration.toolB}
+                  data-slug={integration.slug}
+                  data-position="sidebar_tool_b"
+                >
+                  <div class="sidebar-app-left">
+                    <span class="app-dot"></span>
+                    <span class="app-name">{integration.toolB}</span>
+                  </div>
+                  <span class="app-tag">{toolBSidebar.hasSpecialOffer ? 'Trial ↗' : 'Setup ↗'}</span>
+                </a>
+              </div>
             </div>
           </div>
         </aside>
@@ -1669,12 +1797,6 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
     transform: translateY(-1px);
   }
 
-  /* Enterprise DFY Section */
-  .dfy-section {
-    margin-top: 1rem;
-    margin-bottom: 3.5rem;
-  }
-
   /* Sidebar Make Box */
   .sidebar-make-box {
     margin-top: 1.5rem;
@@ -1727,6 +1849,189 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
     background: rgba(99, 102, 241, 0.45);
     transform: translateY(-1px);
     color: #ffffff;
+  }
+
+  /* Sidebar Direct Software Access Box */
+  .sidebar-tools-box {
+    margin-top: 1rem;
+    padding: 1.15rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sidebar-tools-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+
+  .sidebar-tools-heading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .sidebar-tool-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .sidebar-app-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.65rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .sidebar-app-item:hover {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.4);
+    transform: translateX(2px);
+  }
+
+  .sidebar-app-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .app-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #38bdf8;
+  }
+
+  .app-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .app-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #818cf8;
+    background: rgba(99, 102, 241, 0.2);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-xs);
+  }
+
+  /* Prerequisites Section */
+  .prereqs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .prereq-tool-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: border-color 0.2s ease;
+  }
+
+  .prereq-tool-card:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+
+  .prereq-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .prereq-role-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-full);
+  }
+
+  .prereq-role-badge.source {
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+  }
+
+  .prereq-role-badge.destination {
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #c084fc;
+  }
+
+  .prereq-offer-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #34d399;
+    background: rgba(52, 211, 153, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+  }
+
+  .prereq-tool-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0.25rem 0 0 0;
+  }
+
+  .prereq-tool-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .prereq-card-bottom {
+    margin-top: 0.5rem;
+  }
+
+  .btn-prereq-tool {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.88rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-prereq-tool:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: #ffffff;
+    transform: translateY(-1px);
   }
 
   /* Quick Nav Green Highlight */

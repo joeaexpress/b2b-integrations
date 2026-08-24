@@ -17,6 +17,7 @@
   * 60+ Tool Hub Silos (`/tools/[tool]`)
   * 22 Category Hub Silos (`/category/[category]`)
   * 100 Dynamic Open Graph Preview Cards (`/og/[slug].png`) generated on-the-fly at build time via `sharp`.
+* **Direct SaaS Partner & Referral Engine:** Automated trial and account sign-up links for 28+ leading B2B SaaS platforms (HubSpot, Shopify, QuickBooks, Airtable, ClickUp, Monday, Notion, etc.) with Sub-ID and UTM parameterization.
 * **Visual Data Pipeline Architecture:** Interactive responsive topology cards displaying *Trigger &rarr; Transform &rarr; Action &rarr; Error Queue Resilience* on every integration guide.
 * **Implementation Economics & ROI Comparison:** On-page cost comparison contrasting $5,000+ custom in-house dev vs. instant $0–$9/mo Make scenarios.
 * **Downloadable Blueprint Lead Magnet:** Real-time generation of Make `.json` scenario definitions (`/blueprints/[slug].json`) with gated work email capture modal (`DownloadBlueprintModal.astro`).
@@ -60,8 +61,14 @@ cp .env.example .env
 
 | Variable | Description |
 | :--- | :--- |
-| `PUBLIC_MAKE_AFFILIATE_URL` | Base Make.com partner referral URL (e.g. `https://www.make.com/en/register?pc=YOUR_CODE`) |
-| `PUBLIC_SITE_URL` | Canonical production site URL (e.g. `https://b2b-integrations.vercel.app`) |
+| `PUBLIC_MAKE_AFFILIATE_URL` | Base Make.com partner referral URL (`https://www.make.com/en/register?pc=jamlung`) |
+| `PUBLIC_HUBSPOT_AFFILIATE_URL` | Optional direct HubSpot partner referral link (Impact / PartnerStack) |
+| `PUBLIC_SHOPIFY_AFFILIATE_URL` | Optional direct Shopify partner referral link |
+| `PUBLIC_QUICKBOOKS_AFFILIATE_URL` | Optional direct QuickBooks partner referral link |
+| `PUBLIC_AIRTABLE_AFFILIATE_URL` | Optional direct Airtable partner referral link |
+| `PUBLIC_CLICKUP_AFFILIATE_URL` | Optional direct ClickUp partner referral link |
+| `PUBLIC_MONDAY_AFFILIATE_URL` | Optional direct Monday.com partner referral link |
+| `PUBLIC_SITE_URL` | Canonical production site URL (`https://b2b-integrations.vercel.app`) |
 | `PUBLIC_GOOGLE_SITE_VERIFICATION` | Google Search Console verification meta tag token |
 | `PUBLIC_GA_MEASUREMENT_ID` | Optional Google Analytics 4 Measurement ID (`G-XXXXXXXXXX`) |
 | `PUBLIC_PLAUSIBLE_DOMAIN` | Optional Plausible Analytics domain (`b2b-integrations.vercel.app`) |

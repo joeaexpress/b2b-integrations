@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import integrationsData from '../../data/integrations.json';
 import type { IntegrationRecord } from '../../types/integration';
 import { getAllTools, slugify, type ToolMetadata } from '../../utils/slugs';
+import { getToolAffiliateInfo } from '../../utils/affiliate';
 
 export async function getStaticPaths() {
   const records = integrationsData as IntegrationRecord[];
@@ -25,6 +26,8 @@ interface Props {
 }
 
 const { tool, allTools, allIntegrations } = Astro.props;
+
+const toolPartner = getToolAffiliateInfo(tool.name, undefined, 'tool_hub_hero');
 
 // Other tools in the same category or related
 const relatedTools = allTools
@@ -95,6 +98,28 @@ const ogImageUrl = new URL(`/og/tools/${tool.slug}.png`, siteBaseUrl).href;
         <p class="hero-description">
           Discover verified step-by-step connection blueprints to sync <strong>{tool.name}</strong> across your enterprise tech stack. Includes native connectors, zero-code middleware recipes, and field-tested architectural best practices.
         </p>
+
+        <!-- Direct SaaS Partner Callout -->
+        <div class="tool-partner-callout">
+          <div class="tool-partner-badge-wrap">
+            <div class="tool-partner-icon-pill">⭐ Official Partner</div>
+            <div class="tool-partner-info">
+              <span class="tool-partner-tag">Verified Platform Referral</span>
+              <p class="tool-partner-offer">{toolPartner.offerText}</p>
+            </div>
+          </div>
+          <a
+            href={toolPartner.affiliateUrl}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            class="btn-tool-partner-cta"
+            data-analytics-event="outbound_affiliate_click"
+            data-partner={tool.name}
+            data-position="tool_hub_hero"
+          >
+            <span>{toolPartner.ctaText} ↗</span>
+          </a>
+        </div>
 
         <!-- Stats Bar -->
         <div class="tool-stats-grid">
@@ -399,7 +424,87 @@ const ogImageUrl = new URL(`/og/tools/${tool.slug}.png`, siteBaseUrl).href;
     font-size: 1.12rem;
     line-height: 1.7;
     max-width: 820px;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Tool Partner Callout */
+  .tool-partner-callout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tool-partner-badge-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .tool-partner-icon-pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0.75rem;
+    background: rgba(99, 102, 241, 0.3);
+    border: 1px solid rgba(99, 102, 241, 0.5);
+    color: #c7d2fe;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+
+  .tool-partner-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .tool-partner-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tool-partner-offer {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .btn-tool-partner-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.92rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .btn-tool-partner-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    color: #ffffff;
   }
 
   /* Stats Grid */
