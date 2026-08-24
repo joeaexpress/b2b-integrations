@@ -39,12 +39,15 @@ const schemaData = {
     "url": new URL(`/integrations/${item.slug}`, Astro.site || 'https://b2b-integrations.vercel.app').href
   }))
 };
+const siteBaseUrl = import.meta.env.PUBLIC_SITE_URL || 'https://b2b-integrations.vercel.app';
+const ogImageUrl = new URL('/og/default.png', siteBaseUrl).href;
 ---
 
 <Layout
   title="B2B SaaS Integrations Directory | Verified Automation & Native Sync Guides"
   description="Explore 100% verified B2B SaaS integration blueprints. Connect CRMs, databases, CMSs, and support tools natively or via Make and Zapier."
   schema={schemaData}
+  ogImage={ogImageUrl}
 >
   <!-- Hero Section -->
   <section class="hero-section">

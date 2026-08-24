@@ -1,4 +1,5 @@
 import type { IntegrationRecord } from '../types/integration';
+import defaultIntegrations from '../data/integrations.json';
 
 /**
  * Standard URL slug generator for tools and categories.
@@ -38,7 +39,7 @@ export interface CategoryMetadata {
 /**
  * Extracts and aggregates all unique tools from the integrations dataset.
  */
-export function getAllTools(records: IntegrationRecord[]): ToolMetadata[] {
+export function getAllTools(records: IntegrationRecord[] = defaultIntegrations as IntegrationRecord[]): ToolMetadata[] {
   const toolMap = new Map<string, { category: string; integrations: IntegrationRecord[] }>();
 
   records.forEach((record) => {
@@ -80,7 +81,7 @@ export function getAllTools(records: IntegrationRecord[]): ToolMetadata[] {
 /**
  * Extracts and aggregates all unique categories from the integrations dataset.
  */
-export function getAllCategories(records: IntegrationRecord[]): CategoryMetadata[] {
+export function getAllCategories(records: IntegrationRecord[] = defaultIntegrations as IntegrationRecord[]): CategoryMetadata[] {
   const categoryMap = new Map<
     string,
     { tools: Set<string>; integrations: Set<IntegrationRecord> }

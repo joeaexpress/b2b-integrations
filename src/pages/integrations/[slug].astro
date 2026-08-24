@@ -78,12 +78,15 @@ const schemaData = {
     "text": stepText
   }))
 };
+const siteBaseUrl = import.meta.env.PUBLIC_SITE_URL || 'https://b2b-integrations.vercel.app';
+const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
 ---
 
 <Layout
   title={integration.metaTitle}
   description={integration.metaDescription}
   schema={schemaData}
+  ogImage={ogImageUrl}
 >
   <div class="integration-detail-page">
     <!-- Breadcrumbs Navigation -->
