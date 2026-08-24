@@ -5,6 +5,7 @@ interface Props {
   canonicalUrl?: string;
   ogType?: string;
   schema?: Record<string, any>;
+  googleSiteVerification?: string;
 }
 
 const {
@@ -13,6 +14,7 @@ const {
   canonicalUrl = Astro.url.href,
   ogType = 'website',
   schema,
+  googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '',
 } = Astro.props;
 
 const siteName = 'SaaSConnect - B2B Integrations Directory';
@@ -25,6 +27,13 @@ const siteName = 'SaaSConnect - B2B Integrations Directory';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Google Search Console Verification -->
+    {
+      googleSiteVerification && (
+        <meta name="google-site-verification" content={googleSiteVerification} />
+      )
+    }
 
     <!-- SEO Meta Tags -->
     <title>{title}</title>
