@@ -283,5 +283,440 @@
       "Granting write or administrative permissions to the integration user instead of strict read-only access.",
       "Querying unindexed, massive tables on short polling schedules, creating high CPU load on the production database."
     ]
+  },
+  {
+    "slug": "typeform-to-slack-integration",
+    "metaTitle": "Typeform to Slack Integration Guide (Real-Time Sync)",
+    "metaDescription": "Route Typeform responses instantly to Slack channels to alert sales reps, triage support, and capture leads without delays.",
+    "toolA": "Typeform",
+    "toolACategory": "Forms & Surveys",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Send immediate notifications to #inbound-leads whenever a high-intent prospect submits a form.",
+      "Post NPS feedback and customer survey ratings to team feedback channels for transparent visibility.",
+      "Route support ticket intake submissions to dedicated on-call response channels."
+    ],
+    "stepByStepGuide": [
+      "Open your target form in Typeform and navigate to the 'Connect' tab.",
+      "Search for the native Slack integration and click 'Connect'.",
+      "Authenticate with your Slack workspace and choose the destination channel for form submissions.",
+      "Select which form fields to include in the preview payload message.",
+      "Send a test submission from Typeform to verify that the message format and mentions render properly in Slack."
+    ],
+    "commonPitfalls": [
+      "Connecting multiple high-traffic survey forms to a single public channel, resulting in message spam.",
+      "Excluding required field answers from the notification card, forcing reps to log in to Typeform to view responses."
+    ]
+  },
+  {
+    "slug": "stripe-to-hubspot-integration",
+    "metaTitle": "Stripe to HubSpot CRM Integration Guide",
+    "metaDescription": "Sync customer payment details, active subscriptions, and lifetime value metrics from Stripe into HubSpot CRM contact records.",
+    "toolA": "Stripe",
+    "toolACategory": "Payment & Billing",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Equip account executives with real-time MRR, subscription tier, and payment status directly inside HubSpot contact timelines.",
+      "Trigger automated churn recovery workflows in HubSpot when a Stripe charge fails or invoice is overdue.",
+      "Enroll high-value customers into VIP onboarding campaigns upon successful first subscription payment."
+    ],
+    "stepByStepGuide": [
+      "Navigate to the HubSpot App Marketplace and search for 'Stripe by HubSpot'.",
+      "Click 'Install app' and log in to your Stripe account to grant read permissions.",
+      "Choose whether to sync Stripe customers, invoices, and subscriptions to HubSpot contacts and deals.",
+      "Configure custom field mapping between Stripe metadata and HubSpot custom contact properties.",
+      "Test with a test charge in Stripe to confirm that payment events populate on the HubSpot contact record."
+    ],
+    "commonPitfalls": [
+      "Failing to match Stripe customer emails with HubSpot primary contact emails, creating detached transaction records.",
+      "Allowing failed charges to create duplicate contacts without deduplication rules enabled."
+    ]
+  },
+  {
+    "slug": "jira-to-slack-integration",
+    "metaTitle": "Jira to Slack Integration Tutorial (Native Connect)",
+    "metaDescription": "Connect Jira Cloud to Slack to receive automated issue updates, assign backlog tickets, and transition issues without leaving chat.",
+    "toolA": "Jira",
+    "toolACategory": "Issue Tracking & Agile",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify sprint channels when P0 blockers are logged or assigned to team members.",
+      "Transition issue status (e.g. In Review to Done) directly from interactive Slack notification cards.",
+      "Create new Jira tickets from Slack messages using message actions or /jira commands."
+    ],
+    "stepByStepGuide": [
+      "In Slack, install the official 'Jira Cloud' app from the Slack App Directory.",
+      "Authorize your Atlassian account and link your Jira workspace.",
+      "In your project Slack channel, run '/jira connect' to bind the channel to your Jira project.",
+      "Set notification filters to only send alerts for specific issue types, priority levels, or status changes.",
+      "Test by creating a sample issue in Jira and verifying the interactive action buttons in Slack."
+    ],
+    "commonPitfalls": [
+      "Subscribing a channel to all Jira issue changes without priority filtering, causing notification blindness.",
+      "Forgetting to map individual Jira accounts to Slack users, preventing assigned assignees from being @mentioned."
+    ]
+  },
+  {
+    "slug": "asana-to-github-integration",
+    "metaTitle": "Asana to GitHub Integration Guide | Project & Code Sync",
+    "metaDescription": "Link Asana tasks to GitHub pull requests and commits to automate sprint progress updates and status synchronization.",
+    "toolA": "Asana",
+    "toolACategory": "Project Management",
+    "toolB": "GitHub",
+    "toolBCategory": "DevOps & Source Control",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Automatically attach GitHub PR review status, build checks, and branch information to Asana task cards.",
+      "Move Asana tasks across Kanban board columns when linked GitHub pull requests are merged.",
+      "Allow product managers to track engineering completion without needing direct repository access."
+    ],
+    "stepByStepGuide": [
+      "In Asana, open the project where you want to enable the integration and click 'Customize' in the top right.",
+      "Select 'Apps' and choose 'GitHub' from the list of available integrations.",
+      "Authenticate with your GitHub account and choose which repositories to grant access to.",
+      "Add the Asana task URL or task ID to your GitHub commit message or PR description.",
+      "Verify that the GitHub widget appears on the Asana task card showing live PR status."
+    ],
+    "commonPitfalls": [
+      "Not including the full Asana task link in the PR description, preventing the automated status hook from firing.",
+      "Granting organization-wide GitHub permissions when only specific repositories need to be linked."
+    ]
+  },
+  {
+    "slug": "calendly-to-hubspot-integration",
+    "metaTitle": "Calendly to HubSpot CRM Integration Guide",
+    "metaDescription": "Automatically create HubSpot CRM contacts, log booked meetings, and update lead pipeline stages when prospects book via Calendly.",
+    "toolA": "Calendly",
+    "toolACategory": "Scheduling & Booking",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Instantly create new HubSpot contacts and log meeting details when a prospect schedules an intro call.",
+      "Assign contact ownership based on which team member's Calendly round-robin calendar was booked.",
+      "Trigger pre-meeting reminder emails and sales collateral workflows in HubSpot."
+    ],
+    "stepByStepGuide": [
+      "Log into Calendly and navigate to Integrations > HubSpot.",
+      "Click 'Connect HubSpot' and log in to authorize access to your HubSpot portal.",
+      "Configure mapping settings for contact creation, meeting activity logging, and custom questions.",
+      "Set lead routing rules to assign contact owner based on the booked host.",
+      "Schedule a test booking through your Calendly link and confirm that the meeting and contact appear in HubSpot."
+    ],
+    "commonPitfalls": [
+      "Not mapping custom Calendly booking questions to custom HubSpot contact properties, losing qualifying data.",
+      "Overwriting existing high-tier deal stages with standard intro meeting stages on repeat bookings."
+    ]
+  },
+  {
+    "slug": "airtable-to-slack-integration",
+    "metaTitle": "Airtable to Slack Automation Blueprint",
+    "metaDescription": "Send rich, automated Slack notifications and digest summaries when Airtable base records are created, modified, or approved.",
+    "toolA": "Airtable",
+    "toolACategory": "Database & Spreadsheet",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Broadcast deal approvals, content calendar publish events, or inventory alerts to target Slack channels.",
+      "Send automated weekly digest summaries of open high-priority tasks to operational channels.",
+      "Alert project leads when critical status fields in an Airtable table change to 'Blocked' or 'Needs Review'."
+    ],
+    "stepByStepGuide": [
+      "Open your Airtable base and click the 'Automations' tab in the top navigation.",
+      "Create a new automation and choose a trigger (e.g. 'When a record matches conditions' or 'When record enters view').",
+      "Add an action step and select 'Slack: Send a message'.",
+      "Authenticate your Slack account and select the target channel or direct message recipient.",
+      "Compose the message body using dynamic record tokens (e.g. Record Name, Status, Owner, URL) and turn on the automation."
+    ],
+    "commonPitfalls": [
+      "Using 'When record is updated' without strict view filters, triggering dozens of Slack alerts while a user is actively typing.",
+      "Hardcoding channel IDs that break if channels are renamed or archived."
+    ]
+  },
+  {
+    "slug": "zendesk-to-slack-integration",
+    "metaTitle": "Zendesk to Slack Integration Guide (Real-Time Alerts)",
+    "metaDescription": "Streamline customer support response times by forwarding urgent Zendesk tickets, VIP customer inquiries, and SLA alerts to Slack.",
+    "toolA": "Zendesk",
+    "toolACategory": "Customer Support",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify on-call engineers in Slack when urgent P1 tickets or SLA breach warnings are triggered in Zendesk.",
+      "Post positive CSAT ratings and customer feedback snippets to company-wide celebration channels.",
+      "Allow support agents to discuss complex customer tickets in dedicated Slack threads before replying in Zendesk."
+    ],
+    "stepByStepGuide": [
+      "In Zendesk Admin Center, go to Apps and Integrations > Slack integration.",
+      "Click 'Install' and authorize your company Slack workspace.",
+      "Configure channel triggers in Zendesk by defining ticket conditions (e.g. Priority = Urgent, Status = New).",
+      "Customize notification payloads to include ticket summary, requester email, and direct link.",
+      "Create a test ticket in Zendesk with Urgent priority to verify delivery in the selected Slack channel."
+    ],
+    "commonPitfalls": [
+      "Routing all incoming tickets without priority filters to Slack, overwhelming agents with noise.",
+      "Failing to restrict Slack message visibility when handling tickets containing sensitive customer PII."
+    ]
+  },
+  {
+    "slug": "docusign-to-salesforce-integration",
+    "metaTitle": "DocuSign to Salesforce CRM Integration Guide",
+    "metaDescription": "Automate contract execution by sending DocuSign agreements from Salesforce opportunities and auto-updating deal stages upon signature.",
+    "toolA": "DocuSign",
+    "toolACategory": "E-Signature & Contracts",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Enterprise Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 45,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Generate custom sales contracts with pre-populated Salesforce opportunity and account data in one click.",
+      "Automatically update Salesforce opportunity status to 'Closed Won' immediately upon final signature.",
+      "Attach signed PDF agreements automatically to Salesforce Opportunity and Account file attachments."
+    ],
+    "stepByStepGuide": [
+      "Install 'DocuSign eSignature for Salesforce' from the Salesforce AppExchange.",
+      "Log into Salesforce Setup, find DocuSign Admin, and connect your DocuSign production account.",
+      "Create an Envelope Template and map Salesforce Opportunity fields to DocuSign document tags.",
+      "Add a DocuSign custom action button to the Salesforce Opportunity page layout.",
+      "Configure write-back settings to update stage field and attach completed documents upon envelope completion."
+    ],
+    "commonPitfalls": [
+      "Not configuring Salesforce IP allowlists, causing DocuSign Connect webhook callbacks to fail silently.",
+      "Missing write-back permissions on custom Opportunity fields for the DocuSign system integration user."
+    ]
+  },
+  {
+    "slug": "webflow-to-notion-integration",
+    "metaTitle": "Webflow to Notion Integration Tutorial (Make Workflow)",
+    "metaDescription": "Sync Webflow form submissions and incoming leads automatically into structured Notion databases using Make middleware.",
+    "toolA": "Webflow",
+    "toolACategory": "CMS & Website Builder",
+    "toolB": "Notion",
+    "toolBCategory": "Knowledge & Documentation",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Collect and organize inbound website contact form inquiries in a shared team Notion database.",
+      "Maintain a real-time log of customer feedback and feature requests submitted through Webflow landing pages.",
+      "Assign follow-up tasks in Notion to team members based on form submission categories."
+    ],
+    "stepByStepGuide": [
+      "In Webflow Project Settings > Integrations, configure a Webhook for 'Form Submission'.",
+      "In Make, create a new scenario starting with a Custom Webhook module and copy the webhook URL into Webflow.",
+      "Submit a test form entry on your published Webflow site to determine the payload schema in Make.",
+      "Add the 'Notion - Create a Database Item' module and connect your Notion workspace.",
+      "Map Webflow form submission fields (Name, Email, Message, Submission Date) to your Notion database properties and activate the scenario."
+    ],
+    "commonPitfalls": [
+      "Failing to publish the Webflow site after adding the webhook, resulting in webhook triggers not firing.",
+      "Not granting the Notion integration connection explicit access to the specific target database page."
+    ]
+  },
+  {
+    "slug": "snowflake-to-salesforce-integration",
+    "metaTitle": "Snowflake to Salesforce Data Sync Guide (Reverse ETL)",
+    "metaDescription": "Sync aggregated customer usage metrics, product-qualified lead scores, and billing stats from Snowflake into Salesforce CRM.",
+    "toolA": "Snowflake",
+    "toolACategory": "Data Warehouse",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Enterprise Sales",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 50,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Empower sales reps with product usage data (e.g. active seats, feature adoption, weekly logins) inside Salesforce.",
+      "Sync computed Product Qualified Lead (PQL) scores from data warehouse models to prioritize sales outreach.",
+      "Keep account billing status, tier consumption, and enterprise usage limits up-to-date in CRM records."
+    ],
+    "stepByStepGuide": [
+      "Create a dedicated read-only service account in Snowflake with SELECT privileges on reporting views.",
+      "In Salesforce, create custom fields on Account and Contact objects to store warehouse attributes.",
+      "In Make / Reverse ETL pipeline, configure the Snowflake connector with warehouse name, database, and schema.",
+      "Write a scheduled query module in Make that fetches updated customer metrics.",
+      "Map query output columns to Salesforce Account custom fields using Upsert operations keyed on Salesforce Account ID."
+    ],
+    "commonPitfalls": [
+      "Running un-partitioned full table scans on large Snowflake tables every hour, generating excessive compute credits.",
+      "Hitting Salesforce Daily API request limits during bulk updates instead of batching updates."
+    ]
+  },
+  {
+    "slug": "shopify-to-quickbooks-integration",
+    "metaTitle": "Shopify to QuickBooks Online Sync Guide",
+    "metaDescription": "Sync Shopify orders, inventory adjustments, and payouts to QuickBooks Online automatically with Zapier or native connectors.",
+    "toolA": "Shopify",
+    "toolACategory": "E-Commerce",
+    "toolB": "QuickBooks",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Zapier",
+    "setupTimeMinutes": 35,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Automatically generate Sales Receipts in QuickBooks Online for every fulfilled Shopify order.",
+      "Track sales tax collected across multiple state jurisdictions in designated liability accounts.",
+      "Reconcile Shopify Payments daily deposit batches against merchant bank payouts."
+    ],
+    "stepByStepGuide": [
+      "In Zapier or QuickBooks App Store, connect your Shopify store and QuickBooks Online organization.",
+      "Choose a trigger event: 'New Paid Order in Shopify'.",
+      "Configure the customer matching step to search for existing QuickBooks customers by email before creating new ones.",
+      "Map order line items, shipping charges, discounts, and sales tax to corresponding QuickBooks Chart of Accounts items.",
+      "Run a test transaction from Shopify and review the created Sales Receipt in QuickBooks Online."
+    ],
+    "commonPitfalls": [
+      "Creating duplicate customer records by not configuring an exact email lookup step before creation.",
+      "Failing to map discount codes and gift card redemptions to dedicated contra-revenue accounts."
+    ]
+  },
+  {
+    "slug": "clickup-to-slack-integration",
+    "metaTitle": "ClickUp to Slack Integration & Notification Guide",
+    "metaDescription": "Connect ClickUp to Slack to create tasks from messages, receive instant task updates, and unfurl task details in team channels.",
+    "toolA": "ClickUp",
+    "toolACategory": "Project Management",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Convert Slack message discussions directly into ClickUp tasks using the 'Create Task' message action.",
+      "Broadcast task status transitions and task completion milestones to dedicated project channels.",
+      "Unfurl ClickUp task previews (assignee, priority, due date, description) automatically when links are pasted."
+    ],
+    "stepByStepGuide": [
+      "In ClickUp, go to Workspace Settings > Integrations > Slack.",
+      "Click 'Add to Slack' and authorize permissions for your Slack workspace.",
+      "Map specific ClickUp Spaces or Folders to target Slack public or private channels.",
+      "Choose which event notifications (New Task, Status Change, Comment Added) should trigger channel alerts.",
+      "Test by creating a task in ClickUp and confirming the alert card in Slack."
+    ],
+    "commonPitfalls": [
+      "Enabling comment notifications on active tasks in public channels, creating excessive chatter.",
+      "Connecting private ClickUp Folders to public Slack channels, potentially exposing confidential project info."
+    ]
+  },
+  {
+    "slug": "notion-to-google-sheets-integration",
+    "metaTitle": "Notion to Google Sheets Data Sync Guide (Make Scenario)",
+    "metaDescription": "Sync structured Notion database rows into Google Sheets spreadsheets automatically for financial modeling, reporting, and backup.",
+    "toolA": "Notion",
+    "toolACategory": "Knowledge & Documentation",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Export roadmap deliverables and task timelines from Notion into Google Sheets for executive KPI dashboards.",
+      "Back up mission-critical Notion database records to external Google Sheet spreadsheets on a daily schedule.",
+      "Perform complex formula modeling and pivot chart analysis on live Notion database entries."
+    ],
+    "stepByStepGuide": [
+      "In Notion, share your target database with your Make internal integration connection.",
+      "In Make, add the 'Notion - Watch Database Items' trigger module and select the target database ID.",
+      "Add the 'Google Sheets - Add a Row' action module and authenticate your Google account.",
+      "Select the destination spreadsheet and sheet tab name.",
+      "Map Notion property values (Title, Status, Dates, Multi-Select tags) to spreadsheet column headers and turn on the schedule."
+    ],
+    "commonPitfalls": [
+      "Forgetting to share the specific Notion page/database with the Make connection in Notion page settings.",
+      "Not handling multi-select array values properly, causing comma-separated arrays to format incorrectly in sheet cells."
+    ]
+  },
+  {
+    "slug": "google-forms-to-trello-integration",
+    "metaTitle": "Google Forms to Trello Automation Guide (Zapier Zap)",
+    "metaDescription": "Turn Google Forms submissions into visual Trello Kanban cards automatically with mapped fields, assignees, and due dates.",
+    "toolA": "Google Forms",
+    "toolACategory": "Forms & Surveys",
+    "toolB": "Trello",
+    "toolBCategory": "Project Management",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Zapier",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Create incoming project request cards on a team triage Trello board whenever a client submits an intake form.",
+      "Route internal IT helpdesk and hardware request forms into support backlog cards automatically.",
+      "Assign team members and due dates on Trello cards based on user responses in Google Forms."
+    ],
+    "stepByStepGuide": [
+      "In Google Forms, link your form responses to a Google Sheets spreadsheet.",
+      "In Zapier, create a Zap triggered by 'New Response in Google Forms' (or New Spreadsheet Row).",
+      "Connect your Trello account and select the destination Board and List (e.g. 'Incoming Requests').",
+      "Map Form responses to Trello Card Name, Description, Due Date, and Label properties.",
+      "Submit a test response in Google Forms and verify that the Trello card appears on the board."
+    ],
+    "commonPitfalls": [
+      "Not linking Google Forms to a Google Sheet first, which can delay webhook trigger speeds in Zapier.",
+      "Overloading card titles with full form answers instead of formatting them cleanly in the card description."
+    ]
+  },
+  {
+    "slug": "mailchimp-to-shopify-integration",
+    "metaTitle": "Mailchimp to Shopify E-Commerce Sync Guide",
+    "metaDescription": "Connect Mailchimp to Shopify to sync customer purchase history, automate abandoned cart emails, and track marketing ROI.",
+    "toolA": "Mailchimp",
+    "toolACategory": "Email Marketing & Retention",
+    "toolB": "Shopify",
+    "toolBCategory": "E-Commerce",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Sync customer newsletter opt-ins and marketing consent collected during Shopify checkout.",
+      "Trigger automated abandoned cart recovery email series with dynamic product images and checkout links.",
+      "Segment email subscribers based on lifetime spend, total order count, and purchase recency."
+    ],
+    "stepByStepGuide": [
+      "In the Shopify App Store, install the official 'Mailchimp for Shopify' app.",
+      "Log into your Mailchimp account and select the target audience list to connect.",
+      "Configure store sync settings to sync customer contacts, store products, promo codes, and past order history.",
+      "Enable e-commerce tracking in Mailchimp and set up the Abandoned Cart customer journey.",
+      "Place a test order or initiate a test checkout on Shopify to verify subscriber sync in Mailchimp."
+    ],
+    "commonPitfalls": [
+      "Syncing non-marketing opted-in customers to marketing lists without double opt-in compliance.",
+      "Running simultaneous abandoned cart automations in both Shopify native email and Mailchimp, double-emailing customers."
+    ]
   }
 ]
