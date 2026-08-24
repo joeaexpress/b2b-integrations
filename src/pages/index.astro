@@ -2,8 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import integrationsData from '../data/integrations.json';
 import type { IntegrationRecord } from '../types/integration';
+import { slugify, getAllCategories } from '../utils/slugs';
 
 const integrations = integrationsData as IntegrationRecord[];
+const allCategoriesMeta = getAllCategories(integrations);
 
 // Calculate directory statistics
 const totalCount = integrations.length;
@@ -86,6 +88,18 @@ const schemaData = {
   <!-- Directory Explorer Section -->
   <section class="directory-section" id="explore-integrations">
     <div class="directory-container">
+      <!-- Quick Hub Silos Navigator -->
+      <div class="silos-bar">
+        <span class="silos-label">Explore Hubs:</span>
+        <div class="silos-tags">
+          {allCategoriesMeta.slice(0, 6).map((cat) => (
+            <a href={`/category/${cat.slug}`} class="silo-tag">
+              {cat.name} ({cat.integrations.length})
+            </a>
+          ))}
+        </div>
+      </div>
+
       <!-- Search & Filters Toolbar -->
       <div class="filter-toolbar">
         <div class="search-box">
@@ -131,14 +145,18 @@ const schemaData = {
           >
             <div class="card-header">
               <div class="tool-pair">
-                <span class="tool-pill source">{item.toolA}</span>
+                <a href={`/tools/${slugify(item.toolA)}`} class="tool-pill source" title={`Explore ${item.toolA} Hub`}>
+                  {item.toolA}
+                </a>
                 <div class="sync-arrow">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
                 </div>
-                <span class="tool-pill target">{item.toolB}</span>
+                <a href={`/tools/${slugify(item.toolB)}`} class="tool-pill target" title={`Explore ${item.toolB} Hub`}>
+                  {item.toolB}
+                </a>
               </div>
 
               <span class={`type-badge ${item.nativeIntegration ? 'native' : 'middleware'}`}>
@@ -164,9 +182,9 @@ const schemaData = {
               <span class={`card-chip diff-${item.difficulty.toLowerCase()}`}>
                 {item.difficulty}
               </span>
-              <span class="card-chip category-chip">
+              <a href={`/category/${slugify(item.toolBCategory)}`} class="card-chip category-chip" title={`Browse ${item.toolBCategory}`}>
                 {item.toolBCategory.split('&')[0].trim()}
-              </span>
+              </a>
             </div>
 
             <!-- Use Cases Snippet -->
@@ -436,6 +454,51 @@ const schemaData = {
   .directory-container {
     max-width: 1240px;
     margin: 0 auto;
+  }
+
+  /* Silos Navigator */
+  .silos-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 0.85rem 1.25rem;
+  }
+
+  .silos-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+
+  .silos-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .silo-tag {
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+  }
+
+  .silo-tag:hover {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.4);
+    color: #a5b4fc;
+    transform: translateY(-1px);
   }
 
   /* Toolbar */

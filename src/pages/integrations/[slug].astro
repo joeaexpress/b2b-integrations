@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import integrationsData from '../../data/integrations.json';
 import type { IntegrationRecord } from '../../types/integration';
 import { buildAffiliateUrl } from '../../utils/affiliate';
+import { slugify } from '../../utils/slugs';
 
 export async function getStaticPaths() {
   const records = integrationsData as IntegrationRecord[];
@@ -94,7 +95,11 @@ const schemaData = {
           </li>
           <li class="breadcrumb-separator">/</li>
           <li class="breadcrumb-item">
-            <a href="/#explore-integrations" class="breadcrumb-link">Integrations</a>
+            <a href={`/category/${slugify(integration.toolACategory)}`} class="breadcrumb-link">{integration.toolACategory}</a>
+          </li>
+          <li class="breadcrumb-separator">/</li>
+          <li class="breadcrumb-item">
+            <a href={`/tools/${slugify(integration.toolA)}`} class="breadcrumb-link">{integration.toolA}</a>
           </li>
           <li class="breadcrumb-separator">/</li>
           <li class="breadcrumb-item active" aria-current="page">
@@ -158,8 +163,12 @@ const schemaData = {
               <div class="meta-chip">
                 <span class="meta-chip-label">Source Tool</span>
                 <div class="meta-chip-value">
-                  <strong>{integration.toolA}</strong>
-                  <span class="meta-chip-sub">{integration.toolACategory}</span>
+                  <a href={`/tools/${slugify(integration.toolA)}`} class="meta-chip-link">
+                    <strong>{integration.toolA}</strong>
+                  </a>
+                  <a href={`/category/${slugify(integration.toolACategory)}`} class="meta-chip-sub-link">
+                    {integration.toolACategory}
+                  </a>
                 </div>
               </div>
 
@@ -173,8 +182,12 @@ const schemaData = {
               <div class="meta-chip">
                 <span class="meta-chip-label">Target Tool</span>
                 <div class="meta-chip-value">
-                  <strong>{integration.toolB}</strong>
-                  <span class="meta-chip-sub">{integration.toolBCategory}</span>
+                  <a href={`/tools/${slugify(integration.toolB)}`} class="meta-chip-link">
+                    <strong>{integration.toolB}</strong>
+                  </a>
+                  <a href={`/category/${slugify(integration.toolBCategory)}`} class="meta-chip-sub-link">
+                    {integration.toolBCategory}
+                  </a>
                 </div>
               </div>
 
@@ -370,11 +383,17 @@ const schemaData = {
             <div class="sidebar-meta-list">
               <div class="sidebar-meta-item">
                 <span class="sidebar-label">Source</span>
-                <span class="sidebar-val">{integration.toolA} ({integration.toolACategory})</span>
+                <span class="sidebar-val">
+                  <a href={`/tools/${slugify(integration.toolA)}`} class="sidebar-tool-link">{integration.toolA}</a>
+                  <span class="sidebar-sub-text">(<a href={`/category/${slugify(integration.toolACategory)}`} class="sidebar-cat-link">{integration.toolACategory}</a>)</span>
+                </span>
               </div>
               <div class="sidebar-meta-item">
                 <span class="sidebar-label">Destination</span>
-                <span class="sidebar-val">{integration.toolB} ({integration.toolBCategory})</span>
+                <span class="sidebar-val">
+                  <a href={`/tools/${slugify(integration.toolB)}`} class="sidebar-tool-link">{integration.toolB}</a>
+                  <span class="sidebar-sub-text">(<a href={`/category/${slugify(integration.toolBCategory)}`} class="sidebar-cat-link">{integration.toolBCategory}</a>)</span>
+                </span>
               </div>
               <div class="sidebar-meta-item">
                 <span class="sidebar-label">Integration Type</span>
@@ -628,6 +647,27 @@ const schemaData = {
     font-weight: 700;
     color: var(--text-primary);
     display: block;
+  }
+
+  .meta-chip-link {
+    display: inline-block;
+    color: var(--text-primary);
+    transition: color 0.15s ease;
+  }
+
+  .meta-chip-link:hover strong {
+    color: var(--color-sky);
+  }
+
+  .meta-chip-sub-link {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    transition: color 0.15s ease;
+    display: inline-block;
+  }
+
+  .meta-chip-sub-link:hover {
+    color: #a5b4fc;
   }
 
   .meta-chip-sub {
@@ -1149,6 +1189,31 @@ const schemaData = {
     font-size: 0.92rem;
     color: var(--text-primary);
     font-weight: 500;
+  }
+
+  .sidebar-tool-link {
+    color: var(--text-primary);
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .sidebar-tool-link:hover {
+    color: var(--color-sky);
+  }
+
+  .sidebar-sub-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-left: 0.25rem;
+  }
+
+  .sidebar-cat-link {
+    color: var(--text-secondary);
+    transition: color 0.15s ease;
+  }
+
+  .sidebar-cat-link:hover {
+    color: #a5b4fc;
   }
 
   .sidebar-val.highlight {
