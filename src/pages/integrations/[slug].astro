@@ -221,6 +221,16 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
                   <a href="#step-by-step-guide" class="btn-primary" id="jump-to-guide">
                     Jump to Setup Steps ↓
                   </a>
+                  <button
+                    type="button"
+                    class="btn-blueprint-hero"
+                    data-open-blueprint-modal
+                    data-slug={integration.slug}
+                    data-tool-a={integration.toolA}
+                    data-tool-b={integration.toolB}
+                  >
+                    <span>📦 Download Blueprint (.JSON)</span>
+                  </button>
                 </div>
               </div>
             ) : (
@@ -253,6 +263,16 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
                       <line x1="10" y1="14" x2="21" y2="3"></line>
                     </svg>
                   </a>
+                  <button
+                    type="button"
+                    class="btn-blueprint-hero"
+                    data-open-blueprint-modal
+                    data-slug={integration.slug}
+                    data-tool-a={integration.toolA}
+                    data-tool-b={integration.toolB}
+                  >
+                    <span>📦 Download Blueprint (.JSON)</span>
+                  </button>
                   <span class="affiliate-disclaimer">⚡ Free tier available • No credit card required</span>
                 </div>
               </div>
@@ -313,6 +333,33 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
                   </div>
                 </div>
               ))}
+            </div>
+          </section>
+
+          <!-- Developer Blueprint Download Card -->
+          <section class="content-section blueprint-section" id="download-blueprint">
+            <div class="blueprint-cta-card">
+              <div class="blueprint-card-left">
+                <div class="blueprint-tag">📦 Instant Schema Export</div>
+                <h3 class="blueprint-card-title">Ready-to-Import Automation Blueprint</h3>
+                <p class="blueprint-card-desc">
+                  Download the complete {integration.toolA} ↔ {integration.toolB} scenario definition with pre-configured step logic, error retry policies, and field mapping dictionary (.json).
+                </p>
+              </div>
+              <div class="blueprint-card-right">
+                <button
+                  type="button"
+                  class="btn-blueprint-action"
+                  data-open-blueprint-modal
+                  data-slug={integration.slug}
+                  data-tool-a={integration.toolA}
+                  data-tool-b={integration.toolB}
+                  id="btn-section-blueprint"
+                >
+                  <span>Download Blueprint (.JSON) ↓</span>
+                </button>
+                <span class="blueprint-spec-label">⚡ Direct import into Make, Zapier & custom APIs</span>
+              </div>
             </div>
           </section>
 
@@ -492,8 +539,25 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
               <span class="quick-nav-title">Page Outline</span>
               <a href="#use-cases" class="quick-nav-link">• Top Use Cases</a>
               <a href="#step-by-step-guide" class="quick-nav-link">• Setup Timeline (Steps 1-{integration.stepByStepGuide.length})</a>
+              <a href="#download-blueprint" class="quick-nav-link highlight-blue">• Download Blueprint (.JSON)</a>
               <a href="#common-pitfalls" class="quick-nav-link">• Common Pitfalls</a>
               <a href="#enterprise-expert" class="quick-nav-link highlight">• Enterprise DFY Setup</a>
+            </div>
+
+            <!-- Sidebar Blueprint Trigger -->
+            <div class="sidebar-blueprint-card">
+              <span class="blueprint-card-mini-tag">📦 File Download</span>
+              <h5 class="blueprint-mini-heading">JSON Scenario Schema</h5>
+              <button
+                type="button"
+                class="sidebar-btn-blueprint"
+                data-open-blueprint-modal
+                data-slug={integration.slug}
+                data-tool-a={integration.toolA}
+                data-tool-b={integration.toolB}
+              >
+                Download Blueprint ↓
+              </button>
             </div>
 
             <!-- Sidebar DFY Specialist Match -->
@@ -874,6 +938,28 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
   .btn-primary:hover {
     background: rgba(16, 185, 129, 0.3);
     transform: translateY(-1px);
+  }
+
+  .btn-blueprint-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 0.75rem 1.35rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-blueprint-hero:hover {
+    background: rgba(56, 189, 248, 0.25);
+    border-color: rgba(56, 189, 248, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25);
   }
 
   /* Content Sections */
@@ -1361,6 +1447,143 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
   .quick-nav-link.highlight {
     color: #6ee7b7;
     font-weight: 600;
+  }
+
+  .quick-nav-link.highlight-blue {
+    color: #38bdf8;
+    font-weight: 600;
+  }
+
+  /* Blueprint Download Section */
+  .blueprint-section {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .blueprint-cta-card {
+    background: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+                rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  }
+
+  .blueprint-card-left {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .blueprint-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+    margin-bottom: 0.75rem;
+  }
+
+  .blueprint-card-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .blueprint-card-desc {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .blueprint-card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .btn-blueprint-action {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);
+    white-space: nowrap;
+  }
+
+  .btn-blueprint-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(2, 132, 199, 0.6);
+  }
+
+  .blueprint-spec-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* Sidebar Blueprint Card */
+  .sidebar-blueprint-card {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px dashed rgba(56, 189, 248, 0.3);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .blueprint-card-mini-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #38bdf8;
+  }
+
+  .blueprint-mini-heading {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .sidebar-btn-blueprint {
+    margin-top: 0.35rem;
+    background: rgba(56, 189, 248, 0.2);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #38bdf8;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 0.55rem 0.85rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+
+  .sidebar-btn-blueprint:hover {
+    background: rgba(56, 189, 248, 0.35);
+    transform: translateY(-1px);
   }
 
   /* Enterprise DFY Section */

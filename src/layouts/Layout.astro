@@ -1,5 +1,6 @@
 ---
 import LeadModal from '../components/LeadModal.astro';
+import DownloadBlueprintModal from '../components/DownloadBlueprintModal.astro';
 
 interface Props {
   title: string;
@@ -221,6 +222,7 @@ const siteName = 'SaaSConnect - B2B Integrations Directory';
       </footer>
     </div>
     <LeadModal />
+    <DownloadBlueprintModal />
     {leadWebhookUrl && (
       <script is:inline define:vars={{ leadWebhookUrl }}>
         window.__LEAD_WEBHOOK_URL__ = leadWebhookUrl;
