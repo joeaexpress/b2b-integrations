@@ -121,6 +121,18 @@ cp .env.example .env
 
 ---
 
+## 🗺️ Roadmap & Next Steps
+
+* [x] **Phase 1–10:** Core programmatic engine (100 integration pairs, 195 static pages, dynamic OG images, Make.com partner Sub-ID tracking, gated scenario downloads).
+* [x] **Phase 11:** Direct SaaS Partner & Referral Engine for 28+ B2B tools across integration detail and hub pages.
+* [ ] **Phase 12:** "All-in-One Enterprise Scenario Vault" digital pack ($29–$49) with 100% automated LemonSqueezy/Polar checkout.
+* [ ] **Phase 13:** Custom domain transition (`saasconnect.io`) & full Google Search Console / Bing indexing submission.
+* [ ] **Phase 14:** Automated email autoresponder sequence (via Loops.so or Resend) delivering weekly workflow templates.
+* [ ] **Phase 15:** Self-serve SaaS sponsor placements with automated recurring Stripe payment links.
+
+---
+
 ## 📄 License
 MIT License. Built for zero-touch passive affiliate monetization.
+
 
