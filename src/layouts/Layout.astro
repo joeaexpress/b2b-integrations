@@ -6,6 +6,8 @@ interface Props {
   ogType?: string;
   schema?: Record<string, any>;
   googleSiteVerification?: string;
+  gaMeasurementId?: string;
+  plausibleDomain?: string;
 }
 
 const {
@@ -15,6 +17,8 @@ const {
   ogType = 'website',
   schema,
   googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '',
+  gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || '',
+  plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN || '',
 } = Astro.props;
 
 const siteName = 'SaaSConnect - B2B Integrations Directory';
@@ -61,6 +65,35 @@ const siteName = 'SaaSConnect - B2B Integrations Directory';
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Google Analytics 4 (Optional) -->
+    {
+      gaMeasurementId && (
+        <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+          />
+          <script is:inline define:vars={{ gaMeasurementId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', gaMeasurementId);
+          </script>
+        </>
+      )
+    }
+
+    <!-- Plausible Analytics (Optional) -->
+    {
+      plausibleDomain && (
+        <script
+          defer
+          data-domain={plausibleDomain}
+          src="https://plausible.io/js/script.js"
+        />
+      )
+    }
 
     <!-- JSON-LD Structured Data -->
     {
@@ -169,6 +202,7 @@ const siteName = 'SaaSConnect - B2B Integrations Directory';
         </div>
       </footer>
     </div>
+    <script src="../scripts/telemetry.ts"></script>
   </body>
 </html>
 
