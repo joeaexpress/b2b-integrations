@@ -517,53 +517,6 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
             </div>
           </section>
 
-          <!-- Enterprise Done-For-You Callout Banner -->
-          <section class="content-section dfy-section" id="enterprise-expert">
-            <div class="dfy-banner-card">
-              <div class="dfy-badge-wrap">
-                <span class="dfy-badge">🛡️ Enterprise Custom Engineering</span>
-                <span class="dfy-rating">⭐ Certified Specialist Network</span>
-              </div>
-
-              <h2 class="dfy-title">
-                Need a Custom Done-For-You <span class="highlight">{integration.toolA} ↔ {integration.toolB}</span> Pipeline?
-              </h2>
-
-              <p class="dfy-desc">
-                Complex enterprise setups often require custom API schemas, rate-limit throttling, automated rollback logging, and bidirectional syncing. Match with a certified RevOps engineer for a fixed-price implementation.
-              </p>
-
-              <div class="dfy-perks-grid">
-                <div class="dfy-perk-item">
-                  <span class="perk-icon">✓</span>
-                  <span>Custom API & Webhook Scripting</span>
-                </div>
-                <div class="dfy-perk-item">
-                  <span class="perk-icon">✓</span>
-                  <span>Historical Data Migration & Backfill</span>
-                </div>
-                <div class="dfy-perk-item">
-                  <span class="perk-icon">✓</span>
-                  <span>SOC2-Compliant Security & Monitoring</span>
-                </div>
-              </div>
-
-              <div class="dfy-action-wrap">
-                <button
-                  type="button"
-                  class="btn-dfy-expert"
-                  data-open-lead-modal
-                  data-tool-a={integration.toolA}
-                  data-tool-b={integration.toolB}
-                  id="btn-dfy-lead-trigger"
-                >
-                  <span>Match with an Integration Specialist →</span>
-                </button>
-                <span class="dfy-guarantee">⚡ Scope & estimate delivered in under 4 business hours</span>
-              </div>
-            </div>
-          </section>
-
           <!-- Related Integrations -->
           {relatedIntegrations.length > 0 && (
             <section class="content-section related-section">
@@ -667,7 +620,6 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
               <a href="#download-blueprint" class="quick-nav-link highlight-blue">• Download Blueprint (.JSON)</a>
               <a href="#common-pitfalls" class="quick-nav-link">• Common Pitfalls</a>
               <a href="#cost-comparison" class="quick-nav-link highlight-green">• In-House vs Make ROI</a>
-              <a href="#enterprise-expert" class="quick-nav-link highlight">• Enterprise DFY Setup</a>
             </div>
 
             <!-- Sidebar Blueprint Trigger -->
@@ -686,20 +638,25 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
               </button>
             </div>
 
-            <!-- Sidebar DFY Specialist Match -->
-            <div class="sidebar-dfy-box">
-              <div class="sidebar-dfy-badge">🛡️ Pro Service</div>
-              <h4 class="sidebar-dfy-heading">Need Done-For-You?</h4>
-              <p class="sidebar-dfy-text">Get a custom enterprise pipeline built by a certified RevOps engineer.</p>
-              <button
-                type="button"
-                class="sidebar-btn-dfy"
-                data-open-lead-modal
+            <!-- Sidebar Make Platform Card -->
+            <div class="sidebar-make-box">
+              <div class="sidebar-make-badge">⚡ Instant Automation</div>
+              <h4 class="sidebar-make-heading">Deploy on Make</h4>
+              <p class="sidebar-make-text">Run this scenario with pre-mapped fields & error retry on a free Make plan.</p>
+              <a
+                href={sidebarAffiliateUrl}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                class="sidebar-btn-make-link"
+                data-analytics-event="outbound_affiliate_click"
+                data-partner={integration.recommendedMiddleware}
                 data-tool-a={integration.toolA}
                 data-tool-b={integration.toolB}
+                data-slug={integration.slug}
+                data-position="sidebar_card"
               >
-                Match with Expert →
-              </button>
+                <span>Launch Free on Make →</span>
+              </a>
             </div>
           </div>
         </aside>
@@ -1718,182 +1675,58 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
     margin-bottom: 3.5rem;
   }
 
-  .dfy-banner-card {
-    background: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
-                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 60%),
-                rgba(15, 23, 42, 0.75);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  }
-
-  .dfy-badge-wrap {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
-  }
-
-  .dfy-badge {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 0.3rem 0.75rem;
-    border-radius: var(--radius-full);
-    background: rgba(16, 185, 129, 0.15);
-    border: 1px solid rgba(16, 185, 129, 0.35);
-    color: #6ee7b7;
-  }
-
-  .dfy-rating {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #cbd5e1;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.25rem 0.65rem;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--border-subtle);
-  }
-
-  .dfy-title {
-    font-size: 1.65rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.3;
-    color: var(--text-primary);
-    margin-bottom: 0.75rem;
-  }
-
-  .dfy-title .highlight {
-    color: #6ee7b7;
-  }
-
-  .dfy-desc {
-    color: var(--text-secondary);
-    font-size: 0.96rem;
-    line-height: 1.65;
-    max-width: 760px;
-    margin-bottom: 1.75rem;
-  }
-
-  .dfy-perks-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.75rem;
-    border-bottom: 1px solid var(--border-subtle);
-  }
-
-  .dfy-perk-item {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: #e2e8f0;
-  }
-
-  .perk-icon {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: rgba(16, 185, 129, 0.2);
-    color: #34d399;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 800;
-    flex-shrink: 0;
-  }
-
-  .dfy-action-wrap {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .btn-dfy-expert {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 0.95rem;
-    padding: 0.85rem 1.65rem;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(16, 185, 129, 0.5);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
-  }
-
-  .btn-dfy-expert:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
-  }
-
-  .dfy-guarantee {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    font-weight: 500;
-  }
-
-  /* Sidebar DFY Box */
-  .sidebar-dfy-box {
+  /* Sidebar Make Box */
+  .sidebar-make-box {
     margin-top: 1.5rem;
     padding: 1.25rem;
-    background: rgba(16, 185, 129, 0.08);
-    border: 1px dashed rgba(16, 185, 129, 0.3);
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.3);
     border-radius: var(--radius-md);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
-  .sidebar-dfy-badge {
+  .sidebar-make-badge {
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #6ee7b7;
+    color: #a5b4fc;
   }
 
-  .sidebar-dfy-heading {
+  .sidebar-make-heading {
     font-size: 0.98rem;
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
   }
 
-  .sidebar-dfy-text {
+  .sidebar-make-text {
     font-size: 0.82rem;
     color: var(--text-secondary);
     line-height: 1.45;
     margin: 0;
   }
 
-  .sidebar-btn-dfy {
+  .sidebar-btn-make-link {
     margin-top: 0.5rem;
-    background: rgba(16, 185, 129, 0.2);
-    border: 1px solid rgba(16, 185, 129, 0.4);
-    color: #6ee7b7;
+    background: rgba(99, 102, 241, 0.25);
+    border: 1px solid rgba(99, 102, 241, 0.5);
+    color: #ffffff;
     font-weight: 700;
     font-size: 0.85rem;
     padding: 0.6rem 0.85rem;
     border-radius: var(--radius-sm);
-    cursor: pointer;
+    text-decoration: none;
     transition: all 0.2s ease;
     text-align: center;
   }
 
-  .sidebar-btn-dfy:hover {
-    background: rgba(16, 185, 129, 0.35);
+  .sidebar-btn-make-link:hover {
+    background: rgba(99, 102, 241, 0.45);
     transform: translateY(-1px);
+    color: #ffffff;
   }
 
   /* Quick Nav Green Highlight */

@@ -204,25 +204,29 @@ const ogImageUrl = new URL(`/og/tools/${tool.slug}.png`, siteBaseUrl).href;
         </div>
       </section>
 
-      <!-- Enterprise Specialist CTA Banner -->
+      <!-- Make Automation Hub Banner -->
       <section class="tool-enterprise-banner">
         <div class="enterprise-content">
-          <div class="enterprise-badge">🛡️ High-Scale {tool.name} Architecture</div>
-          <h2 class="enterprise-title">Need a Custom Enterprise Data Pipeline for {tool.name}?</h2>
+          <div class="enterprise-badge">⚡ Instant Cloud Automation</div>
+          <h2 class="enterprise-title">Connect {tool.name} with 1,000+ Apps on Make</h2>
           <p class="enterprise-desc">
-            Syncing large-scale datasets, custom ERP connectors, or private endpoints with {tool.name}? Match with a certified automation specialist for turnkey deployment and SLA support.
+            Build visual workflows, automate data syncs, and trigger real-time actions across your entire stack with verified {tool.name} Make scenarios.
           </p>
         </div>
         <div class="enterprise-action">
-          <button
-            type="button"
-            class="btn-tool-expert"
-            data-open-lead-modal
+          <a
+            href="https://www.make.com/en/register?pc=jamlung"
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            class="btn-tool-make"
+            data-analytics-event="outbound_affiliate_click"
+            data-partner="Make"
             data-tool-a={tool.name}
+            data-position="tool_hub_banner"
           >
-            Match with a {tool.name} Specialist →
-          </button>
-          <span class="enterprise-hint">⚡ Guaranteed response within 4 business hours</span>
+            <span>Start Building on Make Free →</span>
+          </a>
+          <span class="enterprise-hint">⚡ Free tier available • No credit card required</span>
         </div>
       </section>
 
@@ -734,23 +738,24 @@ const ogImageUrl = new URL(`/og/tools/${tool.slug}.png`, siteBaseUrl).href;
     gap: 0.65rem;
   }
 
-  .btn-tool-expert {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  .btn-tool-make {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     color: #ffffff;
     font-weight: 700;
     font-size: 0.95rem;
     padding: 0.85rem 1.5rem;
     border-radius: var(--radius-md);
-    border: 1px solid rgba(16, 185, 129, 0.5);
-    cursor: pointer;
+    border: 1px solid rgba(99, 102, 241, 0.5);
+    text-decoration: none;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
     white-space: nowrap;
   }
 
-  .btn-tool-expert:hover {
+  .btn-tool-make:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
+    color: #ffffff;
   }
 
   .enterprise-hint {
