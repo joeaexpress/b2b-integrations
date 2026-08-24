@@ -216,6 +216,40 @@ const schemaData = {
     </div>
   </section>
 
+  <!-- Enterprise "Done For You" Services Section -->
+  <section class="enterprise-home-section">
+    <div class="directory-container">
+      <div class="enterprise-home-card">
+        <div class="enterprise-home-badge">
+          <span class="badge-icon">🛡️</span>
+          <span>Enterprise Integration Studio</span>
+        </div>
+        <h2 class="enterprise-home-title">
+          Need Custom B2B Pipeline Engineering?
+        </h2>
+        <p class="enterprise-home-desc">
+          Building multi-system data flows between custom databases, Salesforce, NetSuite, Snowflake, or legacy ERPs? Match with certified integration architects for end-to-end implementation, automated testing, and SOC2 compliance.
+        </p>
+        <div class="enterprise-home-perks">
+          <div class="perk-tag">✓ Fixed-Price Statements of Work</div>
+          <div class="perk-tag">✓ 99.99% Uptime Error Queues</div>
+          <div class="perk-tag">✓ Dedicated RevOps Technical Lead</div>
+        </div>
+        <div class="enterprise-home-cta">
+          <button
+            type="button"
+            class="btn-enterprise-home"
+            data-open-lead-modal
+            id="btn-home-expert-trigger"
+          >
+            <span>Request a Custom Enterprise Blueprint →</span>
+          </button>
+          <span class="enterprise-sla-note">⚡ Tailored scope & estimate in under 4 hours</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Value Props / Methodology Section -->
   <section class="methodology-section" id="methodology">
     <div class="directory-container">
@@ -812,6 +846,107 @@ const schemaData = {
     color: var(--text-secondary);
     max-width: 480px;
     font-size: 0.95rem;
+  }
+
+  /* Enterprise Home Section */
+  .enterprise-home-section {
+    padding: 0 1.5rem 3rem;
+  }
+
+  .enterprise-home-card {
+    background: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.14) 0%, transparent 60%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+                var(--bg-surface);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-xl);
+    padding: 3rem 2.5rem;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .enterprise-home-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.8rem;
+    border-radius: var(--radius-full);
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #6ee7b7;
+    margin-bottom: 1.25rem;
+  }
+
+  .enterprise-home-title {
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    max-width: 700px;
+  }
+
+  .enterprise-home-desc {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    max-width: 780px;
+    margin-bottom: 2rem;
+  }
+
+  .enterprise-home-perks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .perk-tag {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-full);
+  }
+
+  .enterprise-home-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .btn-enterprise-home {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 0.95rem 2rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(16, 185, 129, 0.5);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4);
+  }
+
+  .btn-enterprise-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 26px rgba(16, 185, 129, 0.55);
+  }
+
+  .enterprise-sla-note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 500;
   }
 
   /* Methodology Section */

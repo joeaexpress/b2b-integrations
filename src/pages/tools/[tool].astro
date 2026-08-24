@@ -201,6 +201,28 @@ const schemaData = {
         </div>
       </section>
 
+      <!-- Enterprise Specialist CTA Banner -->
+      <section class="tool-enterprise-banner">
+        <div class="enterprise-content">
+          <div class="enterprise-badge">🛡️ High-Scale {tool.name} Architecture</div>
+          <h2 class="enterprise-title">Need a Custom Enterprise Data Pipeline for {tool.name}?</h2>
+          <p class="enterprise-desc">
+            Syncing large-scale datasets, custom ERP connectors, or private endpoints with {tool.name}? Match with a certified automation specialist for turnkey deployment and SLA support.
+          </p>
+        </div>
+        <div class="enterprise-action">
+          <button
+            type="button"
+            class="btn-tool-expert"
+            data-open-lead-modal
+            data-tool-a={tool.name}
+          >
+            Match with a {tool.name} Specialist →
+          </button>
+          <span class="enterprise-hint">⚡ Guaranteed response within 4 business hours</span>
+        </div>
+      </section>
+
       <!-- Related Tools Cloud -->
       {relatedTools.length > 0 && (
         <section class="related-tools-section">
@@ -649,6 +671,88 @@ const schemaData = {
     text-align: center;
     color: var(--text-secondary);
     margin-bottom: 3rem;
+  }
+
+  /* Tool Enterprise Banner */
+  .tool-enterprise-banner {
+    background: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 60%),
+                rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    margin-bottom: 3.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .enterprise-content {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .enterprise-badge {
+    display: inline-flex;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-full);
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #6ee7b7;
+    margin-bottom: 1rem;
+  }
+
+  .enterprise-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 0.65rem;
+    line-height: 1.3;
+  }
+
+  .enterprise-desc {
+    color: var(--text-secondary);
+    font-size: 0.94rem;
+    line-height: 1.6;
+    max-width: 680px;
+  }
+
+  .enterprise-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .btn-tool-expert {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(16, 185, 129, 0.5);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+    white-space: nowrap;
+  }
+
+  .btn-tool-expert:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
+  }
+
+  .enterprise-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
   }
 
   /* Related Tools Section */

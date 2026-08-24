@@ -1,0 +1,609 @@
+---
+// LeadModal.astro - Reusable Lead Capture Modal for High-Ticket B2B & DFY Integrations
+---
+
+<div id="lead-modal-backdrop" class="lead-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="lead-modal-card">
+    <!-- Close Button -->
+    <button id="close-lead-modal" class="modal-close-btn" aria-label="Close modal">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div class="modal-badge">
+        <span class="badge-icon">🛡️</span>
+        <span>Certified Automation Specialist</span>
+      </div>
+      <h2 class="modal-title">Match with an Enterprise Integration Architect</h2>
+      <p class="modal-subtitle">
+        Need custom data pipelines, high-volume ETL sync, or private API connectors? Get a fixed-price implementation blueprint from a vetted RevOps engineer.
+      </p>
+    </div>
+
+    <!-- Main Lead Form -->
+    <form id="lead-capture-form" class="lead-form">
+      <div class="form-row two-col">
+        <div class="form-group">
+          <label for="lead-tool-a" class="form-label">Source Platform *</label>
+          <input
+            type="text"
+            id="lead-tool-a"
+            name="toolA"
+            placeholder="e.g. Stripe, Salesforce, NetSuite"
+            required
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="lead-tool-b" class="form-label">Destination Platform *</label>
+          <input
+            type="text"
+            id="lead-tool-b"
+            name="toolB"
+            placeholder="e.g. QuickBooks, Snowflake, HubSpot"
+            required
+            class="form-input"
+          />
+        </div>
+      </div>
+
+      <div class="form-row two-col">
+        <div class="form-group">
+          <label for="lead-budget" class="form-label">Estimated Budget Range</label>
+          <select id="lead-budget" name="budgetRange" class="form-select">
+            <option value="1k-3k">$1,000 – $3,000 (Standard Workflow)</option>
+            <option value="3k-10k" selected>$3,000 – $10,000 (Complex Multi-System Pipeline)</option>
+            <option value="10k-plus">$10,000+ (Enterprise Data Warehouse / ERP)</option>
+            <option value="hourly">Hourly Advisory ($150–$250/hr)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="lead-timeline" class="form-label">Target Timeline</label>
+          <select id="lead-timeline" name="timeline" class="form-select">
+            <option value="urgent" selected>Urgent (Within 1–2 weeks)</option>
+            <option value="1-month">Standard (Within 1 month)</option>
+            <option value="exploring">Planning / Exploring options</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row two-col">
+        <div class="form-group">
+          <label for="lead-name" class="form-label">Your Name *</label>
+          <input
+            type="text"
+            id="lead-name"
+            name="fullName"
+            placeholder="e.g. Alex Morgan"
+            required
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="lead-email" class="form-label">Work Email *</label>
+          <input
+            type="email"
+            id="lead-email"
+            name="workEmail"
+            placeholder="alex@company.com"
+            required
+            class="form-input"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lead-notes" class="form-label">Custom Requirements & Expected Volume (Optional)</label>
+        <textarea
+          id="lead-notes"
+          name="notes"
+          rows="3"
+          placeholder="Describe your current bottleneck, sync frequency, volume of records, or security requirements..."
+          class="form-textarea"
+        ></textarea>
+      </div>
+
+      <div class="form-footer">
+        <button type="submit" id="submit-lead-btn" class="btn-submit-lead">
+          <span id="submit-btn-text">Request Specialist Match &rarr;</span>
+          <span id="submit-btn-spinner" class="spinner" style="display: none;"></span>
+        </button>
+        <p class="form-privacy-note">
+          🔒 100% Confidential. Guaranteed response within 4 business hours. No spam, ever.
+        </p>
+      </div>
+    </form>
+
+    <!-- Success Confirmation State (Hidden initially) -->
+    <div id="lead-success-state" class="lead-success-card" style="display: none;">
+      <div class="success-icon-wrap">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <h3 class="success-title">Integration Inquiry Received!</h3>
+      <p class="success-desc">
+        Thank you for submitting your specifications. We are pairing your requirements with a certified RevOps engineer specializing in <span id="success-tools-text" class="highlight-tools">your tech stack</span>.
+      </p>
+      <div class="success-next-steps">
+        <div class="step-item">
+          <span class="step-badge">1</span>
+          <span>Our technical lead will review your data flow specifications.</span>
+        </div>
+        <div class="step-item">
+          <span class="step-badge">2</span>
+          <span>You will receive a tailored scope & timeline breakdown via email in under 4 hours.</span>
+        </div>
+      </div>
+      <button id="close-success-modal" class="btn-close-success">
+        Done & Return to Directory
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    const backdrop = document.getElementById('lead-modal-backdrop');
+    const closeBtn = document.getElementById('close-lead-modal');
+    const form = document.getElementById('lead-capture-form');
+    const successState = document.getElementById('lead-success-state');
+    const closeSuccessBtn = document.getElementById('close-success-modal');
+    const toolAInput = document.getElementById('lead-tool-a');
+    const toolBInput = document.getElementById('lead-tool-b');
+    const submitBtn = document.getElementById('submit-lead-btn');
+    const btnText = document.getElementById('submit-btn-text');
+    const btnSpinner = document.getElementById('submit-btn-spinner');
+    const successToolsText = document.getElementById('success-tools-text');
+
+    function openModal(toolA = '', toolB = '') {
+      if (!backdrop) return;
+      if (toolA && toolAInput) toolAInput.value = toolA;
+      if (toolB && toolBInput) toolBInput.value = toolB;
+
+      // Reset states
+      if (form) form.style.display = 'block';
+      if (successState) successState.style.display = 'none';
+
+      backdrop.classList.add('active');
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      if (!backdrop) return;
+      backdrop.classList.remove('active');
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // Attach click listeners to all open trigger elements
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-open-lead-modal]');
+      if (trigger) {
+        e.preventDefault();
+        const toolA = trigger.getAttribute('data-tool-a') || '';
+        const toolB = trigger.getAttribute('data-tool-b') || '';
+        openModal(toolA, toolB);
+      }
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', closeModal);
+
+    if (backdrop) {
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) closeModal();
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && backdrop && backdrop.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    // Form Submission Handling
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const payload = {
+          event: 'lead_form_submission',
+          toolA: formData.get('toolA'),
+          toolB: formData.get('toolB'),
+          budgetRange: formData.get('budgetRange'),
+          timeline: formData.get('timeline'),
+          fullName: formData.get('fullName'),
+          workEmail: formData.get('workEmail'),
+          notes: formData.get('notes'),
+          pageUrl: window.location.href,
+          timestamp: Date.now(),
+        };
+
+        if (btnText) btnText.style.display = 'none';
+        if (btnSpinner) btnSpinner.style.display = 'inline-block';
+        if (submitBtn) submitBtn.disabled = true;
+
+        // Dispatches telemetry
+        if (typeof window.dispatchEvent === 'function') {
+          window.dispatchEvent(
+            new CustomEvent('saasconnect:telemetry', { detail: payload })
+          );
+        }
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'lead_form_submission', {
+            tool_a: payload.toolA,
+            tool_b: payload.toolB,
+            budget: payload.budgetRange,
+          });
+        }
+        if (typeof window.plausible === 'function') {
+          window.plausible('Lead Form Submission', {
+            props: { tool_a: payload.toolA, tool_b: payload.toolB },
+          });
+        }
+
+        // Webhook Submission (if configured via window/env or fallback)
+        const webhookUrl = window.__LEAD_WEBHOOK_URL__ || '';
+        if (webhookUrl) {
+          try {
+            await fetch(webhookUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+            });
+          } catch (err) {
+            console.warn('[Lead] Webhook forward error:', err);
+          }
+        } else {
+          // Store locally in demo/dev mode
+          try {
+            const existing = JSON.parse(localStorage.getItem('saasconnect_leads') || '[]');
+            existing.push(payload);
+            localStorage.setItem('saasconnect_leads', JSON.stringify(existing));
+          } catch {}
+        }
+
+        // Simulate slight network delay for smooth UX transition
+        setTimeout(() => {
+          if (btnText) btnText.style.display = 'inline';
+          if (btnSpinner) btnSpinner.style.display = 'none';
+          if (submitBtn) submitBtn.disabled = false;
+
+          if (successToolsText) {
+            successToolsText.textContent = `${payload.toolA} → ${payload.toolB}`;
+          }
+
+          form.reset();
+          form.style.display = 'none';
+          if (successState) successState.style.display = 'flex';
+        }, 400);
+      });
+    }
+  })();
+</script>
+
+<style>
+  .lead-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(4, 7, 13, 0.78);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .lead-modal-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .lead-modal-card {
+    background: radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 90% 90%, rgba(16, 185, 129, 0.08) 0%, transparent 60%),
+                #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-xl, 16px);
+    max-width: 660px;
+    width: 100%;
+    padding: 2.5rem;
+    position: relative;
+    box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(99, 102, 241, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.95);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lead-modal-backdrop.active .lead-modal-card {
+    transform: scale(1);
+  }
+
+  .modal-close-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
+    color: var(--text-secondary, #94a3b8);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    transform: rotate(90deg);
+  }
+
+  .modal-header {
+    margin-bottom: 2rem;
+  }
+
+  .modal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.8rem;
+    border-radius: 9999px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #6ee7b7;
+    margin-bottom: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: #f8fafc;
+    margin-bottom: 0.65rem;
+  }
+
+  .modal-subtitle {
+    font-size: 0.92rem;
+    color: #94a3b8;
+    line-height: 1.55;
+  }
+
+  /* Form Layout */
+  .lead-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-row.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #cbd5e1;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: #f8fafc;
+    font-size: 0.92rem;
+    outline: none;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    background: rgba(15, 23, 42, 0.95);
+  }
+
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: #64748b;
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+  }
+
+  .form-footer {
+    padding-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn-submit-lead {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    border: 1px solid rgba(99, 102, 241, 0.5);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.95rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 18px rgba(99, 102, 241, 0.45);
+  }
+
+  .btn-submit-lead:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.65);
+  }
+
+  .form-privacy-note {
+    font-size: 0.78rem;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* Success State */
+  .lead-success-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+
+  .success-icon-wrap {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .success-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #f8fafc;
+    margin-bottom: 0.75rem;
+  }
+
+  .success-desc {
+    color: #94a3b8;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    max-width: 480px;
+    margin-bottom: 2rem;
+  }
+
+  .highlight-tools {
+    color: #38bdf8;
+    font-weight: 700;
+  }
+
+  .success-next-steps {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    text-align: left;
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.88rem;
+    color: #cbd5e1;
+  }
+
+  .step-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #6366f1;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .btn-close-success {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #f8fafc;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-close-success:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  /* Spinner */
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 640px) {
+    .lead-modal-card {
+      padding: 2rem 1.25rem;
+    }
+    .form-row.two-col {
+      grid-template-columns: 1fr;
+    }
+    .modal-title {
+      font-size: 1.35rem;
+    }
+  }
+</style>
