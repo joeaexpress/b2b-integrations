@@ -1446,5 +1446,1455 @@
       "Mixpanel user IDs not matching HubSpot primary email keys, preventing contact resolution.",
       "High event frequency causing excessive API calls to HubSpot if individual events are synced rather than aggregated cohorts."
     ]
+  },
+  {
+    "slug": "stripe-to-xero-integration",
+    "metaTitle": "Stripe to Xero Accounting Sync Guide (Make Scenario)",
+    "metaDescription": "Sync Stripe charges, processing fees, payouts, and bank reconciliation to Xero automatically with Make automation.",
+    "toolA": "Stripe",
+    "toolACategory": "Payment & Billing",
+    "toolB": "Xero",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Automatically create invoices and bank transactions in Xero for every Stripe charge.",
+      "Record Stripe payment processing fees into a designated financial expense account.",
+      "Reconcile multi-currency Stripe balance transfers against Xero bank feeds."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Stripe - Watch Events (charge.succeeded)' trigger module.",
+      "Authenticate your Xero organization via OAuth2 connection.",
+      "Add a 'Xero - Create an Invoice / Bank Transaction' module with line item breakdowns.",
+      "Split gross charge totals and Stripe merchant transaction fee deductions.",
+      "Test with a Stripe live or test mode charge and verify the transaction in Xero."
+    ],
+    "commonPitfalls": [
+      "Ignoring Stripe payout batch dates, leading to reconciliation mismatches against bank deposits.",
+      "Not setting default tax codes in Xero for international customer charges."
+    ]
+  },
+  {
+    "slug": "hubspot-to-quickbooks-integration",
+    "metaTitle": "HubSpot to QuickBooks Online Sync Guide",
+    "metaDescription": "Sync closed-won HubSpot deals into QuickBooks Online invoices and customers automatically using Make.",
+    "toolA": "HubSpot",
+    "toolACategory": "CRM & Sales",
+    "toolB": "QuickBooks",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 35,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Generate QuickBooks invoices immediately when deals reach 'Closed Won' in HubSpot.",
+      "Sync customer billing contacts, tax IDs, and billing terms between CRM and accounting.",
+      "Update HubSpot deal properties when invoice payment status changes in QuickBooks."
+    ],
+    "stepByStepGuide": [
+      "In Make, create a scenario with the 'HubSpot CRM - Watch Deals' trigger module.",
+      "Filter deal stage to only process records where Deal Stage equals 'Closed Won'.",
+      "Add a 'QuickBooks - Search Customers' module to match contacts by domain or email.",
+      "Add a 'QuickBooks - Create an Invoice' module mapping deal line items and amounts.",
+      "Turn on scheduled polling to automate deal-to-invoice creation."
+    ],
+    "commonPitfalls": [
+      "Mismatched line item SKU names between HubSpot product library and QuickBooks items.",
+      "Failing to capture tax exemption certificates before creating final invoices."
+    ]
+  },
+  {
+    "slug": "chargebee-to-quickbooks-integration",
+    "metaTitle": "Chargebee to QuickBooks Online Billing Integration",
+    "metaDescription": "Automate subscription invoice creation, MRR recognition, and customer sync from Chargebee to QuickBooks via Make.",
+    "toolA": "Chargebee",
+    "toolACategory": "Subscription Billing",
+    "toolB": "QuickBooks",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 40,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Sync Chargebee recurring subscription invoices to QuickBooks accounts receivable.",
+      "Track deferred revenue and subscription tax liabilities across multiple regions.",
+      "Record credit notes and refunds automatically to balance ledger accounts."
+    ],
+    "stepByStepGuide": [
+      "Connect Chargebee using your API key and site domain in Make.",
+      "Set up a webhook trigger for 'Invoice Generated' and 'Payment Succeeded' events.",
+      "Add QuickBooks OAuth2 module to search or create matching customer records.",
+      "Create corresponding Sales Receipts or Invoices with itemized tax and discounts.",
+      "Run sample invoice test and verify journal entries in QuickBooks Online."
+    ],
+    "commonPitfalls": [
+      "Not mapping proration adjustments accurately, causing small cent balance discrepancies.",
+      "Overlooking currency conversion rates on international customer subscription plans."
+    ]
+  },
+  {
+    "slug": "recurly-to-netsuite-integration",
+    "metaTitle": "Recurly to NetSuite Revenue Recognition Sync Guide",
+    "metaDescription": "Sync recurring subscription invoices, billing schedules, and customer entities from Recurly into NetSuite ERP.",
+    "toolA": "Recurly",
+    "toolACategory": "Subscription Billing",
+    "toolB": "NetSuite",
+    "toolBCategory": "ERP & Financial Management",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 45,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Automate NetSuite customer deposit and invoice generation from Recurly webhooks.",
+      "Sync multi-entity subsidiary ledger entries for SaaS recurring subscriptions.",
+      "Maintain compliance with ASC 606 revenue recognition rules across platforms."
+    ],
+    "stepByStepGuide": [
+      "Configure Recurly HTTP webhook endpoints pointing to Make webhook trigger.",
+      "Authenticate NetSuite SuiteTalk REST Web Services using Token-Based Auth (TBA).",
+      "Map Recurly subscription plans to NetSuite internal subsidiary items.",
+      "Execute customer entity lookups and post general ledger journal vouchers.",
+      "Validate test transaction batch against NetSuite monthly close reporting."
+    ],
+    "commonPitfalls": [
+      "Failing to specify the correct NetSuite subsidiary ID on customer record creation.",
+      "Ignoring Recurly retry dunning states, creating duplicate invoice attempts in NetSuite."
+    ]
+  },
+  {
+    "slug": "shopify-to-airtable-integration",
+    "metaTitle": "Shopify to Airtable Inventory & Order Tracking Pipeline",
+    "metaDescription": "Stream Shopify orders, customer details, and inventory stock levels into Airtable relational bases in real-time.",
+    "toolA": "Shopify",
+    "toolACategory": "E-Commerce",
+    "toolB": "Airtable",
+    "toolBCategory": "Database & Spreadsheet",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 25,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Build custom fulfillment Kanban boards in Airtable powered by live Shopify orders.",
+      "Track VIP customer lifetime value and purchase history in linked Airtable tables.",
+      "Sync inventory stock alerts to Airtable when product variants drop below thresholds."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Shopify - Watch Orders' trigger module.",
+      "Authenticate Airtable with a personal access token having base read/write scopes.",
+      "Select your target base and 'Orders' table in Airtable.",
+      "Map Shopify fields (Order ID, Line Items, Total, Customer Email, Shipping Status).",
+      "Turn on the scenario and submit a test order to verify Airtable row creation."
+    ],
+    "commonPitfalls": [
+      "Not handling multi-item orders properly, requiring an iterator to create multiple records.",
+      "Hitting Airtable 5 requests/sec rate limits during Black Friday sales volume spikes."
+    ]
+  },
+  {
+    "slug": "woocommerce-to-quickbooks-integration",
+    "metaTitle": "WooCommerce to QuickBooks Online Accounting Guide",
+    "metaDescription": "Sync WooCommerce sales, guest checkouts, taxes, and refunds into QuickBooks Online automatically via Make.",
+    "toolA": "WooCommerce",
+    "toolACategory": "E-Commerce",
+    "toolB": "QuickBooks",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Create Sales Receipts in QuickBooks automatically when WooCommerce orders complete.",
+      "Record payment gateway fees (Stripe, PayPal) directly into expense accounts.",
+      "Sync customer billing addresses and tax calculations for local compliance."
+    ],
+    "stepByStepGuide": [
+      "Generate WooCommerce REST API Consumer Key and Secret with Read permissions.",
+      "In Make, configure the 'WooCommerce - Watch Orders' trigger module.",
+      "Authenticate QuickBooks Online and add a 'Search or Create Customer' module.",
+      "Map order line items, shipping fees, discounts, and sales taxes into a Sales Receipt.",
+      "Trigger a test order checkout and confirm record accuracy in QuickBooks Online."
+    ],
+    "commonPitfalls": [
+      "Guest checkouts creating fragmented duplicate customer records without email deduping.",
+      "Inconsistent tax rate names causing line items to fail validation in QuickBooks."
+    ]
+  },
+  {
+    "slug": "klaviyo-to-slack-integration",
+    "metaTitle": "Klaviyo to Slack Campaign & VIP Alert Integration",
+    "metaDescription": "Send real-time Slack alerts for high-value Klaviyo email campaigns, VIP subscriber signups, and placed orders.",
+    "toolA": "Klaviyo",
+    "toolACategory": "Email Marketing & Retention",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify e-commerce marketing teams when a campaign revenue threshold is exceeded.",
+      "Alert customer success reps in Slack when VIP subscribers submit feedback.",
+      "Broadcast daily email revenue summaries to executive channels."
+    ],
+    "stepByStepGuide": [
+      "In Make, set up the 'Klaviyo - Watch Events / Metrics' trigger module with your private API key.",
+      "Add a filter to only trigger when event metric equals 'Placed Order' > $500 or 'VIP Signup'.",
+      "Connect your Slack workspace and choose the target channel.",
+      "Format a Slack Block Kit message with subscriber name, order total, and campaign attribution.",
+      "Run scenario test and verify the notification card in Slack."
+    ],
+    "commonPitfalls": [
+      "Spamming channels with every single email open or click rather than high-intent metrics.",
+      "Missing channel webhook permissions when adding Make bot to private Slack channels."
+    ]
+  },
+  {
+    "slug": "activecampaign-to-salesforce-integration",
+    "metaTitle": "ActiveCampaign to Salesforce Lead & Contact Sync",
+    "metaDescription": "Sync marketing engagement scores, form submissions, and email activity from ActiveCampaign to Salesforce CRM.",
+    "toolA": "ActiveCampaign",
+    "toolACategory": "Marketing Automation",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 40,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Create or update Salesforce Leads when ActiveCampaign lead score passes 80 points.",
+      "Sync custom tags and automation campaign history to Salesforce Contact records.",
+      "Alert sales reps in Salesforce when an enterprise prospect visits high-value pricing pages."
+    ],
+    "stepByStepGuide": [
+      "In Make, add 'ActiveCampaign - Watch Contact Added or Updated' trigger module.",
+      "Authenticate Salesforce using Connected App OAuth2 credentials.",
+      "Add a 'Salesforce - Search Records' step to match existing Leads/Contacts by email.",
+      "Use 'Salesforce - Upsert Record' to map lead status, campaign source, and lead score.",
+      "Schedule the scenario and verify synced fields in Salesforce Lead views."
+    ],
+    "commonPitfalls": [
+      "Overwriting existing Salesforce owner assignments when updating active opportunities.",
+      "Not handling picklist value formatting discrepancies between the two platforms."
+    ]
+  },
+  {
+    "slug": "marketo-to-salesforce-integration",
+    "metaTitle": "Marketo to Salesforce Enterprise Lead Sync Guide",
+    "metaDescription": "Synchronize Marketo programs, lead scores, and custom activities into Salesforce Enterprise CRM natively or via Make.",
+    "toolA": "Marketo",
+    "toolACategory": "Marketing Automation",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Bi-directionally sync Lead and Contact records between Marketo and Salesforce.",
+      "Map custom Marketo program status transitions to Salesforce Campaign Members.",
+      "Enforce lead routing rules and assign SDR owners based on territory field values."
+    ],
+    "stepByStepGuide": [
+      "In Salesforce, install the Marketo Lead Management AppExchange package.",
+      "Create a dedicated Marketo Sync User in Salesforce with administrative API access.",
+      "In Marketo Admin > Salesforce, enter your Salesforce credentials and authorize OAuth.",
+      "Configure field mapping tables for standard Lead and Contact objects.",
+      "Initiate schema sync and enable continuous bi-directional sync engine."
+    ],
+    "commonPitfalls": [
+      "Sync user lacking permissions on custom Salesforce fields, preventing data writes.",
+      "Creating infinite sync loops by not setting Marketo or Salesforce as the system of truth."
+    ]
+  },
+  {
+    "slug": "braze-to-snowflake-integration",
+    "metaTitle": "Braze to Snowflake Customer Data Pipeline",
+    "metaDescription": "Stream raw Braze engagement events, push notifications, and user attributes into Snowflake for deep analytics.",
+    "toolA": "Braze",
+    "toolACategory": "Customer Engagement",
+    "toolB": "Snowflake",
+    "toolBCategory": "Data Warehouse",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 35,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Export high-volume push, email, and in-app interaction logs into Snowflake tables.",
+      "Run advanced cohort retention and predictive churn machine learning models on raw data.",
+      "Unify Braze engagement data with product usage logs for 360-degree customer intelligence."
+    ],
+    "stepByStepGuide": [
+      "In Snowflake, configure a dedicated database, schema, and Braze data loading role.",
+      "In Braze Dashboard, navigate to Partner Integrations > Snowflake Data Sharing.",
+      "Enter your Snowflake Account Identifier, Cloud Region, and target database parameters.",
+      "Authorize secure data sharing grants between Braze and your Snowflake instance.",
+      "Query shared views in Snowflake to verify real-time event streaming."
+    ],
+    "commonPitfalls": [
+      "Mismatching Snowflake cloud provider regions (AWS vs. Azure vs. GCP) causing setup errors.",
+      "Failing to set up auto-clustering on high-volume event tables, driving up query costs."
+    ]
+  },
+  {
+    "slug": "customerio-to-slack-integration",
+    "metaTitle": "Customer.io to Slack User Lifecycle Alerts",
+    "metaDescription": "Route Customer.io workflow triggers, segment entries, and churn risk alerts into team Slack channels automatically.",
+    "toolA": "Customer.io",
+    "toolACategory": "Email Marketing & Retention",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify sales engineers in Slack when a trial account triggers an enterprise feature limit.",
+      "Alert customer success managers when high-ACV accounts enter the 'At-Risk' segment.",
+      "Broadcast key onboarding completion milestones to product growth channels."
+    ],
+    "stepByStepGuide": [
+      "In Customer.io, add a Webhook Action module inside your target campaign workflow.",
+      "Set the webhook target URL to your Make custom webhook trigger endpoint.",
+      "In Make, parse incoming user attributes (Company, Plan, MRR, Action Timestamp).",
+      "Add a Slack 'Create a Message' module and choose the target channel.",
+      "Test the Customer.io campaign step and confirm the message delivery in Slack."
+    ],
+    "commonPitfalls": [
+      "Sending unformatted raw JSON payloads to Slack instead of clean structured Markdown cards.",
+      "Not filtering out test accounts and staging user emails before dispatching alerts."
+    ]
+  },
+  {
+    "slug": "zendesk-to-salesforce-integration",
+    "metaTitle": "Zendesk to Salesforce Support & CRM Integration",
+    "metaDescription": "Sync customer support tickets, satisfaction scores (CSAT), and escalation logs between Zendesk and Salesforce.",
+    "toolA": "Zendesk",
+    "toolACategory": "Customer Support",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Display open Zendesk tickets directly on Salesforce Account and Contact page layouts.",
+      "Notify account executives in Salesforce when enterprise clients log urgent Priority tickets.",
+      "Sync CSAT survey feedback into Salesforce custom objects for executive churn forecasting."
+    ],
+    "stepByStepGuide": [
+      "In Salesforce AppExchange, install the official 'Zendesk for Salesforce' package.",
+      "In Zendesk Admin Center, go to Apps and Integrations > Salesforce.",
+      "Authenticate with your Salesforce System Administrator credentials.",
+      "Configure Ticket Sync and Contact Sync rules with bidirectional field mappings.",
+      "Add the Zendesk Ticket Lightning Component to Salesforce Contact record pages."
+    ],
+    "commonPitfalls": [
+      "Missing field-level security permissions for sales users on Zendesk ticket objects.",
+      "Creating duplicate Salesforce Contacts when customers submit tickets from multiple email aliases."
+    ]
+  },
+  {
+    "slug": "freshdesk-to-jira-integration",
+    "metaTitle": "Freshdesk to Jira Issue Tracking Integration",
+    "metaDescription": "Convert Freshdesk customer tickets into Jira engineering bugs and sync resolution status automatically via Make.",
+    "toolA": "Freshdesk",
+    "toolACategory": "Customer Support",
+    "toolB": "Jira",
+    "toolBCategory": "Project Management",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Automatically create Jira bug issues whenever Freshdesk tickets are tagged 'Bug'.",
+      "Sync engineering comments from Jira back to internal Freshdesk ticket private notes.",
+      "Close Freshdesk customer tickets automatically when Jira development issues are resolved."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Freshdesk - Watch Tickets' trigger module.",
+      "Filter for tickets with status 'Open' and tag containing 'dev-escalation'.",
+      "Authenticate Jira Software Cloud using Atlassian API tokens.",
+      "Add 'Jira - Create an Issue' module mapping ticket subject, description, and attachments.",
+      "Add a reverse webhook in Jira to update Freshdesk status on issue transition."
+    ],
+    "commonPitfalls": [
+      "Not syncing attachments, leaving engineering teams without reproduction screenshots.",
+      "Exposing internal Jira developer comments publicly to end users instead of private notes."
+    ]
+  },
+  {
+    "slug": "gorgias-to-shopify-integration",
+    "metaTitle": "Gorgias to Shopify E-Commerce Helpdesk Sync",
+    "metaDescription": "Manage Shopify orders, process refunds, and modify subscriptions directly inside Gorgias customer support tickets.",
+    "toolA": "Gorgias",
+    "toolACategory": "Customer Support",
+    "toolB": "Shopify",
+    "toolBCategory": "E-Commerce",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Display real-time Shopify order history, tracking links, and items inside Gorgias sidebar.",
+      "Process 1-click order cancellations, refunds, and address changes from ticket views.",
+      "Auto-respond to 'Where is my order?' inquiries with live carrier tracking numbers."
+    ],
+    "stepByStepGuide": [
+      "In Gorgias, navigate to Settings > Integrations > Shopify.",
+      "Click 'Add Shopify' and enter your `myshopify.com` store domain.",
+      "Log into Shopify Admin and authorize the Gorgias App permissions.",
+      "Select widget display options for customer order cards in the Gorgias ticket sidebar.",
+      "Send a test email to your support address and verify the Shopify order widget appears."
+    ],
+    "commonPitfalls": [
+      "Connecting a secondary development store instead of the primary production Shopify store.",
+      "Restricting support agent permissions in Shopify, blocking one-click refund capabilities."
+    ]
+  },
+  {
+    "slug": "front-to-slack-integration",
+    "metaTitle": "Front to Slack Shared Inbox Notification Guide",
+    "metaDescription": "Route Front shared inbox conversations, customer mentions, and urgent assignments into Slack channels in real-time.",
+    "toolA": "Front",
+    "toolACategory": "Customer Support",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify cross-functional Slack channels when VIP client accounts send support emails.",
+      "Allow engineers and account managers to collaborate on email drafts directly from Slack.",
+      "Unfurl Front conversation links in Slack with sender info, subject, and status."
+    ],
+    "stepByStepGuide": [
+      "In Front, go to Settings > Integrations > Slack.",
+      "Click 'Enable' and authorize connection to your target Slack workspace.",
+      "Navigate to Inboxes > Rules to create custom routing logic (e.g. 'If inbox is Sales, send to #sales').",
+      "Select destination Slack channels for notifications and internal comments.",
+      "Send a test email to your Front inbox and verify the Slack channel alert."
+    ],
+    "commonPitfalls": [
+      "Routing high-volume spam inboxes to Slack public channels, drowning out team discussions.",
+      "Failing to install the Front Slack App for all workspace members who need link unfurling."
+    ]
+  },
+  {
+    "slug": "helpscout-to-airtable-integration",
+    "metaTitle": "Help Scout to Airtable Support Ticket Analytics",
+    "metaDescription": "Log Help Scout customer conversations, resolution times, and CSAT ratings into Airtable for support operations KPI reporting.",
+    "toolA": "Help Scout",
+    "toolACategory": "Customer Support",
+    "toolB": "Airtable",
+    "toolBCategory": "Database & Spreadsheet",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 25,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Maintain a centralized customer feedback and feature request database in Airtable.",
+      "Track agent resolution speed and first response time metrics across support tiers.",
+      "Tag and categorize support tickets automatically using Airtable formulas and views."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Help Scout - Watch Conversations' trigger module.",
+      "Authenticate with your Help Scout App ID and Secret.",
+      "Add the 'Airtable - Create a Record' module and select your Support Analytics base.",
+      "Map conversation fields (Customer Name, Subject, Assignee, Tags, Thread Count, Rating).",
+      "Turn on scenario scheduling to record closed tickets automatically."
+    ],
+    "commonPitfalls": [
+      "Logging every single customer email reply as a separate record rather than unique threads.",
+      "Not converting Unix timestamps properly, resulting in blank date fields in Airtable."
+    ]
+  },
+  {
+    "slug": "pandadoc-to-hubspot-integration",
+    "metaTitle": "PandaDoc to HubSpot Deal Document & Signature Sync",
+    "metaDescription": "Create, track, and e-sign PandaDoc sales proposals directly from HubSpot CRM deals, contacts, and companies.",
+    "toolA": "PandaDoc",
+    "toolACategory": "E-Signature & Contracts",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Auto-populate PandaDoc proposals with HubSpot deal values, custom fields, and line items.",
+      "Update HubSpot deal stage to 'Closed Won' automatically when client signs the contract.",
+      "Save completed PDF contract copies directly into HubSpot deal attachments."
+    ],
+    "stepByStepGuide": [
+      "In HubSpot App Marketplace, search for and install 'PandaDoc'.",
+      "In PandaDoc, authorize connection to your HubSpot CRM account.",
+      "Configure Document Data Mapping to link HubSpot CRM tokens with PandaDoc merge variables.",
+      "Open any Deal record in HubSpot and verify the PandaDoc right-hand panel.",
+      "Create a sample proposal and ensure custom pricing table items populate correctly."
+    ],
+    "commonPitfalls": [
+      "Mismatched currency symbols causing pricing table numbers to format improperly.",
+      "Forgetting to enable the 'Update Deal Stage upon Completion' toggle in PandaDoc settings."
+    ]
+  },
+  {
+    "slug": "signnow-to-salesforce-integration",
+    "metaTitle": "signNow to Salesforce Enterprise Document Sync",
+    "metaDescription": "Generate and send signNow agreement packages from Salesforce objects and sync signed audit trails automatically.",
+    "toolA": "signNow",
+    "toolACategory": "E-Signature & Contracts",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Send NDAs, master service agreements, and sales quotes directly from Salesforce records.",
+      "Track real-time envelope status (Viewed, Signed, Declined) inside Salesforce layouts.",
+      "Store tamper-evident cryptographic audit logs in Salesforce Files."
+    ],
+    "stepByStepGuide": [
+      "Install the signNow AppExchange package into your Salesforce production org.",
+      "Navigate to signNow Admin Settings and connect your signNow Enterprise account.",
+      "Map Salesforce Opportunity and Account merge fields to signNow document templates.",
+      "Add the 'Send with signNow' custom button to Opportunity page layouts.",
+      "Test document dispatch to an external email and review status updates in Salesforce."
+    ],
+    "commonPitfalls": [
+      "Missing signNow license assignment for individual Salesforce standard users.",
+      "Not configuring Salesforce IP range restrictions for incoming signNow status webhooks."
+    ]
+  },
+  {
+    "slug": "jotform-to-google-sheets-integration",
+    "metaTitle": "Jotform to Google Sheets Instant Data Pipeline",
+    "metaDescription": "Collect Jotform submissions and sync responses, file upload links, and calculations to Google Sheets in real-time.",
+    "toolA": "Jotform",
+    "toolACategory": "Forms & Surveys",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Sync customer intake form submissions to collaborative Google Sheets spreadsheets.",
+      "Back up survey responses and calculation values in real-time with zero data loss.",
+      "Power automated Google Sheets dashboards and charts from continuous form submissions."
+    ],
+    "stepByStepGuide": [
+      "In Jotform Form Builder, go to Settings > Integrations > Google Sheets.",
+      "Authenticate your Google Workspace account and grant spreadsheet permissions.",
+      "Choose 'Create a new spreadsheet' or select an existing tracking sheet.",
+      "Select which form fields (Name, Email, Files, Dates) should map to column headers.",
+      "Submit a test form and confirm that the row appears instantly in Google Sheets."
+    ],
+    "commonPitfalls": [
+      "Modifying column header names in Google Sheets, which breaks active Jotform mapping.",
+      "Exceeding Google Sheets maximum cell character limits with long form text responses."
+    ]
+  },
+  {
+    "slug": "tally-to-airtable-integration",
+    "metaTitle": "Tally to Airtable Lead Capture & Response Pipeline",
+    "metaDescription": "Stream modern Tally form submissions directly into relational Airtable bases automatically via native connector or Make.",
+    "toolA": "Tally",
+    "toolACategory": "Forms & Surveys",
+    "toolB": "Airtable",
+    "toolBCategory": "Database & Spreadsheet",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Capture inbound product waitlist signups and sync responses directly into Airtable.",
+      "Link multi-select survey questions to Airtable single-select and tag fields.",
+      "Store submitted file upload URLs directly into Airtable attachment columns."
+    ],
+    "stepByStepGuide": [
+      "In Tally, open your published form and navigate to the 'Integrations' tab.",
+      "Click 'Connect' next to Airtable and authorize with your Airtable API token.",
+      "Select your target Airtable Base and Table.",
+      "Map each Tally question to the corresponding Airtable field types.",
+      "Submit a test submission on Tally and verify the record creation in Airtable."
+    ],
+    "commonPitfalls": [
+      "Mapping multi-choice Tally questions to incompatible single-line Airtable text fields.",
+      "Renaming Airtable columns after connecting, requiring manual re-mapping in Tally."
+    ]
+  },
+  {
+    "slug": "formstack-to-salesforce-integration",
+    "metaTitle": "Formstack to Salesforce HIPAA-Compliant Lead Sync",
+    "metaDescription": "Build HIPAA and GDPR compliant web forms and sync records, custom objects, and files into Salesforce natively.",
+    "toolA": "Formstack",
+    "toolACategory": "Forms & Surveys",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Capture patient and customer intake data securely and create Salesforce Lead records.",
+      "Upsert Contact and Account records while eliminating duplicate entries.",
+      "Attach signed patient consent forms directly to Salesforce Case attachments."
+    ],
+    "stepByStepGuide": [
+      "In Formstack Form Builder, navigate to Settings > Integrations > Salesforce.",
+      "Authenticate with your Salesforce Enterprise or Unlimited organization credentials.",
+      "Select target Salesforce Object (e.g. Lead, Contact, or Custom Object).",
+      "Map Formstack questions to Salesforce standard and custom fields.",
+      "Submit a test form entry and verify new record creation in Salesforce."
+    ],
+    "commonPitfalls": [
+      "Failing to populate mandatory required fields on Salesforce objects, causing API submission failures.",
+      "Not handling lookup relationship fields with valid Salesforce record IDs."
+    ]
+  },
+  {
+    "slug": "pipedrive-to-slack-integration",
+    "metaTitle": "Pipedrive to Slack Deal Won & Activity Alerts",
+    "metaDescription": "Broadcast Pipedrive won deals, new prospect activities, and pipeline stage changes to Slack channels automatically.",
+    "toolA": "Pipedrive",
+    "toolACategory": "CRM & Sales",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Celebrate sales wins in team channels with deal value and sales rep shoutouts.",
+      "Notify account executives when high-value leads are assigned to their pipeline.",
+      "Search and update Pipedrive deal records directly from Slack slash commands."
+    ],
+    "stepByStepGuide": [
+      "In Pipedrive Marketplace, search for and install 'Slack'.",
+      "Authorize permissions to connect Pipedrive with your Slack workspace.",
+      "In Pipedrive Settings > Integrations > Slack, configure channel notification rules.",
+      "Choose trigger events: 'Deal Won', 'Deal Added', or 'Activity Due'.",
+      "Move a test deal to 'Won' in Pipedrive and verify the celebration card in Slack."
+    ],
+    "commonPitfalls": [
+      "Sending notifications for every minor deal update, creating channel noise.",
+      "Not mapping user accounts, preventing @mention tagging of responsible sales reps."
+    ]
+  },
+  {
+    "slug": "pipedrive-to-google-sheets-integration",
+    "metaTitle": "Pipedrive to Google Sheets Sales Pipeline Sync",
+    "metaDescription": "Sync Pipedrive deals, contacts, activities, and revenue forecasts into Google Sheets for executive KPI dashboards via Make.",
+    "toolA": "Pipedrive",
+    "toolACategory": "CRM & Sales",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Automate weekly sales pipeline and rep quota attainment reporting spreadsheets.",
+      "Export won deal records for commission calculation and payroll processing.",
+      "Back up customer and activity logs to external spreadsheets on a daily schedule."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Pipedrive - Watch Deals' trigger module with your API token.",
+      "Authenticate your Google Workspace account and select your sales reporting sheet.",
+      "Add a 'Google Sheets - Add a Row' action module.",
+      "Map Pipedrive properties (Deal Title, Value, Stage, Owner Name, Close Date, Org Name).",
+      "Turn on scenario scheduling to keep spreadsheet data continuously synchronized."
+    ],
+    "commonPitfalls": [
+      "Formatting deal currency values as text strings rather than numbers, breaking spreadsheet formulas.",
+      "Not handling custom field keys that change when Pipedrive pipelines are reorganized."
+    ]
+  },
+  {
+    "slug": "close-to-slack-integration",
+    "metaTitle": "Close CRM to Slack Deal & Call Activity Integration",
+    "metaDescription": "Route Close CRM sales notifications, won opportunities, and incoming SMS messages into Slack channels in real-time.",
+    "toolA": "Close",
+    "toolACategory": "CRM & Sales",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Post celebration messages in Slack when reps win opportunities in Close CRM.",
+      "Alert sales teams when an inbound SMS or call is received from an enterprise prospect.",
+      "Log missed calls and voicemail transcriptions to dedicated sales triage channels."
+    ],
+    "stepByStepGuide": [
+      "In Make, configure the 'Close - Watch Opportunities' or 'Watch Activities' trigger module.",
+      "Authenticate with your Close CRM API Key.",
+      "Add a filter for Opportunity status equal to 'Won' or Activity Type equal to 'Incoming Call'.",
+      "Connect Slack and format a notification card with lead name, rep, and deal value.",
+      "Test with a sample event in Close CRM and confirm delivery to Slack."
+    ],
+    "commonPitfalls": [
+      "Not filtering out internal test opportunities, generating false celebration alerts.",
+      "Missing call recording attachment links in the Slack notification payload."
+    ]
+  },
+  {
+    "slug": "copper-to-google-sheets-integration",
+    "metaTitle": "Copper CRM to Google Sheets Pipeline Export",
+    "metaDescription": "Stream Copper CRM opportunities, customer accounts, and sales metrics into Google Sheets automatically via Make.",
+    "toolA": "Copper",
+    "toolACategory": "CRM & Sales",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Export Google Workspace-native Copper CRM pipeline data for custom financial modeling.",
+      "Maintain historical opportunity stage progression audit logs in Google Sheets.",
+      "Create executive summary dashboards with real-time conversion rates."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Copper CRM - Watch Opportunities' trigger module.",
+      "Enter your Copper API Key and User Email.",
+      "Connect your Google account and select the target reporting spreadsheet.",
+      "Add 'Google Sheets - Add a Row' mapping opportunity fields and monetary values.",
+      "Schedule scenario execution to sync changes at set intervals."
+    ],
+    "commonPitfalls": [
+      "Not handling custom drop-down field IDs correctly in Make field mapping.",
+      "Overwriting existing manual formula columns in Google Sheets with row appends."
+    ]
+  },
+  {
+    "slug": "zoho-crm-to-quickbooks-integration",
+    "metaTitle": "Zoho CRM to QuickBooks Online Invoicing Guide",
+    "metaDescription": "Sync Zoho CRM closed deals, accounts, and products into QuickBooks Online invoices automatically using Make.",
+    "toolA": "Zoho CRM",
+    "toolACategory": "CRM & Sales",
+    "toolB": "QuickBooks",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 35,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Generate QuickBooks invoices immediately when Zoho CRM deals reach 'Closed Won'.",
+      "Sync customer billing addresses, payment terms, and contacts automatically.",
+      "Maintain product catalog pricing consistency between Zoho CRM and QuickBooks."
+    ],
+    "stepByStepGuide": [
+      "In Make, create a scenario with the 'Zoho CRM - Watch Module Records' trigger on Deals.",
+      "Add a filter to only trigger when Stage equals 'Closed Won'.",
+      "Add a 'QuickBooks - Search Customers' module to verify customer existence by email.",
+      "Add a 'QuickBooks - Create an Invoice' module with mapped line items and taxes.",
+      "Test with a sample closed deal and verify the invoice in QuickBooks Online."
+    ],
+    "commonPitfalls": [
+      "Mismatched product names causing line item creation failures in QuickBooks.",
+      "Failing to handle tax exemption numbers on enterprise B2B customer accounts."
+    ]
+  },
+  {
+    "slug": "mysql-to-google-sheets-integration",
+    "metaTitle": "MySQL to Google Sheets Automated Export Pipeline",
+    "metaDescription": "Query MySQL production databases and sync results into Google Sheets spreadsheets automatically without writing scripts.",
+    "toolA": "MySQL",
+    "toolACategory": "Database & Infrastructure",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Export daily business KPIs and transactional metrics from MySQL to Google Sheets.",
+      "Provide non-technical business stakeholders with live database views safely.",
+      "Trigger alert rows in spreadsheets when abnormal query thresholds are met."
+    ],
+    "stepByStepGuide": [
+      "Create a dedicated read-only MySQL user with SELECT permissions on target views.",
+      "Whitelist Make IP addresses in your MySQL cloud firewall or security group.",
+      "In Make, add the 'MySQL - Execute a Query' or 'Watch Rows' trigger module.",
+      "Add the 'Google Sheets - Add a Row' module and select the target sheet tab.",
+      "Map query column outputs to spreadsheet headers and turn on the schedule."
+    ],
+    "commonPitfalls": [
+      "Running heavy unindexed queries on high-traffic production databases during peak hours.",
+      "Failing to use SSL encryption certificates when connecting to the remote database."
+    ]
+  },
+  {
+    "slug": "mongodb-to-snowflake-integration",
+    "metaTitle": "MongoDB to Snowflake NoSQL to Data Warehouse Sync",
+    "metaDescription": "Extract document collections from MongoDB, flatten JSON schemas, and load records into Snowflake tables via Make.",
+    "toolA": "MongoDB",
+    "toolACategory": "Database & Infrastructure",
+    "toolB": "Snowflake",
+    "toolBCategory": "Data Warehouse",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 45,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Transform nested NoSQL JSON documents into structured relational Snowflake tables.",
+      "Sync application user profile data into centralized analytics warehouses for BI tools.",
+      "Maintain historical change streams for audit and compliance analytics."
+    ],
+    "stepByStepGuide": [
+      "In Make, connect to your MongoDB Atlas cluster using a read-only database URI.",
+      "Add 'MongoDB - Watch Documents' or 'Find Documents' trigger module.",
+      "Add a JSON transformation module to flatten deeply nested object arrays.",
+      "Authenticate Snowflake and add 'Snowflake - Insert Row' into staging tables.",
+      "Test batch document synchronization and query formatted rows in Snowflake."
+    ],
+    "commonPitfalls": [
+      "Polymorphic document schemas in MongoDB causing data type mismatch errors in Snowflake.",
+      "Failing to handle null values in optional NoSQL fields during table inserts."
+    ]
+  },
+  {
+    "slug": "clickhouse-to-slack-integration",
+    "metaTitle": "ClickHouse to Slack Real-Time Anomaly Alerts",
+    "metaDescription": "Monitor fast analytical queries in ClickHouse and dispatch automated anomaly and metric alerts to Slack channels.",
+    "toolA": "ClickHouse",
+    "toolACategory": "Database & Infrastructure",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Alert engineering teams when API error rates in ClickHouse exceed 2% in a 5-minute window.",
+      "Send daily transactional revenue and sign-up metrics to executive Slack channels.",
+      "Broadcast performance latency spikes and database health warnings in real-time."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'ClickHouse - Execute a Query' scheduled trigger module.",
+      "Write a SQL aggregate query (e.g. `SELECT count() FROM logs WHERE status >= 500`).",
+      "Add a filter to only proceed if returned count exceeds your alert threshold.",
+      "Add a Slack 'Create a Message' module with formatted metric values and query timestamp.",
+      "Test query execution and verify alert message formatting in Slack."
+    ],
+    "commonPitfalls": [
+      "Setting polling intervals too aggressively, creating unnecessary query overhead.",
+      "Hardcoding credentials in query strings instead of using encrypted connection secrets."
+    ]
+  },
+  {
+    "slug": "supabase-to-google-sheets-integration",
+    "metaTitle": "Supabase to Google Sheets Real-Time Data Pipeline",
+    "metaDescription": "Stream Postgres rows and user signups from Supabase to Google Sheets spreadsheets automatically with Make scenarios.",
+    "toolA": "Supabase",
+    "toolACategory": "Database & Infrastructure",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Export newly registered Supabase auth users to Google Sheets for customer tracking.",
+      "Sync SaaS subscription table rows into executive reporting spreadsheets.",
+      "Trigger row updates when order records change status in Supabase tables."
+    ],
+    "stepByStepGuide": [
+      "In Make, set up the 'Supabase - Watch Records' trigger module with your Supabase URL and Service Key.",
+      "Select target database schema and table name (e.g. `public.users` or `public.orders`).",
+      "Authenticate your Google Workspace account and select the destination spreadsheet.",
+      "Map Supabase JSON column values to Google Sheet header columns.",
+      "Trigger a test row insert in Supabase and confirm instant addition to the sheet."
+    ],
+    "commonPitfalls": [
+      "Using the public anon key instead of service role key for tables protected by RLS policies.",
+      "Mismatched timestamp formats requiring formatting filters before spreadsheet entry."
+    ]
+  },
+  {
+    "slug": "redshift-to-salesforce-integration",
+    "metaTitle": "Amazon Redshift to Salesforce Reverse ETL Pipeline",
+    "metaDescription": "Sync customer product usage metrics and computed lifetime value from Amazon Redshift into Salesforce CRM.",
+    "toolA": "Amazon Redshift",
+    "toolACategory": "Data Warehouse",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 45,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Push product qualified lead (PQL) scores from Redshift to Salesforce Lead records.",
+      "Sync monthly active usage metrics to Salesforce Account objects for renewal teams.",
+      "Alert sales reps when enterprise accounts show sudden drops in platform activity."
+    ],
+    "stepByStepGuide": [
+      "Create a read-only Redshift database user and configure VPC / security group access.",
+      "In Make, add the 'Amazon Redshift - Execute a Query' scheduled trigger module.",
+      "Authenticate Salesforce using OAuth2 Connected App credentials.",
+      "Add a 'Salesforce - Upsert Record' module matching by Account Domain or Lead Email.",
+      "Map computed usage metrics to Salesforce custom fields and turn on the schedule."
+    ],
+    "commonPitfalls": [
+      "Running heavy table scans without partitioning, increasing Redshift cluster load.",
+      "Hitting Salesforce daily API call limits with unbatched individual record upserts."
+    ]
+  },
+  {
+    "slug": "bigquery-to-slack-integration",
+    "metaTitle": "Google BigQuery to Slack Automated KPI Broadcasts",
+    "metaDescription": "Schedule BigQuery analytics queries and push daily KPI reports, anomaly alerts, and revenue metrics into Slack channels.",
+    "toolA": "BigQuery",
+    "toolACategory": "Data Warehouse",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Broadcast daily revenue, churn rate, and active user metrics to executive channels.",
+      "Send instant Slack alerts when fraud detection queries return positive flags.",
+      "Share marketing campaign ROI and CAC metrics with growth teams automatically."
+    ],
+    "stepByStepGuide": [
+      "In Google Cloud Console, create a service account with 'BigQuery Data Viewer' and 'Job User' roles.",
+      "In Make, configure the 'Google BigQuery - Run a Query' scheduled trigger module.",
+      "Enter your SQL query and select your GCP Project ID and Dataset.",
+      "Connect Slack and format a Slack Block Kit message with query result values.",
+      "Test query execution and confirm clean chart/metric card delivery in Slack."
+    ],
+    "commonPitfalls": [
+      "Writing queries that scan full unpartitioned tables, incurring unexpected BigQuery query fees.",
+      "Failing to handle zero-result query returns gracefully, sending blank alerts."
+    ]
+  },
+  {
+    "slug": "snowflake-to-hubspot-integration",
+    "metaTitle": "Snowflake to HubSpot Reverse ETL Customer Sync",
+    "metaDescription": "Sync customer health scores, product usage data, and billing metrics from Snowflake to HubSpot CRM properties.",
+    "toolA": "Snowflake",
+    "toolACategory": "Data Warehouse",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 40,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Enrich HubSpot Contact and Company records with warehouse-modeled user engagement data.",
+      "Trigger automated HubSpot marketing workflows based on warehouse churn risk scores.",
+      "Give sales reps complete visibility into customer product feature adoption."
+    ],
+    "stepByStepGuide": [
+      "Create a dedicated Snowflake user, virtual warehouse, and role with read permissions on analytics views.",
+      "In Make, add the 'Snowflake - Execute a Query' scheduled trigger module.",
+      "Authenticate HubSpot using private app access token with CRM object write scopes.",
+      "Add 'HubSpot CRM - Update a Company/Contact' module matching by domain or email.",
+      "Map modeled product fields (Seats Used, API Calls, Plan Tier) and schedule the run."
+    ],
+    "commonPitfalls": [
+      "Not creating custom properties in HubSpot first before attempting to write data.",
+      "Overloading Snowflake warehouse credit consumption by scheduling sub-minute sync frequencies."
+    ]
+  },
+  {
+    "slug": "asana-to-slack-integration",
+    "metaTitle": "Asana to Slack Project Management & Task Alerts",
+    "metaDescription": "Turn Slack messages into Asana tasks, receive task assignment updates, and unfurl project status natively in Slack.",
+    "toolA": "Asana",
+    "toolACategory": "Project Management",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Convert Slack message action prompts directly into structured Asana project tasks.",
+      "Receive real-time notifications in project channels when task milestones are completed.",
+      "Unfurl Asana task links in Slack with assignee, due date, priority, and description."
+    ],
+    "stepByStepGuide": [
+      "In Slack App Directory, search for 'Asana' and click 'Add to Slack'.",
+      "Authenticate with your Asana user credentials and authorize workspace access.",
+      "Type `/asana` in Slack to link specific project channels to target Asana projects.",
+      "Configure project notification rules for task creations, status updates, and comments.",
+      "Create a task from Slack using the message shortcut menu and verify in Asana."
+    ],
+    "commonPitfalls": [
+      "Enabling notifications for all minor task field updates, creating excessive channel chatter.",
+      "Linking private Asana projects to public Slack channels, accidentally exposing sensitive roadmaps."
+    ]
+  },
+  {
+    "slug": "monday-to-slack-integration",
+    "metaTitle": "Monday.com to Slack Workflow & Task Integration",
+    "metaDescription": "Connect Monday.com boards to Slack to notify teams of status transitions, new items, and deadline alerts natively.",
+    "toolA": "Monday.com",
+    "toolACategory": "Project Management",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Broadcast board item status updates (e.g. 'Done', 'Blocked') to dedicated Slack channels.",
+      "Notify assignees in Slack when they are tagged on Monday.com board items.",
+      "Create new Monday.com items directly from Slack channels using slash commands."
+    ],
+    "stepByStepGuide": [
+      "In Monday.com, open your target board and click 'Integrate' in the upper toolbar.",
+      "Search for 'Slack' and choose a pre-built recipe (e.g. 'When status changes to X, notify channel').",
+      "Authorize Monday.com connection to your Slack workspace.",
+      "Select the destination Slack channel and customize the message template with board variables.",
+      "Test by updating an item status on Monday.com and verifying the notification in Slack."
+    ],
+    "commonPitfalls": [
+      "Not adding the Monday.com bot to private Slack channels before configuring integration rules.",
+      "Overlapping multiple automation recipes that result in duplicate notifications for single events."
+    ]
+  },
+  {
+    "slug": "monday-to-google-sheets-integration",
+    "metaTitle": "Monday.com to Google Sheets Live Board Sync",
+    "metaDescription": "Sync Monday.com board items, time tracking logs, and project deliverables to Google Sheets for reporting via Make.",
+    "toolA": "Monday.com",
+    "toolACategory": "Project Management",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Export client project milestones and billable hours into external billing spreadsheets.",
+      "Create cross-board executive portfolio summary reports in Google Sheets.",
+      "Back up archived board items and activity logs for compliance record-keeping."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Monday.com - Watch Board Items' trigger module with your API token.",
+      "Select your target Board ID and trigger column parameters.",
+      "Authenticate your Google Workspace account and choose the destination spreadsheet.",
+      "Add 'Google Sheets - Add a Row' mapping board columns (Item Name, Owner, Status, Timeline).",
+      "Run a test execution and verify formatted row insertion in Google Sheets."
+    ],
+    "commonPitfalls": [
+      "Monday.com complex column types (People, Timeline, Tags) requiring value extraction filters.",
+      "Not handling deleted items, which remain as orphaned rows in Google Sheets."
+    ]
+  },
+  {
+    "slug": "shortcut-to-github-integration",
+    "metaTitle": "Shortcut to GitHub Two-Way Branch & Story Sync",
+    "metaDescription": "Link GitHub pull requests, branches, and commits directly to Shortcut stories to automate dev status updates.",
+    "toolA": "Shortcut",
+    "toolACategory": "Project Management",
+    "toolB": "GitHub",
+    "toolBCategory": "Developer Tools",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Automatically move Shortcut stories from 'In Development' to 'In Review' when a PR is opened.",
+      "Close Shortcut stories automatically when pull requests merge into the main branch.",
+      "Display GitHub branch names and build status directly inside Shortcut story cards."
+    ],
+    "stepByStepGuide": [
+      "In Shortcut, navigate to Settings > Integrations > GitHub.",
+      "Click 'Install GitHub App' and select target GitHub organizations and repositories.",
+      "Configure workflow state mapping (e.g., PR Opened &rarr; In Review, PR Merged &rarr; Completed).",
+      "Copy branch naming shortcuts (e.g. `sc-1234/feature-name`) into developer guidelines.",
+      "Open a test pull request on GitHub referencing a story ID and verify state transition."
+    ],
+    "commonPitfalls": [
+      "Forgetting to include the story ID (e.g. `[sc-123]` or `sc-123/`) in the branch name or commit message.",
+      "Restricting GitHub App repository access, preventing status updates on new repos."
+    ]
+  },
+  {
+    "slug": "notion-to-slack-integration",
+    "metaTitle": "Notion to Slack Page Updates & Database Alerts",
+    "metaDescription": "Receive instant Slack notifications when Notion pages are created, modified, or commented on natively.",
+    "toolA": "Notion",
+    "toolACategory": "Knowledge & Documentation",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify product channels when new RFCs, PRDs, or design specifications are published in Notion.",
+      "Alert team members when new tasks or database entries are assigned to them in Notion.",
+      "Unfurl Notion document previews with title, creator, and summary directly inside Slack."
+    ],
+    "stepByStepGuide": [
+      "In Notion, navigate to Settings & Members > My Connections > Slack.",
+      "Authenticate and connect your team's Slack workspace.",
+      "Open any Notion page or database, click '...', select 'Slack notifications', and pick a channel.",
+      "Choose notification triggers for page edits, new database entries, and comments.",
+      "Add a comment or new entry in Notion and verify the notification card in Slack."
+    ],
+    "commonPitfalls": [
+      "Enabling Slack alerts on high-velocity scratchpad pages, creating unnecessary noise.",
+      "Missing page share permissions for team members attempting to open unfurled Notion links."
+    ]
+  },
+  {
+    "slug": "coda-to-slack-integration",
+    "metaTitle": "Coda to Slack Doc Automations & Interactive Alerts",
+    "metaDescription": "Send interactive Slack buttons, form alerts, and document updates from Coda docs natively or via Make.",
+    "toolA": "Coda",
+    "toolACategory": "Productivity & Reporting",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Post interactive Slack buttons that trigger Coda document actions directly from chat.",
+      "Send team reminders and daily standup summaries automatically from Coda tables.",
+      "Alert leadership channels when critical project milestones change status in Coda docs."
+    ],
+    "stepByStepGuide": [
+      "In your Coda document, click 'Packs' from the right-hand sidebar and install 'Slack'.",
+      "Authenticate with your Slack account and grant messaging permissions.",
+      "Add an automation rule inside Coda: 'When row is updated, PostMessage to Slack'.",
+      "Format message parameters with Coda column values, @mentions, and action buttons.",
+      "Trigger the doc automation rule and verify message delivery in Slack."
+    ],
+    "commonPitfalls": [
+      "Not adding the Coda bot to private channels before triggering message actions.",
+      "Exceeding Slack message block limits when sending large formatted Coda table summaries."
+    ]
+  },
+  {
+    "slug": "airtable-to-hubspot-integration",
+    "metaTitle": "Airtable to HubSpot Contact & Deal Sync Guide",
+    "metaDescription": "Sync Airtable customer records, event attendees, and product signups into HubSpot CRM contacts and deals via Make.",
+    "toolA": "Airtable",
+    "toolACategory": "Database & Spreadsheet",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Create or update HubSpot Contacts when new records are added to Airtable outreach bases.",
+      "Sync custom event webinar attendee tags from Airtable into HubSpot marketing lists.",
+      "Update HubSpot deal stages when implementation milestones are completed in Airtable."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Airtable - Watch Records' trigger module with personal access token.",
+      "Select your Base, Table, and optional filtered View (e.g. 'Ready for Sync').",
+      "Authenticate HubSpot and add a 'HubSpot CRM - Search Contacts' module by email.",
+      "Add 'HubSpot CRM - Create or Update Contact' module mapping standard and custom fields.",
+      "Test with a sample Airtable record and verify updated contact properties in HubSpot."
+    ],
+    "commonPitfalls": [
+      "Syncing unvalidated email addresses, creating bounce errors in HubSpot.",
+      "Not handling multi-select field value arrays properly during field mapping."
+    ]
+  },
+  {
+    "slug": "airtable-to-salesforce-integration",
+    "metaTitle": "Airtable to Salesforce Enterprise Record Sync",
+    "metaDescription": "Sync partner applications, field operations data, and intake records from Airtable into Salesforce CRM via Make.",
+    "toolA": "Airtable",
+    "toolACategory": "Database & Spreadsheet",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 35,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Push partner and vendor intake submissions from Airtable into Salesforce Custom Objects.",
+      "Sync high-velocity SDR prospecting records into Salesforce Leads with deduping.",
+      "Update Salesforce Opportunity stages when implementation project bases are approved."
+    ],
+    "stepByStepGuide": [
+      "In Make, configure the 'Airtable - Watch Records' trigger on your operational base.",
+      "Authenticate Salesforce using OAuth2 Connected App credentials.",
+      "Add a 'Salesforce - Search Records' module to avoid creating duplicate Lead/Contact entities.",
+      "Use 'Salesforce - Create or Update Record' to map Airtable cell values to Salesforce fields.",
+      "Run a test scenario execution and verify record population in Salesforce views."
+    ],
+    "commonPitfalls": [
+      "Missing mandatory Salesforce required fields (e.g. Company, LastName) on Lead creation.",
+      "Hitting Salesforce API governor limits when bulk syncing thousands of Airtable rows."
+    ]
+  },
+  {
+    "slug": "google-sheets-to-hubspot-integration",
+    "metaTitle": "Google Sheets to HubSpot Contact Import Pipeline",
+    "metaDescription": "Automatically create and update HubSpot CRM contacts, companies, and deals whenever rows are added to Google Sheets.",
+    "toolA": "Google Sheets",
+    "toolACategory": "Productivity & Reporting",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Sync lead lists from external events and webinars into HubSpot CRM automatically.",
+      "Update contact lifecycle stages and company sizes from shared team spreadsheets.",
+      "Create HubSpot deals from spreadsheet rows populated by affiliate partners."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Google Sheets - Watch New Rows' trigger module.",
+      "Select the target spreadsheet file and sheet tab name.",
+      "Authenticate your HubSpot CRM account with a private app token.",
+      "Add 'HubSpot CRM - Create or Update a Contact' module mapping column values to CRM properties.",
+      "Add a test row to your Google Sheet and verify the newly created contact in HubSpot."
+    ],
+    "commonPitfalls": [
+      "Leaving blank rows in Google Sheets, which can cause polling triggers to skip subsequent entries.",
+      "Invalid phone number or email formats failing HubSpot CRM validation rules."
+    ]
+  },
+  {
+    "slug": "google-sheets-to-slack-integration",
+    "metaTitle": "Google Sheets to Slack Row Updates & Metric Alerts",
+    "metaDescription": "Send formatted Slack alerts whenever new rows, status changes, or metric milestones are logged in Google Sheets.",
+    "toolA": "Google Sheets",
+    "toolACategory": "Productivity & Reporting",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify sales channels when a new inbound enterprise lead row is added to tracking sheets.",
+      "Broadcast weekly revenue milestones and financial summary rows to team channels.",
+      "Alert operations teams when inventory re-order threshold rows are triggered."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Google Sheets - Watch Rows' trigger module.",
+      "Select your spreadsheet and define the trigger column (e.g. 'Status' or 'Row ID').",
+      "Connect your Slack workspace and select target public or private channel.",
+      "Construct a Slack Block Kit message with column headers and cell values.",
+      "Add a test row to the sheet and confirm the notification delivery in Slack."
+    ],
+    "commonPitfalls": [
+      "Creating notification loops if another scenario modifies rows in the same spreadsheet.",
+      "Formatting dates as unreadable raw serial timestamps instead of clean ISO strings."
+    ]
+  },
+  {
+    "slug": "webflow-to-airtable-integration",
+    "metaTitle": "Webflow to Airtable Form Submissions & CMS Sync",
+    "metaDescription": "Capture Webflow form leads and sync relational CMS collection items directly into Airtable bases via Make.",
+    "toolA": "Webflow",
+    "toolACategory": "CMS & Website Builder",
+    "toolB": "Airtable",
+    "toolBCategory": "Database & Spreadsheet",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Route Webflow landing page form submissions directly into Airtable CRM bases.",
+      "Back up Webflow CMS collection items to Airtable automatically upon publication.",
+      "Track marketing attribution parameters (UTM source, medium, campaign) in Airtable."
+    ],
+    "stepByStepGuide": [
+      "In Make, add the 'Webflow - Watch Form Submissions' trigger module with your Webflow API token.",
+      "Select your Webflow Site ID and target Form name.",
+      "Authenticate Airtable and select your target Base and Table.",
+      "Map Webflow form submission fields (Name, Email, Message, UTM parameters) to Airtable fields.",
+      "Submit a test form on your live or staging Webflow site and confirm Airtable record creation."
+    ],
+    "commonPitfalls": [
+      "Not publishing the Webflow site after modifying form field names, causing payload mismatches.",
+      "Failing to capture hidden form fields for UTM campaign tracking."
+    ]
+  },
+  {
+    "slug": "webflow-to-hubspot-integration",
+    "metaTitle": "Webflow to HubSpot Form & Lead Capture Sync",
+    "metaDescription": "Route Webflow form submissions, newsletter signups, and demo requests into HubSpot CRM contacts and deals natively.",
+    "toolA": "Webflow",
+    "toolACategory": "CMS & Website Builder",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Convert Webflow contact forms into new HubSpot Leads with full UTM tracking.",
+      "Trigger HubSpot marketing nurturing emails immediately upon Webflow form completion.",
+      "Create deals and assign sales owners based on form budget and company size fields."
+    ],
+    "stepByStepGuide": [
+      "In Webflow Marketplace, install the official 'HubSpot App for Webflow'.",
+      "Authenticate with your HubSpot account and select your CRM portal.",
+      "Map Webflow form inputs to HubSpot Contact standard and custom properties.",
+      "Embed the HubSpot tracking script on your Webflow site settings for pageview attribution.",
+      "Submit a live test form and verify the contact and activity timeline in HubSpot."
+    ],
+    "commonPitfalls": [
+      "Forgetting to republish your Webflow site after connecting the HubSpot integration.",
+      "Mismatched dropdown picklist values between Webflow select elements and HubSpot properties."
+    ]
+  },
+  {
+    "slug": "calendly-to-slack-integration",
+    "metaTitle": "Calendly to Slack Meeting Booked Alerts",
+    "metaDescription": "Send instant Slack channel alerts and rep direct messages when prospects book meetings via Calendly.",
+    "toolA": "Calendly",
+    "toolACategory": "Scheduling & Booking",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify sales channels when prospects book product demos with meeting details.",
+      "Send direct message reminders to meeting hosts 10 minutes prior to scheduled calls.",
+      "Alert account managers immediately when client onboarding sessions are booked."
+    ],
+    "stepByStepGuide": [
+      "In Calendly Integrations Directory, search for and select 'Slack'.",
+      "Click 'Connect to Slack' and authorize with your team's workspace.",
+      "Choose which Calendly Event Types should send channel notifications.",
+      "Select destination Slack channels and configure host direct message preferences.",
+      "Book a test meeting on your Calendly link and verify the Slack alert card."
+    ],
+    "commonPitfalls": [
+      "Failing to install the Slack app for all individual team members on shared team Calendly pages.",
+      "Not handling meeting cancellations, resulting in confusion if notifications are not updated."
+    ]
+  },
+  {
+    "slug": "linear-to-github-integration",
+    "metaTitle": "Linear to GitHub Pull Request & Issue Sync",
+    "metaDescription": "Automate Linear issue status updates, branch creation, and commit linking natively with GitHub repositories.",
+    "toolA": "Linear",
+    "toolACategory": "Project Management",
+    "toolB": "GitHub",
+    "toolBCategory": "Developer Tools",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Auto-move Linear issues from 'Todo' to 'In Progress' when a git branch is created.",
+      "Move Linear issues to 'In Review' when a pull request is opened and 'Done' when merged.",
+      "Display GitHub PR review status, CI checks, and deploy links directly in Linear issues."
+    ],
+    "stepByStepGuide": [
+      "In Linear Settings > Workspace > Integrations, select 'GitHub'.",
+      "Click 'Install GitHub App' and choose your target organization and repos.",
+      "Configure automation rules for branch creation, draft PRs, and PR merges.",
+      "Copy branch git commands directly from Linear issue details (e.g. `git checkout -b username/lin-123`).",
+      "Open a test pull request on GitHub and verify real-time issue status transition in Linear."
+    ],
+    "commonPitfalls": [
+      "Omitting the Linear issue identifier (e.g. `ENG-123`) from branch names or PR titles.",
+      "Restricting GitHub permissions, preventing draft PR status detection."
+    ]
+  },
+  {
+    "slug": "sentry-to-slack-integration",
+    "metaTitle": "Sentry to Slack Real-Time Error Alerting Guide",
+    "metaDescription": "Route Sentry crash reports, uncaught exceptions, and performance regressions directly to engineering Slack channels.",
+    "toolA": "Sentry",
+    "toolACategory": "Observability & Monitoring",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Alert on-call engineers in Slack when high-severity exceptions spike in production.",
+      "Resolve, ignore, or assign Sentry issues directly from interactive Slack notification cards.",
+      "Route frontend UI errors to Web team channels and backend exceptions to Core API channels."
+    ],
+    "stepByStepGuide": [
+      "In Sentry, navigate to Settings > Integrations > Slack.",
+      "Click 'Add Workspace' and authorize connection to your Slack team.",
+      "Go to Alerts > Create Alert Rule and define trigger conditions (e.g. 'New issue created').",
+      "Select 'Send a Slack notification' and pick the target channel.",
+      "Trigger a test error from your staging environment and review the rich interactive card in Slack."
+    ],
+    "commonPitfalls": [
+      "Setting alert thresholds too low, causing alert fatigue from transient client-side network errors.",
+      "Not adding the Sentry bot to private triage channels."
+    ]
+  },
+  {
+    "slug": "datadog-to-slack-integration",
+    "metaTitle": "Datadog to Slack Monitor & Incident Alerting",
+    "metaDescription": "Stream Datadog infrastructure alerts, synthetic test failures, and APM latency spikes to Slack channels natively.",
+    "toolA": "Datadog",
+    "toolACategory": "Observability & Monitoring",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Broadcast critical P1/P0 infrastructure monitor alerts to on-call engineering channels.",
+      "Share APM latency graphs and synthetic test failure snapshots directly in Slack.",
+      "Acknowledge or mute Datadog monitors from Slack using interactive button actions."
+    ],
+    "stepByStepGuide": [
+      "In Datadog, go to Integrations > Slack and click 'Connect Slack Account'.",
+      "Authorize permissions for your team's Slack workspace.",
+      "Add target channels (e.g. `#alerts-prod`, `#alerts-staging`) in the Datadog Slack configuration.",
+      "In any Datadog Monitor message body, append `@slack-alerts-prod` to route alerts.",
+      "Trigger a monitor test notification and verify the graph card appearance in Slack."
+    ],
+    "commonPitfalls": [
+      "Forgetting to invite `@Datadog` bot into private engineering incident channels.",
+      "Not configuring distinct escalation channels for warning vs. critical alert states."
+    ]
+  },
+  {
+    "slug": "apollo-to-hubspot-integration",
+    "metaTitle": "Apollo.io to HubSpot Sales Prospect & Lead Sync",
+    "metaDescription": "Enrich HubSpot CRM contacts and push verified B2B prospect lists from Apollo.io into HubSpot automatically.",
+    "toolA": "Apollo",
+    "toolACategory": "Sales Intelligence",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Push verified prospect contacts, verified emails, and phone numbers directly into HubSpot CRM.",
+      "Enrich existing HubSpot contacts with verified company headcount, industry, and funding data.",
+      "Prevent prospecting duplicates by syncing HubSpot exclusion lists back into Apollo."
+    ],
+    "stepByStepGuide": [
+      "In Apollo.io, navigate to Settings > Integrations > HubSpot.",
+      "Click 'Connect' and log into your HubSpot CRM portal to authorize OAuth access.",
+      "Configure field mapping rules for Contacts, Companies, and Deals.",
+      "Enable automatic bidirectional deduplication based on corporate email addresses.",
+      "Save prospect contacts in Apollo and confirm instant enrichment in HubSpot."
+    ],
+    "commonPitfalls": [
+      "Exceeding HubSpot API rate limits when exporting large batches of 10k+ prospects at once.",
+      "Overwriting custom SDR notes in HubSpot with automated Apollo field updates."
+    ]
   }
 ]
