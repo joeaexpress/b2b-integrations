@@ -718,5 +718,733 @@
       "Syncing non-marketing opted-in customers to marketing lists without double opt-in compliance.",
       "Running simultaneous abandoned cart automations in both Shopify native email and Mailchimp, double-emailing customers."
     ]
+  },
+  {
+    "slug": "shopify-to-netsuite-integration",
+    "metaTitle": "Shopify to NetSuite ERP Integration Guide | B2B Sync",
+    "metaDescription": "Automate sales order fulfillment, real-time inventory levels, and customer records between Shopify and Oracle NetSuite ERP.",
+    "toolA": "Shopify",
+    "toolACategory": "E-Commerce",
+    "toolB": "NetSuite",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 60,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Auto-create NetSuite Sales Orders when new customer purchases are confirmed in Shopify.",
+      "Sync real-time warehouse inventory counts from NetSuite to Shopify product catalog variants.",
+      "Post fulfillment tracking numbers and carrier details back to Shopify to trigger customer shipping notifications."
+    ],
+    "stepByStepGuide": [
+      "Enable Token-Based Authentication (TBA) and REST Web Services in NetSuite Company Enable Features.",
+      "Create a custom NetSuite Role and Integration Record with permissions for Sales Orders, Customers, and Inventory Items.",
+      "In Make, set up a scenario triggered by Shopify 'Watch Orders' webhook for paid checkouts.",
+      "Add a NetSuite module to lookup or create the Customer Entity, then map line items, tax codes, and currency to create a Sales Order.",
+      "Configure an hourly reverse sync in Make to query NetSuite Item Location quantities and update Shopify product stock."
+    ],
+    "commonPitfalls": [
+      "Tax code mismatches between Shopify localized tax engines and NetSuite subsidiary tax schedules.",
+      "Failing to implement an idempotency key lookup, creating duplicate NetSuite sales orders on customer order edits."
+    ]
+  },
+  {
+    "slug": "stripe-to-netsuite-integration",
+    "metaTitle": "Stripe to NetSuite Revenue Recognition Guide",
+    "metaDescription": "Automate Stripe charge reconciliation, merchant processing fees, customer deposits, and journal entries in Oracle NetSuite.",
+    "toolA": "Stripe",
+    "toolACategory": "Payment & Billing",
+    "toolB": "NetSuite",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 75,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Create NetSuite Customer Payments and apply them automatically to open Invoices when Stripe charges succeed.",
+      "Record Stripe payout bank deposits and automatically deduct processing fees to a designated COGS expense account.",
+      "Sync Stripe customer subscription refund events to generate NetSuite Credit Memos."
+    ],
+    "stepByStepGuide": [
+      "Configure NetSuite Token-Based Authentication and grant API access to Bank Deposit and Customer Payment records.",
+      "In Stripe Dashboard, create a restricted API key with read access to charges, payouts, and balance transactions.",
+      "In Make, create a scenario listening to Stripe 'payout.paid' webhooks.",
+      "Fetch all balance transaction line items in the payout batch and group them by gross revenue, refunds, and Stripe fees.",
+      "Generate a single NetSuite Bank Deposit record matching the exact net bank settlement amount."
+    ],
+    "commonPitfalls": [
+      "Multi-currency conversion rounding discrepancies between Stripe settlement currencies and NetSuite base general ledger currency.",
+      "Omitting Stripe dispute holding fees, resulting in small month-end bank reconciliation variances."
+    ]
+  },
+  {
+    "slug": "salesforce-to-netsuite-integration",
+    "metaTitle": "Salesforce to NetSuite CPQ & Billing Integration Guide",
+    "metaDescription": "Sync Closed-Won Salesforce opportunities into NetSuite sales orders, customer accounts, and automated subscription billing schedules.",
+    "toolA": "Salesforce",
+    "toolACategory": "CRM & Enterprise Sales",
+    "toolB": "NetSuite",
+    "toolBCategory": "Accounting & Finance",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 90,
+    "difficulty": "Advanced",
+    "topUseCases": [
+      "Automatically transform Salesforce Closed-Won Opportunities into NetSuite Sales Orders and Invoices.",
+      "Maintain bi-directional sync between Salesforce Account records and NetSuite Customer Master data.",
+      "Push NetSuite invoice payment statuses back to Salesforce to inform Account Executives of billing health."
+    ],
+    "stepByStepGuide": [
+      "Set up Salesforce Outbound Message or Change Data Capture (CDC) on the Opportunity object.",
+      "Configure NetSuite SuiteTalk REST API credentials and custom item pricing mapping.",
+      "In Make, build an orchestration scenario triggered when Opportunity Stage equals 'Closed Won'.",
+      "Check NetSuite for matching Customer Entity by Salesforce Account ID, creating new Customer if missing.",
+      "Iterate over Opportunity Products, map SKU identifiers and billing terms, and submit the NetSuite Sales Order.",
+      "Write the resulting NetSuite Order ID and status URL back to custom fields on the Salesforce Opportunity."
+    ],
+    "commonPitfalls": [
+      "Product SKU naming discrepancies between Salesforce Price Books and NetSuite Inventory Master items.",
+      "Parent/child billing entity hierarchy mismatches causing invoices to be addressed to the wrong subsidiary."
+    ]
+  },
+  {
+    "slug": "postgres-to-snowflake-integration",
+    "metaTitle": "PostgreSQL to Snowflake Data Pipeline Guide",
+    "metaDescription": "Build automated ELT pipelines to replicate PostgreSQL production tables to Snowflake data warehouse for BI and reporting.",
+    "toolA": "PostgreSQL",
+    "toolACategory": "Database & Infrastructure",
+    "toolB": "Snowflake",
+    "toolBCategory": "Data Warehouse",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 45,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Replicate transactional database tables to Snowflake staging tables on an automated incremental schedule.",
+      "Offload heavy business intelligence queries and cohort analytics from production Postgres read replicas.",
+      "Combine application database logs with billing and CRM data in a unified Snowflake data lake."
+    ],
+    "stepByStepGuide": [
+      "Create a dedicated read-only Postgres database user with SELECT permissions on target schema tables.",
+      "Provision a Snowflake database, schema, and staging warehouse with dedicated service role credentials.",
+      "In Make, configure a scheduled scenario that queries Postgres records updated since last execution timestamp.",
+      "Batch the extracted JSON rows into Snowflake format and execute an idempotent MERGE or COPY INTO query.",
+      "Validate row counts between Postgres source and Snowflake target tables."
+    ],
+    "commonPitfalls": [
+      "Missing `updated_at` indexed columns on high-volume Postgres tables causing full table scans during incremental syncs.",
+      "Timezone format discrepancies between Postgres timestamptz and Snowflake session timezone defaults."
+    ]
+  },
+  {
+    "slug": "hubspot-to-bigquery-integration",
+    "metaTitle": "HubSpot to Google BigQuery Sync Guide",
+    "metaDescription": "Stream HubSpot CRM contacts, deals, web analytics, and email campaign metrics directly into Google BigQuery for SQL analytics.",
+    "toolA": "HubSpot",
+    "toolACategory": "CRM & Sales",
+    "toolB": "BigQuery",
+    "toolBCategory": "Data Warehouse",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 40,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Ingest full HubSpot CRM deal stage history into BigQuery for custom revenue forecasting and attribution models.",
+      "Join email campaign engagement data with in-app product analytics in Looker Studio.",
+      "Archive historical customer lifecycle data beyond HubSpot's standard tier retention limits."
+    ],
+    "stepByStepGuide": [
+      "Create a Google Cloud Service Account with 'BigQuery Data Editor' permissions and download the JSON keyfile.",
+      "Create a BigQuery dataset and define schema tables for contacts, deals, and engagement activities.",
+      "Generate a HubSpot Private App access token with crm.objects.deals:read and crm.objects.contacts:read scopes.",
+      "In Make, build a recurring sync scenario that batches changed HubSpot CRM records and streams them via BigQuery InsertAll API.",
+      "Schedule nightly deduplication queries in BigQuery using partitioned tables."
+    ],
+    "commonPitfalls": [
+      "Hitting HubSpot API rate limits (100 requests/10 seconds) during full backfills without batch paging.",
+      "Schema drift when new custom properties are added in HubSpot without corresponding BigQuery table updates."
+    ]
+  },
+  {
+    "slug": "supabase-to-stripe-integration",
+    "metaTitle": "Supabase to Stripe Subscription Sync Guide",
+    "metaDescription": "Sync Postgres user authentication records in Supabase to Stripe customers and manage subscription tier entitlements.",
+    "toolA": "Supabase",
+    "toolACategory": "Database & Infrastructure",
+    "toolB": "Stripe",
+    "toolBCategory": "Payment & Billing",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Auto-create a Stripe Customer record whenever a new user signs up in Supabase Auth.",
+      "Sync Stripe customer portal checkout sessions to update user subscription status in Supabase Postgres table.",
+      "Revoke user premium tier privileges automatically in Supabase database when Stripe subscription cancels."
+    ],
+    "stepByStepGuide": [
+      "Enable Supabase Database Webhooks on the `auth.users` table for INSERT events.",
+      "In Make, configure a Webhook trigger that receives the new user payload from Supabase.",
+      "Add a Stripe action module to create a new Customer with email, name, and Supabase user UUID in Stripe metadata.",
+      "Add a Supabase Database module to write the newly generated `stripe_customer_id` back to the user profile row.",
+      "Configure a second Stripe webhook scenario listening for `customer.subscription.updated` to sync status changes."
+    ],
+    "commonPitfalls": [
+      "Failing to handle webhook retry storms, resulting in duplicate customer records in Stripe.",
+      "Missing Row Level Security (RLS) policies on subscription tables in Supabase Postgres."
+    ]
+  },
+  {
+    "slug": "stripe-to-snowflake-integration",
+    "metaTitle": "Stripe Data Pipeline to Snowflake (Native Sync)",
+    "metaDescription": "Connect Stripe Data Pipeline directly to Snowflake for automated daily financial ledger data warehousing and SQL cohort modeling.",
+    "toolA": "Stripe",
+    "toolACategory": "Payment & Billing",
+    "toolB": "Snowflake",
+    "toolBCategory": "Data Warehouse",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Automate daily export of all Stripe core objects (charges, subscriptions, invoices, balance transactions) to Snowflake.",
+      "Combine Stripe financial transactions with internal product telemetry for Net Revenue Retention (NRR) analytics.",
+      "Eliminate custom ETL pipelines and maintenance by relying on Stripe's native secure data sharing."
+    ],
+    "stepByStepGuide": [
+      "In Stripe Dashboard, navigate to Data Pipeline under Settings and select Snowflake as the destination.",
+      "Enter your Snowflake Account Identifier and target AWS/GCP region.",
+      "In Snowflake, run the provided SQL setup script to accept the inbound Secure Data Share from Stripe.",
+      "Create a database from the shared data and grant SELECT permissions to analytics reporting roles.",
+      "Verify that tables populate after the initial 24-hour sync cycle."
+    ],
+    "commonPitfalls": [
+      "Mismatched Snowflake region preventing cross-cloud secure share authorization.",
+      "Not setting up separate warehouse resource monitors for analytics teams running heavy aggregation queries."
+    ]
+  },
+  {
+    "slug": "salesforce-to-bigquery-integration",
+    "metaTitle": "Salesforce to Google BigQuery Data Pipeline Guide",
+    "metaDescription": "Export Salesforce accounts, leads, and opportunity history into Google BigQuery to power executive Looker dashboards and attribution models.",
+    "toolA": "Salesforce",
+    "toolACategory": "CRM & Enterprise Sales",
+    "toolB": "BigQuery",
+    "toolBCategory": "Data Warehouse",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 45,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Replicate Salesforce Opportunity and Stage History tables into BigQuery for sales velocity and conversion funnels.",
+      "Join Salesforce CRM account revenue with Google Ads campaign spend to compute true Customer Acquisition Cost (CAC).",
+      "Provide data science teams with raw historical CRM snapshots for churn prediction modeling."
+    ],
+    "stepByStepGuide": [
+      "Create a Salesforce Connected App with OAuth scopes for API data export.",
+      "Provision a Google Cloud BigQuery dataset with partitioning by ingest date.",
+      "In Make, set up a scheduled data pipeline module that queries Salesforce SOQL for records modified in the last 24 hours.",
+      "Transform Salesforce datetime formats and nested child relationships into flat BigQuery JSON rows.",
+      "Stream transformed records into BigQuery using streaming insert or batch load jobs."
+    ],
+    "commonPitfalls": [
+      "Salesforce daily API request limits being consumed by unoptimized SOQL queries without indexed date filters.",
+      "BigQuery streaming insert quota limits when attempting massive historical initial backfills."
+    ]
+  },
+  {
+    "slug": "hubspot-to-salesforce-integration",
+    "metaTitle": "HubSpot to Salesforce CRM Integration Guide",
+    "metaDescription": "Set up bi-directional contact syncing, lead scoring handoffs, and opportunity attribution between HubSpot Marketing Hub and Salesforce.",
+    "toolA": "HubSpot",
+    "toolACategory": "CRM & Sales",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Enterprise Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 35,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Sync Marketing Qualified Leads (MQLs) from HubSpot into Salesforce as Leads or Contacts based on lead score criteria.",
+      "Pass Salesforce Opportunity pipeline updates back into HubSpot to measure marketing multi-touch attribution.",
+      "Maintain bi-directional activity timeline sync (email opens, page visits, meeting bookings) between reps and marketers."
+    ],
+    "stepByStepGuide": [
+      "Install the official HubSpot integration package from Salesforce AppExchange.",
+      "In HubSpot, navigate to Integrations > Connected Apps > Salesforce and log in with Salesforce System Admin credentials.",
+      "Map standard and custom fields between HubSpot Contacts and Salesforce Leads/Contacts.",
+      "Define sync rules and enrollment triggers to control when HubSpot contacts are allowed to create new Salesforce leads.",
+      "Run a test sync on a small batch of contacts to verify field mapping and ownership assignment."
+    ],
+    "commonPitfalls": [
+      "Sync loops where automated workflow rules in both platforms constantly overwrite each other's timestamps.",
+      "Salesforce validation rules blocking HubSpot sync when required fields are missing on inbound forms."
+    ]
+  },
+  {
+    "slug": "typeform-to-hubspot-integration",
+    "metaTitle": "Typeform to HubSpot Lead Capture Integration Guide",
+    "metaDescription": "Map Typeform survey responses, lead qualification quizzes, and booking forms directly into HubSpot contact properties and sales lists.",
+    "toolA": "Typeform",
+    "toolACategory": "Forms & Surveys",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Capture inbound qualification quiz answers and store them directly on HubSpot Contact records.",
+      "Trigger automated lead nurturing workflows in HubSpot immediately upon Typeform submission.",
+      "Auto-tag lead source and campaign parameters on newly generated marketing contacts."
+    ],
+    "stepByStepGuide": [
+      "In Typeform editor, navigate to the Connect tab and search for HubSpot.",
+      "Click 'Connect' and authorize access to your HubSpot portal.",
+      "Map each Typeform question (e.g., Company Size, Budget, Role) to corresponding HubSpot contact properties.",
+      "Choose whether to update existing contacts if an email address match is found.",
+      "Publish the Typeform and submit a test response to verify contact creation in HubSpot CRM."
+    ],
+    "commonPitfalls": [
+      "Typeform dropdown options not matching HubSpot enumeration internal values exactly, causing field write failures.",
+      "Not marking the Email question as required in Typeform, preventing HubSpot contact creation."
+    ]
+  },
+  {
+    "slug": "linkedin-ads-to-hubspot-integration",
+    "metaTitle": "LinkedIn Lead Gen Forms to HubSpot Sync Guide",
+    "metaDescription": "Instantly capture B2B buyer leads from LinkedIn sponsored content into HubSpot CRM and trigger real-time sales team assignment.",
+    "toolA": "LinkedIn Ads",
+    "toolACategory": "Marketing Automation",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Auto-sync leads from LinkedIn Lead Gen Forms into HubSpot within 60 seconds of submission.",
+      "Route high-intent enterprise leads immediately to sales reps via automated HubSpot lead rotation workflows.",
+      "Track LinkedIn ad campaign ROAS directly against closed-won deals in HubSpot CRM attribution reports."
+    ],
+    "stepByStepGuide": [
+      "In HubSpot Settings, navigate to Marketing > Ads and click 'Connect account'.",
+      "Select LinkedIn and log in with your LinkedIn Campaign Manager administrator account.",
+      "Toggle on 'Lead Syncing' for your company LinkedIn Page.",
+      "Map custom LinkedIn form questions to corresponding HubSpot CRM contact properties.",
+      "Submit a test lead using LinkedIn Lead Gen Form testing tool to confirm automated sync."
+    ],
+    "commonPitfalls": [
+      "Connecting a personal LinkedIn user who lacks Lead Gen Form Manager permissions on the LinkedIn Company Page.",
+      "Failing to set up custom property mapping for unique questions, losing detailed response data."
+    ]
+  },
+  {
+    "slug": "gong-to-slack-integration",
+    "metaTitle": "Gong to Slack Sales Call Alerts Guide",
+    "metaDescription": "Broadcast AI-generated sales call summaries, competitor mentions, and deal risk warnings from Gong into designated Slack channels.",
+    "toolA": "Gong",
+    "toolACategory": "CRM & Enterprise Sales",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Post key sales call takeaways and action items into deal-specific Slack channels immediately after calls conclude.",
+      "Alert product and sales leadership in #competitor-intel whenever specific competitor names are mentioned.",
+      "Notify sales managers when Gong AI flags potential deal risks or negative customer sentiment."
+    ],
+    "stepByStepGuide": [
+      "In Gong Settings, navigate to Ecosystem > Slack and click 'Connect to Slack'.",
+      "Authorize permissions for your Slack workspace.",
+      "Under Gong Notification Rules, create a stream rule triggered by call trackers or scorecards.",
+      "Select destination Slack channels (e.g. #sales-wins, #product-feedback) and configure summary card formatting.",
+      "Record or upload a test call in Gong to verify Slack notification delivery."
+    ],
+    "commonPitfalls": [
+      "Broadcasting entire call transcripts instead of AI executive summaries, causing Slack channel noise.",
+      "Restricted Slack channel permissions preventing Gong bot from posting in private deal rooms."
+    ]
+  },
+  {
+    "slug": "clearbit-to-salesforce-integration",
+    "metaTitle": "Clearbit to Salesforce B2B Enrichment Guide",
+    "metaDescription": "Automatically enrich new Salesforce inbound leads and accounts with 100+ firmographic data points (employee count, tech stack, revenue).",
+    "toolA": "Clearbit",
+    "toolACategory": "CRM & Enterprise Sales",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Enterprise Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Shorten inbound signup forms by auto-populating employee count, industry, tech stack, and location into Salesforce.",
+      "Route enterprise accounts instantly to designated territory reps based on verified company revenue tiers.",
+      "Prevent CRM data decay by automatically refreshing account firmographics on a quarterly schedule."
+    ],
+    "stepByStepGuide": [
+      "Install the Clearbit Enrichment package from Salesforce AppExchange.",
+      "Authorize the Clearbit API key in Clearbit Salesforce settings.",
+      "Configure field mapping for Lead and Account objects (e.g. Clearbit Tech Tags to Salesforce Tech Stack field).",
+      "Set enrichment trigger rules (e.g. enrich on create and when email domain changes).",
+      "Create a test lead with a corporate email address to verify instant data enrichment."
+    ],
+    "commonPitfalls": [
+      "Enriching personal email domains (gmail.com, yahoo.com), which consume API credits without returning B2B firmographics.",
+      "Overwriting manually verified sales rep data by not setting proper Clearbit field overwrite rules."
+    ]
+  },
+  {
+    "slug": "pagerduty-to-slack-integration",
+    "metaTitle": "PagerDuty to Slack Incident Response Guide",
+    "metaDescription": "Receive real-time on-call incident alerts in Slack, acknowledge alerts with 1-click buttons, and spin up incident response channels.",
+    "toolA": "PagerDuty",
+    "toolACategory": "DevOps & Source Control",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify on-call engineering teams in Slack with interactive 'Acknowledge' and 'Resolve' action buttons.",
+      "Automatically provision dedicated incident response channels (e.g. #incident-1234) for P1 outages.",
+      "Run `/pd` slash commands in Slack to trigger manual incidents, check on-call schedules, or reassign responders."
+    ],
+    "stepByStepGuide": [
+      "In PagerDuty, navigate to Integrations > Extensions and select Slack.",
+      "Click 'Authorize' to add the PagerDuty bot to your Slack workspace.",
+      "Map target PagerDuty Services and Escalation Policies to specific Slack channels.",
+      "Enable interactive buttons and auto-incident channel creation for high-urgency alerts.",
+      "Trigger a test incident in PagerDuty to verify bidirectional action buttons in Slack."
+    ],
+    "commonPitfalls": [
+      "Routing all low-priority alerts to general engineering channels, creating alert fatigue.",
+      "Responders acknowledging in Slack without being mapped to their individual PagerDuty user accounts."
+    ]
+  },
+  {
+    "slug": "datadog-to-jira-integration",
+    "metaTitle": "Datadog to Jira Service Management Guide",
+    "metaDescription": "Automatically create and update Jira bug tickets whenever Datadog monitors breach critical latency or error rate thresholds.",
+    "toolA": "Datadog",
+    "toolACategory": "DevOps & Source Control",
+    "toolB": "Jira",
+    "toolBCategory": "Issue Tracking & Agile",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Automatically file high-priority Jira bug tickets when production error rates breach critical SLO limits.",
+      "Attach Datadog APM trace snapshots and host metrics directly to the created Jira issue description.",
+      "Auto-transition Jira ticket status to 'Resolved' when the Datadog monitor recovers."
+    ],
+    "stepByStepGuide": [
+      "In Datadog Integrations marketplace, install the official Jira integration tile.",
+      "Enter your Jira Cloud URL, user email, and Atlassian API token.",
+      "Configure default project key, issue type (e.g., Bug), and priority mapping.",
+      "In Datadog Monitor settings, add `@jira-PROJECT_KEY` to the notification recipient list.",
+      "Trigger a test monitor state transition to verify ticket creation in Jira."
+    ],
+    "commonPitfalls": [
+      "Missing mandatory Jira custom fields in Datadog integration configuration, causing ticket creation failures.",
+      "Flapping monitors generating hundreds of duplicate Jira tickets instead of commenting on existing issues."
+    ]
+  },
+  {
+    "slug": "sentry-to-linear-integration",
+    "metaTitle": "Sentry to Linear Issue Sync Guide",
+    "metaDescription": "Convert production application exceptions in Sentry into prioritized Linear engineering tickets with stack traces and user context.",
+    "toolA": "Sentry",
+    "toolACategory": "DevOps & Source Control",
+    "toolB": "Linear",
+    "toolBCategory": "Issue Tracking & Agile",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 10,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Create actionable Linear issues from Sentry error groups with 1 click from the Sentry UI.",
+      "Automate issue creation for unhandled exceptions affecting more than 100 unique users.",
+      "Automatically resolve Sentry issues when the corresponding Linear issue is marked 'Done' in a release."
+    ],
+    "stepByStepGuide": [
+      "In Sentry Settings, navigate to Integrations and select Linear.",
+      "Click 'Install' and authorize access to your Linear workspace.",
+      "Select default Linear team and issue templates for your repository.",
+      "Configure Sentry Alert Rules to auto-create Linear issues for new unhandled exceptions.",
+      "Trigger a test error in staging to verify issue creation in Linear."
+    ],
+    "commonPitfalls": [
+      "Auto-filing tickets for transient third-party script errors (e.g. browser extensions) without Sentry inbound filters.",
+      "Linear team renames breaking Sentry integration routing if not updated in integration settings."
+    ]
+  },
+  {
+    "slug": "github-to-slack-integration",
+    "metaTitle": "GitHub to Slack Integration Guide (Native Setup)",
+    "metaDescription": "Subscribe Slack channels to GitHub pull request reviews, repository issues, and CI/CD deployment status updates with /github commands.",
+    "toolA": "GitHub",
+    "toolACategory": "DevOps & Source Control",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Notify developers in personal Slack DMs when they are requested as reviewers on GitHub pull requests.",
+      "Stream pull request review approvals, comments, and merge events into team sprint channels.",
+      "Trigger and monitor GitHub Actions workflow deployments directly from Slack channels."
+    ],
+    "stepByStepGuide": [
+      "Install the official 'GitHub' app from the Slack App Directory.",
+      "In any Slack channel, type `/github subscribe owner/repo` and follow the OAuth authorization prompt.",
+      "Configure subscription filters using `/github subscribe owner/repo pulls,issues,workflows`.",
+      "Link personal GitHub accounts by running `/github signin` to enable interactive PR approvals.",
+      "Open a test pull request in GitHub to verify Slack notification delivery."
+    ],
+    "commonPitfalls": [
+      "Subscribing high-volume repositories without filtering out automated bot commits and noisy bot comments.",
+      "Organization security settings requiring GitHub Org Admin approval before granting repository webhooks."
+    ]
+  },
+  {
+    "slug": "gitlab-to-jira-integration",
+    "metaTitle": "GitLab to Jira Software Integration Guide",
+    "metaDescription": "Link GitLab commits, merge requests, and deployment branches directly to Jira issue keys for complete development visibility.",
+    "toolA": "GitLab",
+    "toolACategory": "DevOps & Source Control",
+    "toolB": "Jira",
+    "toolBCategory": "Issue Tracking & Agile",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Auto-link GitLab merge requests and commits to Jira tickets by referencing issue keys (e.g., PROJ-123).",
+      "Transition Jira issue status (e.g., In Review -> Done) automatically when GitLab merge requests are merged.",
+      "Display GitLab CI/CD build status and deployment environments inside Jira Development panel."
+    ],
+    "stepByStepGuide": [
+      "In GitLab Project Settings, navigate to Integrations and select 'Jira'.",
+      "Enter your Jira Cloud URL, Web URL, username, and Atlassian API token.",
+      "Enable 'Trigger commit', 'Trigger merge request', and 'Enable Jira transitions'.",
+      "Map GitLab transition actions to your Jira workflow statuses (e.g. Closed, In QA).",
+      "Push a test branch referencing a Jira issue key to verify synchronization."
+    ],
+    "commonPitfalls": [
+      "Jira workflow permission restrictions preventing the GitLab service account from executing status transitions.",
+      "Forgetting to include issue keys in commit messages or branch names, resulting in unlinked commits."
+    ]
+  },
+  {
+    "slug": "airtable-to-google-sheets-integration",
+    "metaTitle": "Airtable to Google Sheets Live Sync Guide",
+    "metaDescription": "Automatically sync Airtable database records to Google Sheets spreadsheets for financial modeling, reporting, and external sharing.",
+    "toolA": "Airtable",
+    "toolACategory": "Database & Spreadsheet",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 25,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Mirror curated Airtable views into Google Sheets for spreadsheet-based financial modeling and pivot tables.",
+      "Share filtered tabular data with external clients who do not have paid Airtable workspace seats.",
+      "Maintain automated rolling daily backups of mission-critical Airtable base tables."
+    ],
+    "stepByStepGuide": [
+      "Generate an Airtable Personal Access Token (PAT) with `data.records:read` scopes.",
+      "Create a target Google Sheet and format header columns to match Airtable field names.",
+      "In Make, set up an Airtable 'Watch Records' or 'Search Records' trigger module.",
+      "Add a Google Sheets 'Add Row' or 'Update Row' module and map corresponding table columns.",
+      "Add an upsert key matching the unique Airtable Record ID to avoid duplicate row additions.",
+      "Test the scenario and activate the automated schedule."
+    ],
+    "commonPitfalls": [
+      "Google Sheets cell limits (10 million cells) when performing massive unbounded table syncs.",
+      "Airtable formula and lookup fields returning arrays that need conversion to text before writing to Sheets."
+    ]
+  },
+  {
+    "slug": "typeform-to-notion-integration",
+    "metaTitle": "Typeform to Notion Database Integration Guide",
+    "metaDescription": "Automatically create Notion database pages from new Typeform survey submissions, applicant portfolios, and customer feedback.",
+    "toolA": "Typeform",
+    "toolACategory": "Forms & Surveys",
+    "toolB": "Notion",
+    "toolBCategory": "Knowledge & Documentation",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Log job applicant questionnaires and portfolio links directly into Notion hiring pipeline databases.",
+      "Create organized Notion cards for user research interview feedback and feature requests.",
+      "Aggregate event RSVPs and dietary requirements into team Notion planning boards."
+    ],
+    "stepByStepGuide": [
+      "In Typeform form builder, navigate to the Connect tab and search for Notion.",
+      "Click 'Connect' and authorize access to select Notion workspace pages.",
+      "Select the target Notion Database to receive responses.",
+      "Map each Typeform question to Notion database properties (Title, Text, Multi-select, Number).",
+      "Submit a test Typeform response to confirm page creation in Notion."
+    ],
+    "commonPitfalls": [
+      "Not sharing the parent Notion page with the Typeform integration, making databases invisible in selection.",
+      "Property type incompatibilities between Typeform multi-choice questions and Notion single-select properties."
+    ]
+  },
+  {
+    "slug": "jira-to-notion-integration",
+    "metaTitle": "Jira to Notion Roadmap Sync Guide",
+    "metaDescription": "Embed and synchronize Jira issue status, epic roadmaps, and sprint deliverables directly inside Notion team wikis and project briefs.",
+    "toolA": "Jira",
+    "toolACategory": "Issue Tracking & Agile",
+    "toolB": "Notion",
+    "toolBCategory": "Knowledge & Documentation",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Embed live, interactive Jira synced databases inside Notion Product Requirement Documents (PRDs).",
+      "Display executive milestone roadmaps in Notion without requiring cross-department Jira licenses.",
+      "Keep cross-functional teams aligned on release blockers and sprint deliverable statuses."
+    ],
+    "stepByStepGuide": [
+      "In Notion, type `/jira` or paste any Jira issue URL into a Notion page.",
+      "Click 'Connect to Jira' and authenticate with your Atlassian Jira credentials.",
+      "Select 'Paste as database' to import a live synced view of issues based on JQL filters.",
+      "Customize visible Notion properties (Status, Assignee, Priority, Epic, Sprint).",
+      "Configure auto-sync refresh intervals to keep Notion views updated."
+    ],
+    "commonPitfalls": [
+      "Permissions restrictions in Jira preventing Notion users from seeing private project issues.",
+      "Attempting two-way edits on calculated Jira fields that are read-only via API."
+    ]
+  },
+  {
+    "slug": "clickup-to-google-sheets-integration",
+    "metaTitle": "ClickUp to Google Sheets Data Export Guide",
+    "metaDescription": "Export completed ClickUp tasks, time logs, and project velocity metrics to Google Sheets for automated client reporting.",
+    "toolA": "ClickUp",
+    "toolACategory": "Project Management",
+    "toolB": "Google Sheets",
+    "toolBCategory": "Productivity & Reporting",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Zapier",
+    "setupTimeMinutes": 20,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Log billable task completion timestamps and tracked hours into client invoice spreadsheet templates.",
+      "Track weekly team sprint velocity, bug count, and resolution times for management dashboards.",
+      "Archive completed task metadata for long-term historical audit trails."
+    ],
+    "stepByStepGuide": [
+      "In Zapier, create a Zap starting with the 'Task Status Updated' trigger in ClickUp.",
+      "Filter the trigger to only execute when task status equals 'Closed' or 'Completed'.",
+      "Add a Google Sheets 'Create Spreadsheet Row' action step.",
+      "Map ClickUp fields (Task Name, Assignee, Time Tracked, Due Date, Space Name) to Sheet columns.",
+      "Turn on the Zap and complete a test task in ClickUp to verify spreadsheet row addition."
+    ],
+    "commonPitfalls": [
+      "ClickUp custom field IDs changing when tasks move across different Spaces and Folders.",
+      "Time tracked values formatted in milliseconds requiring mathematical division before spreadsheet entry."
+    ]
+  },
+  {
+    "slug": "intercom-to-slack-integration",
+    "metaTitle": "Intercom to Slack Live Support Sync Guide",
+    "metaDescription": "Route inbound Intercom live chat conversations and customer tickets directly into Slack channels to reply without leaving Slack.",
+    "toolA": "Intercom",
+    "toolACategory": "Customer Support",
+    "toolB": "Slack",
+    "toolBCategory": "Team Communication",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 15,
+    "difficulty": "Easy",
+    "topUseCases": [
+      "Route urgent VIP customer support conversations into dedicated internal Slack channels.",
+      "Allow engineers and product managers to reply directly to user conversations from Slack without opening Intercom.",
+      "Trigger notifications to account owners when churn-risk keywords are detected in customer chat."
+    ],
+    "stepByStepGuide": [
+      "In Intercom App Store, search for and install the official 'Slack' integration app.",
+      "Authorize Intercom permissions in your target Slack workspace.",
+      "In Intercom Inbox Settings > Automations, configure rules to route specific inbox conversations to Slack channels.",
+      "Enable 'Reply to conversations from Slack' to sync thread replies back to customers.",
+      "Send a test message through your Intercom messenger widget to confirm Slack channel delivery."
+    ],
+    "commonPitfalls": [
+      "Multiple agents replying simultaneously from Slack and Intercom, sending duplicate answers to the customer.",
+      "Slack thread replies exceeding character limits or omitting rich media attachments."
+    ]
+  },
+  {
+    "slug": "calendly-to-salesforce-integration",
+    "metaTitle": "Calendly to Salesforce CRM Booking Guide",
+    "metaDescription": "Automatically create leads, update contact activity history, and log sales demo meetings from Calendly into Salesforce.",
+    "toolA": "Calendly",
+    "toolACategory": "Scheduling & Booking",
+    "toolB": "Salesforce",
+    "toolBCategory": "CRM & Enterprise Sales",
+    "nativeIntegration": true,
+    "recommendedMiddleware": "None",
+    "setupTimeMinutes": 20,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Automatically create new Salesforce Leads when unknown prospects book meetings via Calendly links.",
+      "Log scheduled events, meeting cancelations, and reschedule timestamps directly to the Salesforce Activity Timeline.",
+      "Map custom Calendly qualification questions into Salesforce Lead and Opportunity fields."
+    ],
+    "stepByStepGuide": [
+      "In Calendly Integrations page, select Salesforce and click 'Integrate'.",
+      "Log into your Salesforce production environment as a System Administrator.",
+      "Install the Calendly managed package in Salesforce.",
+      "Configure the Calendly Salesforce flow: choose whether to create Leads or Contacts, and set event record types.",
+      "Map custom booking questions and UTM tracking parameters to target Salesforce fields.",
+      "Book a test appointment through your Calendly link to verify lead creation and event logging."
+    ],
+    "commonPitfalls": [
+      "Salesforce duplicate rules blocking lead creation without an automatic update rule for existing contacts.",
+      "Mismatched meeting owner email addresses preventing events from assigning to the correct sales rep in Salesforce."
+    ]
+  },
+  {
+    "slug": "mixpanel-to-hubspot-integration",
+    "metaTitle": "Mixpanel to HubSpot Product-Led Sales Guide",
+    "metaDescription": "Sync user product activation milestones and feature usage events from Mixpanel to HubSpot CRM contact properties for PQL alerting.",
+    "toolA": "Mixpanel",
+    "toolACategory": "Productivity & Reporting",
+    "toolB": "HubSpot",
+    "toolBCategory": "CRM & Sales",
+    "nativeIntegration": false,
+    "recommendedMiddleware": "Make",
+    "setupTimeMinutes": 30,
+    "difficulty": "Intermediate",
+    "topUseCases": [
+      "Alert account executives in HubSpot when free trial accounts hit Product Qualified Lead (PQL) activation thresholds.",
+      "Sync user engagement scores and 30-day active session counts into HubSpot contact properties.",
+      "Trigger automated re-engagement emails in HubSpot when key user onboarding steps are stalled."
+    ],
+    "stepByStepGuide": [
+      "In Mixpanel, create a cohort representing activated or high-usage users (e.g., 'Completed Setup & 5+ Events').",
+      "Configure a Mixpanel Webhook export or API export triggered when users join the target cohort.",
+      "In Make, create a scenario listening to the Mixpanel cohort webhook.",
+      "Match the user by email in HubSpot CRM and update custom properties (`pql_status`, `activation_score`, `last_active_date`).",
+      "In HubSpot, create a Workflow triggered by `pql_status = True` to create an Opportunity and notify sales reps."
+    ],
+    "commonPitfalls": [
+      "Mixpanel user IDs not matching HubSpot primary email keys, preventing contact resolution.",
+      "High event frequency causing excessive API calls to HubSpot if individual events are synced rather than aggregated cohorts."
+    ]
   }
 ]
