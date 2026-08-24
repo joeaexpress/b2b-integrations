@@ -27,7 +27,7 @@ const schemaData = {
   "@context": "https://schema.org",
   "@type": "DataCatalog",
   "name": "B2B SaaS Integrations & Automation Directory",
-  "description": "Comprehensive static directory of verified B2B SaaS integrations, native connectors, Make and Zapier setup guides.",
+  "description": "Comprehensive static directory of verified B2B SaaS integrations, native connectors, and Make automation scenario guides.",
   "publisher": {
     "@type": "Organization",
     "name": "SaaSConnect"
@@ -45,7 +45,7 @@ const ogImageUrl = new URL('/og/default.png', siteBaseUrl).href;
 
 <Layout
   title="B2B SaaS Integrations Directory | Verified Automation & Native Sync Guides"
-  description="Explore 100% verified B2B SaaS integration blueprints. Connect CRMs, databases, CMSs, and support tools natively or via Make and Zapier."
+  description="Explore 100% verified B2B SaaS integration blueprints. Connect CRMs, databases, CMSs, and support tools natively or via Make automation scenarios."
   schema={schemaData}
   ogImage={ogImageUrl}
 >
@@ -123,8 +123,7 @@ const ogImageUrl = new URL('/og/default.png', siteBaseUrl).href;
         <div class="filter-tabs">
           <button class="filter-btn active" data-filter="all">All ({totalCount})</button>
           <button class="filter-btn" data-filter="native">⚡ Native Sync ({nativeCount})</button>
-          <button class="filter-btn" data-filter="make">Make Recipes</button>
-          <button class="filter-btn" data-filter="zapier">Zapier Zaps</button>
+          <button class="filter-btn" data-filter="make">Make Scenarios ({middlewareCount})</button>
           <button class="filter-btn" data-filter="easy">Easy (&lt; 20m)</button>
         </div>
       </div>

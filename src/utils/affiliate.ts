@@ -27,20 +27,18 @@ export function buildAffiliateUrl(
 ): string {
   const normalized = (middleware || '').toLowerCase().trim();
 
-  // Determine base partner URL from environment variable or standard default
-  let baseUrl = '';
+  // Base partner URL from environment variable or standard Make partner default
+  let baseUrl =
+    import.meta.env.PUBLIC_MAKE_AFFILIATE_URL ||
+    'https://www.make.com/en/register?pc=jamlung';
 
-  if (normalized.includes('make') || normalized.includes('integromat')) {
-    baseUrl =
-      import.meta.env.PUBLIC_MAKE_AFFILIATE_URL ||
-      'https://www.make.com/en/register?pc=b2bsaasdirectory';
-  } else if (normalized.includes('zapier')) {
-    baseUrl =
-      import.meta.env.PUBLIC_ZAPIER_AFFILIATE_URL ||
-      'https://zapier.com/apps/integrations?ref=b2bsaasdirectory';
-  } else {
-    // If native or unlisted middleware, fallback to internal anchor
+  // If native or unlisted and explicitly None, fallback to internal anchor
+  if (normalized === 'none' || normalized === '') {
     return '#step-by-step-guide';
+  }
+
+  if (normalized.includes('zapier') && import.meta.env.PUBLIC_ZAPIER_AFFILIATE_URL) {
+    baseUrl = import.meta.env.PUBLIC_ZAPIER_AFFILIATE_URL;
   }
 
   try {
