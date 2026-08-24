@@ -64,6 +64,10 @@
           <span id="btn-download-text">Unlock & Download Blueprint (.JSON) ↓</span>
           <span id="btn-download-spinner" class="spinner" style="display: none;"></span>
         </button>
+        <div class="modal-vault-teaser">
+          <span>Need all 100 scenarios for your agency or team?</span>
+          <a href="/vault" target="_blank" class="modal-vault-link">Get the Scenario Vault &rarr;</a>
+        </div>
         <p class="form-disclaimer">
           🔒 Instant download. We respect your inbox — only occasional high-value architecture updates.
         </p>
@@ -87,6 +91,23 @@
       <div class="download-fallback-box">
         <span>Didn't start automatically?</span>
         <a id="blueprint-direct-link" href="#" download class="direct-download-link">Click here to download file manually</a>
+      </div>
+
+      <!-- High-Converting Scenario Vault Upsell Card -->
+      <div class="vault-upsell-card">
+        <div class="upsell-badge">⚡ SCALE YOUR AUTOMATION STACK</div>
+        <h4 class="upsell-title">Want All 100+ Enterprise Scenarios?</h4>
+        <p class="upsell-desc">
+          Get instant access to all 100 verified Make.json blueprints, 3x retry policies, and commercial agency rights in one downloadable master bundle.
+        </p>
+        <a
+          href="/vault"
+          class="btn-vault-upsell"
+          data-analytics-event="vault_upsell_modal_click"
+          data-position="modal_success"
+        >
+          <span>Explore All-in-One Scenario Vault ($29–$49) &rarr;</span>
+        </a>
       </div>
 
       <button id="close-blueprint-success" class="btn-close-success">
@@ -523,6 +544,88 @@
     background: rgba(255, 255, 255, 0.16);
   }
 
+  .modal-vault-teaser {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-muted, #94a3b8);
+    margin-top: 0.25rem;
+    flex-wrap: wrap;
+  }
+
+  .modal-vault-link {
+    color: #38bdf8;
+    font-weight: 600;
+    text-decoration: underline;
+    transition: color 0.15s ease;
+  }
+
+  .modal-vault-link:hover {
+    color: #818cf8;
+  }
+
+  .vault-upsell-card {
+    background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18) 0%, transparent 80%),
+                rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin: 1.25rem 0 1.5rem;
+    text-align: center;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  }
+
+  .upsell-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    margin-bottom: 0.6rem;
+  }
+
+  .upsell-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #f8fafc;
+    margin-bottom: 0.4rem;
+  }
+
+  .upsell-desc {
+    font-size: 0.84rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .btn-vault-upsell {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 0.7rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid rgba(99, 102, 241, 0.5);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-vault-upsell:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+  }
+
   .spinner {
     width: 18px;
     height: 18px;
@@ -536,3 +639,4 @@
     to { transform: rotate(360deg); }
   }
 </style>
+

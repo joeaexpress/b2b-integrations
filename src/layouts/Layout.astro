@@ -141,7 +141,11 @@ const siteName = 'SaaSConnect - B2B Integrations Directory';
           <nav class="nav-links">
             <a href="/" class="nav-link" id="nav-home">Directory</a>
             <a href="/#explore-integrations" class="nav-link" id="nav-explore">Explore All</a>
-            <a href="/#methodology" class="nav-link" id="nav-about">Sync Guide</a>
+            <a href="/vault" class="nav-btn-vault" id="nav-vault-cta" data-analytics-event="vault_nav_click">
+              <span class="vault-sparkle">⚡</span>
+              <span>Scenario Vault</span>
+              <span class="nav-tag-hot">100+</span>
+            </a>
             <a
               href="https://www.make.com/en/register?pc=jamlung"
               target="_blank"
@@ -190,7 +194,19 @@ const siteName = 'SaaSConnect - B2B Integrations Directory';
               <div class="footer-meta">
                 <span class="footer-tag">⚡ 100% Static & Zero-JS Core</span>
                 <span class="footer-tag">🛡️ Verified Workflows</span>
+                <span class="footer-tag highlight-tag">📦 Scenario Vault ($29–$49)</span>
               </div>
+            </div>
+
+            <div class="footer-col">
+              <h4 class="footer-heading">Digital Products</h4>
+              <ul class="footer-list">
+                <li><a href="/vault"><strong>⚡ Scenario Vault (100+ Make JSONs)</strong></a></li>
+                <li><a href="/vault#pricing">Individual Pro License ($29)</a></li>
+                <li><a href="/vault#pricing">Agency Commercial License ($49)</a></li>
+                <li><a href="/vault#scenario-explorer">Browse All 100 Blueprints</a></li>
+                <li><a href="/blueprints/all-scenarios-vault.json" download>Master Vault Export (.JSON)</a></li>
+              </ul>
             </div>
 
             <div class="footer-col">
@@ -219,6 +235,8 @@ const siteName = 'SaaSConnect - B2B Integrations Directory';
           <div class="footer-bottom">
             <p>© {new Date().getFullYear()} SaaSConnect Directory. Built with Astro for extreme static performance.</p>
             <div class="footer-bottom-links">
+              <a href="/vault">All-in-One Scenario Vault</a>
+              <span>•</span>
               <span>Programmatic SEO Architecture</span>
               <span>•</span>
               <a href="#nav-brand-logo">Back to top ↑</a>
@@ -434,6 +452,42 @@ const siteName = 'SaaSConnect - B2B Integrations Directory';
     transform: translateY(-1px);
   }
 
+  .nav-btn-vault {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #f8fafc;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.45);
+    padding: 0.42rem 0.85rem;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .nav-btn-vault:hover {
+    background: rgba(99, 102, 241, 0.3);
+    border-color: rgba(99, 102, 241, 0.7);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.35);
+  }
+
+  .vault-sparkle {
+    color: #fbbf24;
+  }
+
+  .nav-tag-hot {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.04em;
+  }
+
   .nav-btn-affiliate {
     display: inline-flex;
     align-items: center;
@@ -478,10 +532,16 @@ const siteName = 'SaaSConnect - B2B Integrations Directory';
 
   .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 3.5rem;
+    grid-template-columns: 1.8fr 1.1fr 1fr 1fr;
+    gap: 2.5rem;
     padding-bottom: 3.5rem;
     border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .highlight-tag {
+    color: #fbbf24 !important;
+    background: rgba(245, 158, 11, 0.1) !important;
+    border-color: rgba(245, 158, 11, 0.3) !important;
   }
 
   .footer-logo {

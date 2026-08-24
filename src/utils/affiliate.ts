@@ -473,3 +473,32 @@ export function buildAffiliateUrl(
     return `${baseUrl}${separator}subid=${encodeURIComponent(slug)}&utm_source=b2b-integrations&utm_campaign=${encodeURIComponent(slug)}`;
   }
 }
+
+/**
+ * Builds a checkout URL for the All-in-One Scenario Vault digital product.
+ * Supports Stripe Payment Links, LemonSqueezy, Polar.sh, Gumroad, or fallback interactive checkout modal.
+ */
+export function getVaultCheckoutUrl(
+  tier: 'individual' | 'agency' = 'individual',
+  position: string = 'vault_page'
+): string {
+  const envKey = tier === 'agency' ? 'PUBLIC_AGENCY_VAULT_CHECKOUT_URL' : 'PUBLIC_VAULT_CHECKOUT_URL';
+  const customUrl = (import.meta.env as Record<string, string | undefined>)[envKey];
+
+  if (customUrl && customUrl.trim() !== '') {
+    try {
+      const url = new URL(customUrl.trim());
+      url.searchParams.set('utm_source', 'b2b-integrations');
+      url.searchParams.set('utm_medium', position);
+      url.searchParams.set('utm_campaign', `scenario-vault-${tier}`);
+      return url.toString();
+    } catch {
+      const sep = customUrl.includes('?') ? '&' : '?';
+      return `${customUrl}${sep}utm_source=b2b-integrations&utm_medium=${encodeURIComponent(position)}`;
+    }
+  }
+
+  // Fallback direct checkout modal trigger or anchor on the /vault page
+  return `/vault?tier=${tier}#checkout`;
+}
+

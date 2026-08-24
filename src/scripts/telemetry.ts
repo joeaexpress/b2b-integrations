@@ -134,14 +134,15 @@ export function initTelemetry(): void {
       const link = target.closest('a') as HTMLAnchorElement | null;
       if (!link) return;
 
+      const eventType = link.dataset.analyticsEvent;
       const isAffiliateCta =
-        link.dataset.analyticsEvent === 'outbound_affiliate_click' ||
+        eventType === 'outbound_affiliate_click' ||
         (link.rel && link.rel.includes('sponsored'));
 
-      if (isAffiliateCta) {
+      if (eventType || isAffiliateCta) {
         const payload: TelemetryPayload = {
-          event: 'outbound_affiliate_click',
-          partner: link.dataset.partner || 'Unknown',
+          event: eventType || 'outbound_affiliate_click',
+          partner: link.dataset.partner || 'Internal',
           tool_a: link.dataset.toolA || '',
           tool_b: link.dataset.toolB || '',
           slug: link.dataset.slug || '',

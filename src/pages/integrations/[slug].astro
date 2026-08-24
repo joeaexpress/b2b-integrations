@@ -597,6 +597,28 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
                 </div>
               </div>
             </div>
+
+            <!-- Vault Upsell Banner Under ROI -->
+            <div class="vault-roi-banner">
+              <div class="vault-roi-left">
+                <div class="vault-roi-badge">⚡ ALL-IN-ONE SCENARIO VAULT</div>
+                <h4 class="vault-roi-title">Need All 100+ Production Blueprints?</h4>
+                <p class="vault-roi-desc">
+                  Download all 100 verified Make.json blueprints, 3x exponential retry policies, field mapping dictionaries, and commercial agency rights in one master package.
+                </p>
+              </div>
+              <div class="vault-roi-right">
+                <a
+                  href="/vault"
+                  class="btn-vault-roi"
+                  data-analytics-event="vault_roi_click"
+                  data-position="roi_footer"
+                  data-slug={integration.slug}
+                >
+                  <span>Explore Scenario Vault ($29–$49) &rarr;</span>
+                </a>
+              </div>
+            </div>
           </section>
 
           <!-- Related Integrations -->
@@ -785,6 +807,22 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
                   <span class="app-tag">{toolBSidebar.hasSpecialOffer ? 'Trial ↗' : 'Setup ↗'}</span>
                 </a>
               </div>
+            </div>
+
+            <!-- Sidebar Scenario Vault Card -->
+            <div class="sidebar-vault-box">
+              <div class="sidebar-vault-badge">⚡ ALL-IN-ONE BUNDLE</div>
+              <h4 class="sidebar-vault-heading">Scenario Vault</h4>
+              <p class="sidebar-vault-text">All 100+ Make JSON blueprints with retry policies & agency license.</p>
+              <a
+                href="/vault"
+                class="sidebar-btn-vault-link"
+                data-analytics-event="vault_sidebar_click"
+                data-position="sidebar_vault"
+                data-slug={integration.slug}
+              >
+                <span>Unlock All 100 ($29–$49) →</span>
+              </a>
             </div>
           </div>
         </aside>
@@ -2303,6 +2341,135 @@ const ogImageUrl = new URL(`/og/${integration.slug}.png`, siteBaseUrl).href;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
     color: #ffffff;
+  }
+
+  /* Vault ROI Banner & Sidebar Styles */
+  .vault-roi-banner {
+    margin-top: 1.75rem;
+    background: radial-gradient(circle at 10% 50%, rgba(99, 102, 241, 0.2) 0%, transparent 70%),
+                rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+  }
+
+  .vault-roi-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+
+  .vault-roi-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #f8fafc;
+    margin-bottom: 0.35rem;
+  }
+
+  .vault-roi-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    max-width: 540px;
+  }
+
+  .btn-vault-roi {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(99, 102, 241, 0.5);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .btn-vault-roi:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    color: #ffffff;
+  }
+
+  .sidebar-vault-box {
+    background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 80%),
+                rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    text-align: center;
+  }
+
+  .sidebar-vault-badge {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    align-self: center;
+  }
+
+  .sidebar-vault-heading {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #f8fafc;
+  }
+
+  .sidebar-vault-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  .sidebar-btn-vault-link {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    display: block;
+    margin-top: 0.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .sidebar-btn-vault-link:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    transform: translateY(-1px);
+    color: #ffffff;
+  }
+
+  @media (max-width: 860px) {
+    .vault-roi-banner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
   @media (max-width: 1024px) {

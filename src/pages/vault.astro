@@ -1,0 +1,1756 @@
+---
+import Layout from '../layouts/Layout.astro';
+import integrationsData from '../data/integrations.json';
+import type { IntegrationRecord } from '../types/integration';
+import { getVaultCheckoutUrl } from '../utils/affiliate';
+
+const integrations = integrationsData as IntegrationRecord[];
+const totalCount = integrations.length;
+
+// Get unique categories for filtering
+const categories = Array.from(
+  new Set([
+    ...integrations.map((i) => i.toolACategory),
+    ...integrations.map((i) => i.toolBCategory),
+  ])
+).sort();
+
+const proCheckoutUrl = getVaultCheckoutUrl('individual', 'vault_pricing_pro');
+const agencyCheckoutUrl = getVaultCheckoutUrl('agency', 'vault_pricing_agency');
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Enterprise Automation Scenario Vault (100+ Make Blueprints)",
+  "image": "https://b2b-integrations.vercel.app/og/default.png",
+  "description": "The complete bundle of 100+ verified Make.com scenario JSON files, exponential retry policies, field mapping dictionaries, and commercial agency license.",
+  "brand": {
+    "@type": "Brand",
+    "name": "SaaSConnect"
+  },
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Individual Pro License",
+      "price": "29.00",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "url": "https://b2b-integrations.vercel.app/vault?tier=individual"
+    },
+    {
+      "@type": "Offer",
+      "name": "Agency Commercial License",
+      "price": "49.00",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "url": "https://b2b-integrations.vercel.app/vault?tier=agency"
+    }
+  ]
+};
+
+const siteBaseUrl = import.meta.env.PUBLIC_SITE_URL || 'https://b2b-integrations.vercel.app';
+const ogImageUrl = new URL('/og/default.png', siteBaseUrl).href;
+---
+
+<Layout
+  title="All-in-One Scenario Vault (100+ Make.com Blueprints) | SaaSConnect"
+  description="Download all 100+ verified Make automation blueprints, field mapping dictionaries, and error-handling policies in one bundle. Save 300+ dev hours."
+  schema={schemaData}
+  ogImage={ogImageUrl}
+>
+  <div class="vault-page">
+    <!-- Hero Section -->
+    <section class="vault-hero">
+      <div class="vault-container">
+        <div class="hero-badge-wrap">
+          <span class="vault-badge">
+            <span class="badge-icon">⚡</span>
+            <span>Digital Product • Instant Access</span>
+          </span>
+          <span class="vault-pill-hot">🔥 100+ Production Scenarios Included</span>
+        </div>
+
+        <h1 class="vault-title">
+          The Enterprise Automation <br />
+          <span class="vault-gradient">Scenario Vault</span>
+        </h1>
+
+        <p class="vault-subtitle">
+          Skip 300+ engineering hours of trial-and-error. Get instant 1-click import access to <strong>all 100 verified Make.json blueprints</strong>, pre-mapped field dictionaries, exponential retry queues, and commercial agency rights.
+        </p>
+
+        <!-- Hero Highlights Grid -->
+        <div class="vault-stats-bar">
+          <div class="vault-stat">
+            <span class="stat-value">100+</span>
+            <span class="stat-desc">Production Scenarios</span>
+          </div>
+          <div class="vault-stat-divider"></div>
+          <div class="vault-stat">
+            <span class="stat-value">300+ hrs</span>
+            <span class="stat-desc">Dev Time Saved</span>
+          </div>
+          <div class="vault-stat-divider"></div>
+          <div class="vault-stat">
+            <span class="stat-value">3x</span>
+            <span class="stat-desc">Auto-Retry Resilience</span>
+          </div>
+          <div class="vault-stat-divider"></div>
+          <div class="vault-stat">
+            <span class="stat-value">100%</span>
+            <span class="stat-desc">Commercial Agency License</span>
+          </div>
+        </div>
+
+        <!-- Quick CTA Actions -->
+        <div class="hero-actions">
+          <a
+            href="#pricing"
+            class="btn-primary-glow"
+            id="hero-vault-cta"
+            data-analytics-event="vault_checkout_click"
+            data-position="hero_btn"
+          >
+            <span>Get the Scenario Vault &rarr;</span>
+          </a>
+          <a href="#scenario-explorer" class="btn-secondary-ghost">
+            <span>Explore All 100 Blueprints ↓</span>
+          </a>
+        </div>
+
+        <div class="guarantee-micro">
+          <span>🛡️ 30-Day 100% Money-Back Guarantee</span>
+          <span>•</span>
+          <span>⚡ Instant .ZIP Delivery + JSON Files</span>
+          <span>•</span>
+          <span>🔄 Lifetime Free Updates</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Value Pillars -->
+    <section class="value-pillars-section">
+      <div class="vault-container">
+        <div class="section-header text-center">
+          <h2 class="section-title">Built for Production Reliability</h2>
+          <p class="section-subtitle">Why teams choose the Scenario Vault over manual step-by-step setup</p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <h3 class="pillar-title">1-Click Make.com Import</h3>
+            <p class="pillar-desc">
+              Every integration comes packaged as a validated `.json` scenario schema. Simply upload to your Make organization and your modules, routes, and data pipes are configured instantly.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon highlight-cyan">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Pre-Mapped Field Dictionaries</h3>
+            <p class="pillar-desc">
+              No more guessing nested API keys. Standardized JSON schemas for contacts, deals, invoices, line items, and ticket payloads across HubSpot, Stripe, Salesforce, and 60+ tools.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon highlight-emerald">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Enterprise Error Handling</h3>
+            <p class="pillar-desc">
+              Every workflow includes 3x exponential retry policies, dead-letter catch handlers, HTTP 429 rate-limit backoffs, and idempotency key deduplication routines.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon highlight-amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Commercial Agency License</h3>
+            <p class="pillar-desc">
+              Full rights to deploy and customize all 100 blueprints inside client accounts, bill client retainers, and use in agency deliverable packages with zero attribution.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Matrix Section -->
+    <section class="comparison-section">
+      <div class="vault-container">
+        <div class="section-header text-center">
+          <span class="section-badge">ROI Breakdown</span>
+          <h2 class="section-title">Manual Setup vs. The Scenario Vault</h2>
+          <p class="section-subtitle">Why smart operators invest in pre-built scenario architectures</p>
+        </div>
+
+        <div class="comparison-table-wrap">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th class="feature-col">Feature / Capability</th>
+                <th class="manual-col">Manual Build / Free Guides</th>
+                <th class="vault-col">⚡ All-in-One Scenario Vault</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="feature-title">
+                  <strong>Total Blueprints Included</strong>
+                  <span>Volume of production pipelines</span>
+                </td>
+                <td class="manual-cell">1 at a time (manual download)</td>
+                <td class="vault-cell highlight-cell"><strong>All 100+ Scenarios in 1 .ZIP Bundle</strong></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  <strong>Setup & Configuration Time</strong>
+                  <span>Average engineering effort</span>
+                </td>
+                <td class="manual-cell">3–5 hours per integration</td>
+                <td class="vault-cell highlight-cell"><strong>&lt; 5 minutes (1-Click Import)</strong></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  <strong>Field Mapping Dictionaries</strong>
+                  <span>Pre-configured payload schemas</span>
+                </td>
+                <td class="manual-cell">Manual mapping required</td>
+                <td class="vault-cell highlight-cell"><strong>Included & Pre-Mapped JSON</strong></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  <strong>Error Queues & Retry Logic</strong>
+                  <span>3x exponential backoff safeguards</span>
+                </td>
+                <td class="manual-cell">Must be manually scripted</td>
+                <td class="vault-cell highlight-cell"><strong>Built-in to every blueprint</strong></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  <strong>Commercial Client Re-use</strong>
+                  <span>Agency & freelancer rights</span>
+                </td>
+                <td class="manual-cell">Single workspace only</td>
+                <td class="vault-cell highlight-cell"><strong>Unlimited Client Accounts (Agency Tier)</strong></td>
+              </tr>
+              <tr>
+                <td class="feature-title">
+                  <strong>Future Roadmap Blueprints</strong>
+                  <span>New scenarios added to directory</span>
+                </td>
+                <td class="manual-cell">No automated updates</td>
+                <td class="vault-cell highlight-cell"><strong>Free Lifetime Updates Included</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Scenario Explorer -->
+    <section class="explorer-section" id="scenario-explorer">
+      <div class="vault-container">
+        <div class="section-header text-center">
+          <span class="section-badge">Interactive Catalog</span>
+          <h2 class="section-title">Explore All 100 Included Scenarios</h2>
+          <p class="section-subtitle">Search by software tool, department, or automation use case</p>
+        </div>
+
+        <div class="explorer-toolbar">
+          <div class="vault-search-box">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="text"
+              id="vault-search"
+              placeholder="Filter by tool (e.g. Stripe, Salesforce, HubSpot, Slack, Airtable)..."
+              aria-label="Filter vault blueprints"
+            />
+          </div>
+
+          <div class="category-pills" id="category-pills">
+            <button class="cat-pill active" data-category="all">All Categories ({totalCount})</button>
+            {categories.slice(0, 8).map((cat) => (
+              <button class="cat-pill" data-category={cat}>{cat}</button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Scenario Cards Grid -->
+        <div class="vault-grid" id="vault-items-grid">
+          {integrations.map((item) => (
+            <div
+              class="vault-item-card"
+              data-slug={item.slug}
+              data-tools={`${item.toolA} ${item.toolB}`.toLowerCase()}
+              data-category-a={item.toolACategory}
+              data-category-b={item.toolBCategory}
+            >
+              <div class="item-header">
+                <div class="tool-tags">
+                  <span class="tool-pill source">{item.toolA}</span>
+                  <span class="arrow-sep">→</span>
+                  <span class="tool-pill target">{item.toolB}</span>
+                </div>
+                <span class="badge-format">.JSON</span>
+              </div>
+
+              <h4 class="item-title">{item.toolA} to {item.toolB} Automated Pipeline</h4>
+              
+              <div class="item-meta">
+                <span class="meta-tag">⚡ {item.setupTimeMinutes}m Setup</span>
+                <span class="meta-tag">🛡️ {item.difficulty}</span>
+                <span class="meta-tag">📦 {item.recommendedMiddleware}</span>
+              </div>
+
+              <div class="item-usecases">
+                <p class="usecase-preview">{item.topUseCases[0]}</p>
+              </div>
+
+              <div class="item-footer">
+                <span class="included-tag">✓ Included in Vault</span>
+                <a href={`/integrations/${item.slug}`} target="_blank" class="preview-link">
+                  View Guide &rarr;
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="no-results" class="no-results" style="display: none;">
+          <p>No scenarios found matching your query. Try searching for a different software tool!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+      <div class="vault-container">
+        <div class="section-header text-center">
+          <span class="section-badge highlight">Simple, Transparent Pricing</span>
+          <h2 class="section-title">Unlock the Complete Scenario Vault</h2>
+          <p class="section-subtitle">Instant download • No monthly subscriptions • Lifetime commercial access</p>
+        </div>
+
+        <div class="pricing-cards-grid">
+          <!-- Pro Tier -->
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3 class="tier-name">Individual Pro</h3>
+              <p class="tier-desc">Perfect for internal company workflows, startup operators, and single-team RevOps.</p>
+              <div class="price-box">
+                <span class="currency">$</span>
+                <span class="amount">29</span>
+                <span class="billing">/ one-time</span>
+              </div>
+              <div class="strikethrough-value">Regular Price: <del>$149</del> (80% Off)</div>
+            </div>
+
+            <div class="pricing-features">
+              <div class="feature-item">✓ <strong>All 100+ Make Scenario Blueprints</strong></div>
+              <div class="feature-item">✓ Pre-mapped JSON Payload Dictionaries</div>
+              <div class="feature-item">✓ 3x Retry & Error Queue Logic</div>
+              <div class="feature-item">✓ Single Company / Workspace Usage</div>
+              <div class="feature-item">✓ Instant .ZIP Download & Scenario Files</div>
+              <div class="feature-item">✓ Free Lifetime Updates</div>
+            </div>
+
+            <a
+              href={proCheckoutUrl}
+              class="btn-pricing btn-pro"
+              id="checkout-pro-btn"
+              data-analytics-event="vault_checkout_click"
+              data-tier="individual"
+              data-position="pricing_table"
+              data-checkout-tier="individual"
+            >
+              <span>Get Individual Pro ($29)</span>
+            </a>
+            <p class="pricing-micro">🛡️ 30-Day Money-Back Guarantee</p>
+          </div>
+
+          <!-- Agency Tier (Featured) -->
+          <div class="pricing-card featured">
+            <div class="featured-badge">MOST POPULAR • AGENCY CHOICE</div>
+            <div class="pricing-header">
+              <h3 class="tier-name">Agency Commercial</h3>
+              <p class="tier-desc">For digital agencies, automation consultants, and freelancers building client solutions.</p>
+              <div class="price-box">
+                <span class="currency">$</span>
+                <span class="amount">49</span>
+                <span class="billing">/ one-time</span>
+              </div>
+              <div class="strikethrough-value">Regular Price: <del>$399</del> (88% Off)</div>
+            </div>
+
+            <div class="pricing-features">
+              <div class="feature-item">✓ <strong>Everything in Individual Pro Tier</strong></div>
+              <div class="feature-item">✓ <strong>Unlimited Client Account Deployments</strong></div>
+              <div class="feature-item">✓ <strong>Full Commercial Re-use & Resale Rights</strong></div>
+              <div class="feature-item">✓ White-Label Client Handoff Documentation</div>
+              <div class="feature-item">✓ Priority Blueprint Request Access</div>
+              <div class="feature-item">✓ Free Lifetime Future Integration Releases</div>
+            </div>
+
+            <a
+              href={agencyCheckoutUrl}
+              class="btn-pricing btn-agency"
+              id="checkout-agency-btn"
+              data-analytics-event="vault_checkout_click"
+              data-tier="agency"
+              data-position="pricing_table"
+              data-checkout-tier="agency"
+            >
+              <span>Get Agency Commercial ($49) &rarr;</span>
+            </a>
+            <p class="pricing-micro">⚡ Instant Unlock • Deploy to Unlimited Clients</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <div class="vault-container">
+        <div class="section-header text-center">
+          <span class="section-badge">Got Questions?</span>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-subtitle">Everything you need to know about the Scenario Vault</p>
+        </div>
+
+        <div class="faq-accordion">
+          <details class="faq-item" open>
+            <summary class="faq-question">
+              <span>What exactly do I get when I purchase the Scenario Vault?</span>
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                You receive instant access to a downloadable master package containing all 100+ Make.com scenario definition files in JSON format. Each blueprint includes fully mapped modules, API payload structures, retry triggers, and error catch routes ready to be uploaded directly into Make in 1 click.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>How do I import these JSON files into Make.com?</span>
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Inside your Make dashboard, create a new scenario, click the "..." menu at the bottom toolbar, select <strong>"Import Blueprint"</strong>, and select the `.json` file from your downloaded vault folder. All modules, connections, and flow topologies will render immediately.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Can I use these blueprints for client work?</span>
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                Yes! With the <strong>Agency Commercial License ($49)</strong>, you have unlimited rights to deploy, modify, and package these automations for as many paying clients as you want without paying recurring royalties or attribution.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>Do I need a paid Make.com account?</span>
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                No. You can import and test blueprints on Make's free tier (which includes 1,000 operations per month). For high-volume production operations, you can upgrade your Make plan as needed.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span>What is your refund policy?</span>
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-answer">
+              <p>
+                We offer a <strong>30-day no-questions-asked money-back guarantee</strong>. If the blueprints do not save you dozens of hours of engineering time, simply contact our support team and we will issue a full refund immediately.
+              </p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Action Banner -->
+    <section class="vault-cta-banner">
+      <div class="vault-container">
+        <div class="cta-inner">
+          <h2 class="cta-heading">Ready to Accelerate Your Automation Stack?</h2>
+          <p class="cta-sub">
+            Join hundreds of RevOps leaders, engineers, and agency founders who build faster with SaaSConnect blueprints.
+          </p>
+          <div class="cta-buttons">
+            <a
+              href="#pricing"
+              class="btn-primary-glow"
+              data-analytics-event="vault_checkout_click"
+              data-position="bottom_banner"
+            >
+              <span>Get the Complete Scenario Vault ($29–$49) &rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Instant Checkout Modal (Fallback Flow) -->
+  <div id="vault-checkout-modal" class="checkout-modal-backdrop" aria-hidden="true">
+    <div class="checkout-modal-card">
+      <button id="close-checkout-modal" class="modal-close-btn" aria-label="Close modal">✕</button>
+      <div class="modal-header">
+        <div class="blueprint-badge">
+          <span>⚡ Instant Digital Delivery</span>
+        </div>
+        <h3 class="checkout-modal-title">Complete Your Scenario Vault Order</h3>
+        <p class="checkout-modal-subtitle">
+          Selected Tier: <strong id="selected-tier-label" class="tier-highlight">Agency Commercial ($49)</strong>
+        </p>
+      </div>
+
+      <form id="vault-checkout-form" class="checkout-form">
+        <input type="hidden" id="checkout-tier-input" name="tier" value="agency" />
+        
+        <div class="form-group">
+          <label for="checkout-email" class="form-label">Delivery Email Address *</label>
+          <input
+            type="email"
+            id="checkout-email"
+            name="email"
+            placeholder="alex@company.com"
+            required
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="checkout-company" class="form-label">Company / Agency Name (Optional)</label>
+          <input
+            type="text"
+            id="checkout-company"
+            name="company"
+            placeholder="Acme Automation Inc."
+            class="form-input"
+          />
+        </div>
+
+        <div class="checkout-summary-box">
+          <div class="summary-line">
+            <span>Enterprise Scenario Vault (100+ Make JSONs)</span>
+            <span id="summary-price">$49.00</span>
+          </div>
+          <div class="summary-line highlight">
+            <span>Commercial Agency Rights & Lifetime Updates</span>
+            <span>Included ($0)</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-total">
+            <span>Total Today:</span>
+            <span id="summary-total-price" class="total-amount">$49.00</span>
+          </div>
+        </div>
+
+        <button type="submit" id="submit-checkout-btn" class="btn-complete-checkout">
+          <span id="btn-checkout-text">Complete Secure Order & Download Vault ↓</span>
+          <span id="btn-checkout-spinner" class="spinner" style="display: none;"></span>
+        </button>
+
+        <p class="checkout-disclaimer">
+          🔒 256-bit encrypted checkout. Instant .ZIP download + email delivery receipt.
+        </p>
+      </form>
+
+      <div id="checkout-success-view" class="checkout-success" style="display: none;">
+        <div class="success-icon">🎉</div>
+        <h4>Order Confirmed!</h4>
+        <p>Your download package has been prepared. Click below to download your master bundle:</p>
+        <a id="vault-download-all-btn" href="/blueprints/all-scenarios-vault.json" download="saasconnect-scenario-vault.json" class="btn-download-vault-zip">
+          📦 Download Master Scenario Vault (.JSON)
+        </a>
+        <p class="receipt-note">A confirmation copy has also been sent to your email.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Scenario Explorer Script -->
+  <script is:inline>
+    (function () {
+      // Scenario Explorer Search & Filter
+      const searchInput = document.getElementById('vault-search');
+      const catPills = document.querySelectorAll('.cat-pill');
+      const itemCards = document.querySelectorAll('.vault-item-card');
+      const noResults = document.getElementById('no-results');
+
+      let currentCategory = 'all';
+      let currentQuery = '';
+
+      function filterScenarios() {
+        let visibleCount = 0;
+
+        itemCards.forEach((card) => {
+          const tools = card.getAttribute('data-tools') || '';
+          const slug = card.getAttribute('data-slug') || '';
+          const catA = card.getAttribute('data-category-a') || '';
+          const catB = card.getAttribute('data-category-b') || '';
+
+          const matchesQuery =
+            currentQuery === '' ||
+            tools.includes(currentQuery) ||
+            slug.includes(currentQuery);
+
+          const matchesCategory =
+            currentCategory === 'all' ||
+            catA === currentCategory ||
+            catB === currentCategory;
+
+          if (matchesQuery && matchesCategory) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (noResults) {
+          noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          currentQuery = e.target.value.toLowerCase().trim();
+          filterScenarios();
+        });
+      }
+
+      catPills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+          catPills.forEach((p) => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentCategory = pill.getAttribute('data-category') || 'all';
+          filterScenarios();
+        });
+      });
+
+      // Checkout Modal Handling
+      const modal = document.getElementById('vault-checkout-modal');
+      const closeModalBtn = document.getElementById('close-checkout-modal');
+      const checkoutForm = document.getElementById('vault-checkout-form');
+      const successView = document.getElementById('checkout-success-view');
+      const tierLabel = document.getElementById('selected-tier-label');
+      const tierInput = document.getElementById('checkout-tier-input');
+      const summaryPrice = document.getElementById('summary-price');
+      const summaryTotal = document.getElementById('summary-total-price');
+      const btnText = document.getElementById('btn-checkout-text');
+      const btnSpinner = document.getElementById('btn-checkout-spinner');
+      const submitBtn = document.getElementById('submit-checkout-btn');
+
+      function openCheckout(tier) {
+        if (!modal) return;
+        const isAgency = tier === 'agency';
+        if (tierInput) tierInput.value = isAgency ? 'agency' : 'individual';
+        if (tierLabel) tierLabel.textContent = isAgency ? 'Agency Commercial ($49)' : 'Individual Pro ($29)';
+        if (summaryPrice) summaryPrice.textContent = isAgency ? '$49.00' : '$29.00';
+        if (summaryTotal) summaryTotal.textContent = isAgency ? '$49.00' : '$29.00';
+
+        if (checkoutForm) checkoutForm.style.display = 'flex';
+        if (successView) successView.style.display = 'none';
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeCheckout() {
+        if (!modal) return;
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('[data-checkout-tier]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const href = btn.getAttribute('href') || '';
+          if (href.startsWith('/vault') || href.startsWith('#')) {
+            e.preventDefault();
+            const tier = btn.getAttribute('data-checkout-tier') || 'individual';
+            openCheckout(tier);
+          }
+        });
+      });
+
+      if (closeModalBtn) closeModalBtn.addEventListener('click', closeCheckout);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeCheckout();
+        });
+      }
+
+      if (checkoutForm) {
+        checkoutForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (btnText) btnText.style.display = 'none';
+          if (btnSpinner) btnSpinner.style.display = 'inline-block';
+          if (submitBtn) submitBtn.disabled = true;
+
+          const email = document.getElementById('checkout-email')?.value || '';
+          const tier = tierInput?.value || 'individual';
+
+          const payload = {
+            event: 'vault_checkout_completed',
+            tier,
+            email,
+            price: tier === 'agency' ? 49 : 29,
+            timestamp: Date.now(),
+          };
+
+          if (typeof window.dispatchEvent === 'function') {
+            window.dispatchEvent(new CustomEvent('saasconnect:telemetry', { detail: payload }));
+          }
+
+          setTimeout(() => {
+            if (btnText) btnText.style.display = 'inline';
+            if (btnSpinner) btnSpinner.style.display = 'none';
+            if (submitBtn) submitBtn.disabled = false;
+            if (checkoutForm) checkoutForm.style.display = 'none';
+            if (successView) successView.style.display = 'flex';
+          }, 450);
+        });
+      }
+    })();
+  </script>
+</Layout>
+
+<style>
+  .vault-page {
+    width: 100%;
+    color: var(--text-primary);
+  }
+
+  .vault-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  /* Hero */
+  .vault-hero {
+    padding: 5rem 0 4rem;
+    text-align: center;
+    background: radial-gradient(circle at 50% 10%, rgba(99, 102, 241, 0.18) 0%, transparent 65%);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .hero-badge-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .vault-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: var(--radius-full);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #818cf8;
+  }
+
+  .vault-pill-hot {
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fbbf24;
+  }
+
+  .vault-title {
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+  }
+
+  .vault-gradient {
+    background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .vault-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 780px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.65;
+  }
+
+  .vault-subtitle strong {
+    color: #f8fafc;
+  }
+
+  /* Stats Bar */
+  .vault-stats-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 2rem;
+    max-width: 860px;
+    margin: 0 auto 2.5rem;
+    backdrop-filter: blur(12px);
+    flex-wrap: wrap;
+  }
+
+  .vault-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-value {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #38bdf8;
+    font-family: var(--font-heading);
+  }
+
+  .stat-desc {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .vault-stat-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--border-subtle);
+  }
+
+  /* Actions */
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary-glow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 0.95rem 2rem;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(99, 102, 241, 0.6);
+    box-shadow: 0 4px 25px rgba(99, 102, 241, 0.45);
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.6);
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  }
+
+  .btn-secondary-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.98rem;
+    padding: 0.95rem 1.75rem;
+    border-radius: var(--radius-full);
+    transition: all 0.2s ease;
+  }
+
+  .btn-secondary-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .guarantee-micro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+
+  /* Section Styles */
+  .section-header {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-badge {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #38bdf8;
+    margin-bottom: 0.6rem;
+  }
+
+  .section-badge.highlight {
+    color: #818cf8;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* Value Pillars */
+  .value-pillars-section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .pillar-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .pillar-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+
+  .pillar-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #818cf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pillar-icon.highlight-cyan {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: rgba(6, 182, 212, 0.3);
+    color: #06b6d4;
+  }
+
+  .pillar-icon.highlight-emerald {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #10b981;
+  }
+
+  .pillar-icon.highlight-amber {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+    color: #f59e0b;
+  }
+
+  .pillar-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .pillar-desc {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Comparison Matrix */
+  .comparison-section {
+    padding: 5rem 0;
+    background: rgba(15, 23, 42, 0.4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .comparison-table-wrap {
+    overflow-x: auto;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .comparison-table thead th {
+    background: rgba(255, 255, 255, 0.03);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .vault-col, .vault-cell {
+    background: rgba(99, 102, 241, 0.06);
+  }
+
+  .feature-title strong {
+    display: block;
+    color: var(--text-primary);
+  }
+
+  .feature-title span {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+
+  .manual-cell {
+    color: var(--text-muted);
+  }
+
+  .highlight-cell {
+    color: #38bdf8;
+  }
+
+  /* Scenario Explorer */
+  .explorer-section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .explorer-toolbar {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .vault-search-box {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .vault-search-box .search-icon {
+    position: absolute;
+    left: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+  }
+
+  .vault-search-box input {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-full);
+    padding: 0.9rem 1rem 0.9rem 2.8rem;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .vault-search-box input:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+  }
+
+  .category-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .cat-pill {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .cat-pill:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+  }
+
+  .cat-pill.active {
+    background: #6366f1;
+    border-color: #6366f1;
+    color: #ffffff;
+  }
+
+  .vault-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .vault-item-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .vault-item-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.35);
+  }
+
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+  }
+
+  .tool-tags {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .tool-pill {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .tool-pill.source {
+    color: #38bdf8;
+  }
+
+  .tool-pill.target {
+    color: #818cf8;
+  }
+
+  .arrow-sep {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+
+  .badge-format {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+  }
+
+  .item-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .item-meta {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .item-usecases {
+    margin-bottom: 1.25rem;
+  }
+
+  .usecase-preview {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.82rem;
+  }
+
+  .included-tag {
+    color: #10b981;
+    font-weight: 700;
+  }
+
+  .preview-link {
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+  }
+
+  .preview-link:hover {
+    color: #38bdf8;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+
+  /* Pricing */
+  .pricing-section {
+    padding: 6rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+    background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  }
+
+  .pricing-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .pricing-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: var(--shadow-card);
+  }
+
+  .pricing-card.featured {
+    border-color: rgba(99, 102, 241, 0.6);
+    background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 80%), #0f172a;
+    box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.35);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #6366f1 0%, #38bdf8 100%);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.3rem 0.9rem;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.08em;
+  }
+
+  .pricing-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .tier-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+  }
+
+  .tier-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    min-height: 42px;
+    margin-bottom: 1.25rem;
+  }
+
+  .price-box {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .currency {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  .amount {
+    font-size: 3.5rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--text-primary);
+  }
+
+  .billing {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+
+  .strikethrough-value {
+    font-size: 0.82rem;
+    color: #10b981;
+    font-weight: 600;
+  }
+
+  .pricing-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 2.25rem;
+    flex: 1;
+  }
+
+  .feature-item {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .feature-item strong {
+    color: var(--text-primary);
+  }
+
+  .btn-pricing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-pro {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+  }
+
+  .btn-pro:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .btn-agency {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    border: 1px solid rgba(99, 102, 241, 0.6);
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  }
+
+  .btn-agency:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+  }
+
+  .pricing-micro {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.85rem;
+  }
+
+  /* FAQ */
+  .faq-section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .faq-accordion {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+
+  .faq-item[open] {
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+
+  .faq-question {
+    padding: 1.25rem 1.5rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+    color: #38bdf8;
+  }
+
+  .faq-answer {
+    padding: 0 1.5rem 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  /* CTA Banner */
+  .vault-cta-banner {
+    padding: 6rem 0;
+    text-align: center;
+    background: radial-gradient(circle at 50% 100%, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+  }
+
+  .cta-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .cta-heading {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .cta-sub {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Checkout Modal */
+  .checkout-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(4, 7, 13, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .checkout-modal-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .checkout-modal-card {
+    background: #0f172a;
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: var(--radius-xl);
+    max-width: 520px;
+    width: 100%;
+    padding: 2.25rem;
+    position: relative;
+    box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(99, 102, 241, 0.2);
+  }
+
+  .modal-close-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+
+  .checkout-modal-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 0.35rem;
+  }
+
+  .checkout-modal-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .tier-highlight {
+    color: #38bdf8;
+  }
+
+  .checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .checkout-summary-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .summary-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .summary-line.highlight {
+    color: #10b981;
+  }
+
+  .summary-divider {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: 0.25rem 0;
+  }
+
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+  }
+
+  .total-amount {
+    color: #38bdf8;
+    font-size: 1.3rem;
+  }
+
+  .btn-complete-checkout {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    border: 1px solid rgba(16, 185, 129, 0.5);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.95rem 1.5rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .btn-complete-checkout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+  }
+
+  .checkout-disclaimer {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .checkout-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+
+  .success-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .checkout-success h4 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+
+  .checkout-success p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-download-vault-zip {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.9rem 1.75rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    margin-bottom: 1rem;
+  }
+
+  .receipt-note {
+    font-size: 0.8rem !important;
+    color: var(--text-muted) !important;
+    margin-bottom: 0 !important;
+  }
+
+  @media (max-width: 768px) {
+    .vault-stats-bar {
+      gap: 1rem;
+    }
+    .vault-stat-divider {
+      display: none;
+    }
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .hero-actions a {
+      width: 100%;
+    }
+  }
+</style>
